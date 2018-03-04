@@ -1,4 +1,4 @@
-package com.helloworld;
+package com.helloworld.entity;
 
 public class User {
     private String name;

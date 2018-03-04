@@ -3,15 +3,11 @@
 <head>
     <meta charset="UTF-8" />
     <title>Home</title>
+    <link rel="stylesheet" href="../static/bootstrap.css" th:href="@{/bootstrap.css}"/>
 </head>
 <body>
 
-<th:block th:each="entity : ${entities}">
-    <p th:text="${entity.id}" />
-    <p th:text="${entity.name} + ' ' + ${entity.desc}"> </p>
-    <br/>
-</th:block>
-
+hello
 </body>
 
 </html>
