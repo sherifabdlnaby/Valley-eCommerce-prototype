@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Home</title>
+</head>
+<body>
+
+<th:block th:each="entity : ${entities}">
+    <p th:text="${entity.id}" />
+    <p th:text="${entity.name} + ' ' + ${entity.desc}"> </p>
+    <br/>
+</th:block>
+
+</body>
+
+</html>

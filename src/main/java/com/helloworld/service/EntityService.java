@@ -23,7 +23,6 @@ public class EntityService {
         return this.entityDao.getEntityById(id);
     }
 
-
     public void removeEntityById(int id) {
         this.entityDao.removeEntityById(id);
     }
