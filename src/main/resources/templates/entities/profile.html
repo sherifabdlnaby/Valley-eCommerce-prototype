@@ -2,11 +2,11 @@
 <html  xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>Home</title>
+    <title th:text="${username}"></title>
     <link rel="stylesheet" href="../static/bootstrap.css" th:href="@{/bootstrap.css}"/>
 </head>
 <body>
-
+    <h1 th:text=" 'welcome, '+ ${username}"></h1>
 
 </body>
 

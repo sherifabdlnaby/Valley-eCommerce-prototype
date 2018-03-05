@@ -1,56 +1,64 @@
 package com.helloworld.dao;
 
 import com.helloworld.entity.Entity;
+import com.helloworld.entity.User;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 @Qualifier("fakeData")
 public class FakeEntityDaoImpl implements EntityDao {
 
-    private static Map<Integer, Entity> entities;
-
+    private static Map<Integer, User> users;
     static {
 
-        entities = new HashMap<Integer, Entity>() {
+        users = new HashMap<Integer, User>() {
 
             {
-                put(1, new Entity(1, "Toba", "Desc for first entity"));
-                put(2, new Entity(2, "Wara2a", "Desc for second entity"));
-                put(3, new Entity(3, "Ma2as", "Desc for third entity"));
+                put(1, new User("1","Refaie","ref","123","ref@go.com"));
+                put(2, new User("2","Hamed","hamed","1234","hamed@go.com"));
+                put(3, new User("3","Sherif","sherif","12345","sherif@go.com"));
             }
         };
+
+    }
+
+    /*@Override
+    public boolean equals(Object obj)
+    {
+        User u=(User)obj;
+        return users.contains(u);
+    }*/
+    @Override
+    public Collection<User> getAllEntities() {
+        return users.values();
     }
 
     @Override
-    public Collection<Entity> getAllEntities() {
-        return entities.values();
-    }
-
-    @Override
-    public Entity getEntityById(int id) {
-        return entities.get(id);
+    public User getEntityById(int id) {
+        return users.get(id);
     }
 
     @Override
     public void removeEntityById(int id) {
-        entities.remove(id);
+        users.remove(id);
     }
 
     @Override
-    public void updateEntity(Entity entity) {
-        Entity s = entities.get(entity.getId());
-        s.setDesc(entity.getDesc());
-        s.setName(entity.getName());
-        entities.put(entity.getId(), entity);
+    public void updateEntity(User user) {
+        User s = users.get(user.getId());
+        s.setName(user.getName());
+        s.setUsername(user.getUsername());
+        s.setPassword(user.getPassword());
+        s.setEmail(user.getEmail());
+        users.put(Integer.getInteger(user.getId()),user);
+        users.put(Integer.getInteger(user.getId()),user);
     }
 
     @Override
-    public void insertEntityToDb(Entity entity) {
-        entities.put(entity.getId(), entity);
+    public void insertEntityToDb(User user) {
+        users.put(Integer.getInteger(user.getId()),user);
     }
 }

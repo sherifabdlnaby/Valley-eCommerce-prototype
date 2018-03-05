@@ -2,11 +2,16 @@
 <html  xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>Home</title>
+    <title>Login</title>
     <link rel="stylesheet" href="../static/bootstrap.css" th:href="@{/bootstrap.css}"/>
 </head>
 <body>
 
+    <form method="post">
+        <input type="text" name="username" placeholder="UserName"/>
+        <input type="password" name="password" />
+        <button type="submit">Login</button>
+    </form>
 
 </body>
 

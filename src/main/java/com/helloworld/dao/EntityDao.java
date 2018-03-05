@@ -1,17 +1,18 @@
 package com.helloworld.dao;
 
 import com.helloworld.entity.Entity;
+import com.helloworld.entity.User;
 
 import java.util.Collection;
 
 public interface EntityDao {
-    Collection<Entity> getAllEntities();
+    Collection<User> getAllEntities();
 
-    Entity getEntityById(int id);
+    User getEntityById(int id);
 
     void removeEntityById(int id);
 
-    void updateEntity(Entity entity);
+    void updateEntity(User entity);
 
-    void insertEntityToDb(Entity entity);
+    void insertEntityToDb(User entity);
 }
