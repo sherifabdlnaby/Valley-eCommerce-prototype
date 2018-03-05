@@ -13,8 +13,8 @@ import java.util.Collection;
 
 */
 /*
-* DA HTML NORMAL CONTROLLER EXAMPLE
-* *//*
+ * DA HTML NORMAL CONTROLLER EXAMPLE
+ * *//*
 
 @Controller
 @RequestMapping("/entities")

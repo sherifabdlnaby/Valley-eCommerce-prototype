@@ -1,16 +1,9 @@
 package com.piper.valley.service;
 
-import com.piper.valley.dao.EntityDao;
 import com.piper.valley.dao.UserDao;
 import com.piper.valley.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
 
 @Service
 public class UserService {
@@ -20,13 +13,13 @@ public class UserService {
 
 	public boolean register(User user, String confirmPassword) {
 		//Validation (TODO Validate all attributes)
-		if(!confirmPassword.equals(user.getPassword()))
+		if (!confirmPassword.equals(user.getPassword()))
 			return false;
 
-		if(userDao.getEntityByUsername(user.getUsername()) != null)
+		if (userDao.getEntityByUsername(user.getUsername()) != null)
 			return false;
 
-		return userDao.insertEntityToDb(new User("tmpId",user.getName(), user.getUsername(), user.getPassword(), user.getEmail()));
+		return userDao.insertEntityToDb(new User("tmpId", user.getName(), user.getUsername(), user.getPassword(), user.getEmail()));
 	}
 
 	public boolean login(String username, String password) {
@@ -35,7 +28,7 @@ public class UserService {
 		User user = userDao.getEntityByUsername(username);
 
 		//Check if user exists and has same password
-		if(user != null && user.getPassword().equals(password))
+		if (user != null && user.getPassword().equals(password))
 			return true;
 
 		//User doesn't exist. or password doesn't match.

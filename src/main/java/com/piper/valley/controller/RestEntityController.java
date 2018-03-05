@@ -11,8 +11,8 @@ import java.util.Collection;
 
 */
 /*
-* DA REST CONTROLLER EXAMPLE
-* *//*
+ * DA REST CONTROLLER EXAMPLE
+ * *//*
 
 @RequestMapping("/RESTentities")
 @RestController
