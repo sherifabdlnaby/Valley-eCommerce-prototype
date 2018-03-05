@@ -20,14 +20,16 @@ public class ViewController {
     private EntityService entityService;
 
 
+    @RequestMapping(value = "/" , method = RequestMethod.GET)
+    public String index(){ return "entities/index";}
 
-    @RequestMapping(value = "/",method = RequestMethod.GET)
+    @RequestMapping(value = "/login",method = RequestMethod.GET)
     public String login()
     {
         return "entities/login";
     }
 
-    @RequestMapping(value= "/",method = RequestMethod.POST)
+    @RequestMapping(value= "/login",method = RequestMethod.POST)
     public String validate(HttpServletRequest request,Model model)
     {
         String username=request.getParameter("username");
