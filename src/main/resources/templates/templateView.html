@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/default">
+<head>
+    <meta charset="utf-8">
+    <th:block layout:fragment="customStyle">
+        <!--El Custom Styles le el 7eta deh-->
+        <!-- <link rel="stylesheet" th:href="@{/css/home.css}"> -->
+    </th:block>
+</head>
+
+<!-- Body !-->
+<body layout:fragment="content">
+<!--Content Goes Here!-->
+
+<!--El Custom Scripts le el 7eta deh-->
+<th:block layout:fragment="customScripts">
+
+</th:block>
+</body>
+</html>

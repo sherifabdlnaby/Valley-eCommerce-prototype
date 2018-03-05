@@ -39,4 +39,5 @@ public class EntityController {
 
         return "entities/view";
     }
+
 }
