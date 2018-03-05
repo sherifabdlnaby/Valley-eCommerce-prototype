@@ -1,14 +1,61 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/html" lang="en">
-<head th:replace="entities/layout :: header">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/default">
+<head>
+    <meta charset="utf-8">
+    <th:block layout:fragment="customStyle">
+        <!--El Custom Styles le el 7eta deh-->
+        <!-- <link rel="stylesheet" th:href="@{/css/home.css}"> -->
+    </th:block>
 </head>
-<body>
-<form action="/users/register" method="post" th:object="${user}">
-    Name: <input type="text" th:field="*{name}" />
-    Password<input type="password" th:field="*{password}" />
-    <input type="submit" />
-</form>
-</body>
-<div th:replace="entities/layout ::footer"></div>
 
+<!-- Body !-->
+<body layout:fragment="content">
+<!--Content Goes Here!-->
+<div class="col-lg-12">
+    <div class="col-lg-4">
+        <br/>
+        <br/>
+        <h1>Register</h1>
+        <hr/>
+        <p th:text="${message}"></p>
+        <form method="post" autocomplete="on" action="/user/register">
+            <fieldset>
+                <div class="form-group">
+                    <label class="col-form-label">Name</label>
+                    <input type="text" name="name" class="form-control" placeholder="Name">
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label">Username</label>
+                    <input type="text" name="username" class="form-control" placeholder="Username">
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label">Password</label>
+                    <input type="password" autocomplete="off" name="password" class="form-control" placeholder="Password">
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label">Confirm Password</label>
+                    <input type="password" autocomplete="off" name="confirmPassword" class="form-control" placeholder="Confirm Password">
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label">Email</label>
+                    <input type="text" name="email"  class="form-control" placeholder="Email">
+                </div>
+
+                <br/>
+                <button type="submit" class="btn btn-primary">Register </button>
+            </fieldset>
+        </form>
+    </div>
+</div>
+<!--El Custom Scripts le el 7eta deh-->
+<th:block layout:fragment="customScripts">
+
+</th:block>
+</body>
 </html>

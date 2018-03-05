@@ -1,11 +1,25 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org" lang="en">
-<head th:replace="entities/layout :: header">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/default">
+<head>
+    <meta charset="utf-8">
+    <th:block layout:fragment="customStyle">
+        <!--El Custom Styles le el 7eta deh-->
+        <!-- <link rel="stylesheet" th:href="@{/css/home.css}"> -->
+    </th:block>
 </head>
-<body>
-    <h1 th:text=" 'welcome, '+ ${username}"></h1>
 
+<!-- Body !-->
+<body layout:fragment="content">
+<!--Content Goes Here!-->
+
+<h1 th:text=" 'welcome, '+ ${username}"></h1>
+
+
+<!--El Custom Scripts le el 7eta deh-->
+<th:block layout:fragment="customScripts">
+
+</th:block>
 </body>
-<div th:replace="entities/layout ::footer"></div>
-
 </html>

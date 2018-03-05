@@ -1,17 +1,49 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org" lang="en">
-<head th:replace="entities/layout :: header">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/default">
+<head>
+    <meta charset="utf-8">
+    <th:block layout:fragment="customStyle">
+        <!--El Custom Styles le el 7eta deh-->
+        <!-- <link rel="stylesheet" th:href="@{/css/home.css}"> -->
+    </th:block>
 </head>
-<body>
 
-    <p th:text="${message}"></p>
-    <form method="post">
-        <input type="text" name="username" placeholder="UserName"/>
-        <input type="password" name="password" />
-        <button type="submit">Login</button>
-    </form>
+<!-- Body !-->
+<body layout:fragment="content">
+<!--Content Goes Here!-->
 
+<p th:text="${message}"></p>
+<div class="col-lg-12">
+    <div class="col-lg-4">
+        <br/>
+        <br/>
+        <h1>Login</h1>
+        <hr/>
+        <form method="post" autocomplete="on" action="/user/login">
+            <fieldset>
+                <div class="form-group">
+                    <label class="col-form-label" for="username">Username</label>
+                    <input type="text" name="username" id="username" class="form-control" placeholder="Username" autocomplete="on">
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label" for="password" >Password</label>
+                    <input type="password" name="password" id="password" class="form-control" placeholder="Password" autocomplete="on">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Login</button>
+
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+
+<!--El Custom Scripts le el 7eta deh-->
+<th:block layout:fragment="customScripts">
+
+</th:block>
 </body>
-<div th:replace="entities/layout ::footer"></div>
-
 </html>

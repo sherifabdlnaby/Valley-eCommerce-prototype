@@ -18,12 +18,17 @@ public class UserService {
 	@Autowired
 	private UserDao userDao;
 
-	//TODO
-	public boolean register(User user) {
-		return userDao.insertEntityToDb(user);
+	public boolean register(User user, String confirmPassword) {
+		//Validation (TODO Validate all attributes)
+		if(!confirmPassword.equals(user.getPassword()))
+			return false;
+
+		if(userDao.getEntityByUsername(user.getUsername()) != null)
+			return false;
+
+		return userDao.insertEntityToDb(new User("tmpId",user.getName(), user.getUsername(), user.getPassword(), user.getEmail()));
 	}
 
-	//TODO
 	public boolean login(String username, String password) {
 
 		//Get User by Username

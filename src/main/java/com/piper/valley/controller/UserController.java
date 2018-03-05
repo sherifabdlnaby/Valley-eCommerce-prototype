@@ -46,16 +46,18 @@ public class UserController {
 
 	@RequestMapping(value = "/register")
 	public String register(Model model) {
-		User user = new User();
-		model.addAttribute("user", user);
-		model.addAttribute("title","Register");
 		return "user/register";
 	}
 
-	//TODO Zaye el login using Services and DAOs
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String register(@ModelAttribute User user) {
-		userService.register(user);
+	public String register(@ModelAttribute User user, HttpServletRequest request, Model model) {
+		String confirmPassword = request.getParameter("confirmPassword");
+		if(userService.register(user, confirmPassword))
+		{
+			//TODO FFS THIS SPRING SHIT IS FUCKING RETARDED IT REDIRECTS USING CONTEXT PATH FFFSFS!#$!#
+			return "redirect: .../";
+		}
+		model.addAttribute("message","Failed to Register, hanl2y tare2a ngeb howa failed leh bezabt ba3den");
 		return "user/register";
 	}
 
