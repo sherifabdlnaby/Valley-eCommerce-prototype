@@ -3,7 +3,7 @@ package com.piper.valley.entity;
 public class Entity {
 
     private int id;
-  //  private String name;
+    private String name;
     private String desc;
 
     public Entity(int id, String name, String desc) {
@@ -23,13 +23,13 @@ public class Entity {
         this.id = id;
     }
 
-  //  public String getName() {
-       // return name;
-    //}
+    public String getName() {
+         return name;
+    }
 
-   // public void setName(String name) {
-     //   this.name = name;
-   // }
+   public void setName(String name) {
+        this.name = name;
+    }
 
     public String getDesc() {
         return desc;

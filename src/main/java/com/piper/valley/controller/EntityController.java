@@ -1,3 +1,4 @@
+/*
 package com.piper.valley.controller;
 import com.piper.valley.entity.Entity;
 import com.piper.valley.service.EntityService;
@@ -10,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.Collection;
 
+*/
 /*
 * DA HTML NORMAL CONTROLLER EXAMPLE
-* */
+* *//*
+
 @Controller
 @RequestMapping("/entities")
 public class EntityController {
@@ -41,3 +44,4 @@ public class EntityController {
     }
 
 }
+*/

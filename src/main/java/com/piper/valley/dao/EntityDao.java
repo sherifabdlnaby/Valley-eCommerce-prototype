@@ -4,14 +4,14 @@ import com.piper.valley.entity.Entity;
 
 import java.util.Collection;
 
-public interface EntityDao {
-    Collection<Entity> getAllEntities();
+public interface EntityDao<T> {
+    Collection<T> getAllEntities();
 
-    Entity getEntityById(int id);
+    T getEntityById(String  id);
 
-    void removeEntityById(int id);
+    boolean removeEntityById(String id);
 
-    void updateEntity(Entity entity);
+    boolean updateEntity(T entity);
 
-    void insertEntityToDb(Entity entity);
+    boolean insertEntityToDb(T entity);
 }

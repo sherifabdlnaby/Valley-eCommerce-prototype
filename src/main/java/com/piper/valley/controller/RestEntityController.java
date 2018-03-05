@@ -1,3 +1,4 @@
+/*
 package com.piper.valley.controller;
 
 import com.piper.valley.entity.Entity;
@@ -8,9 +9,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
+*/
 /*
 * DA REST CONTROLLER EXAMPLE
-* */
+* *//*
+
 @RequestMapping("/RESTentities")
 @RestController
 public class RestEntityController {
@@ -43,3 +46,4 @@ public class RestEntityController {
         entityService.insertEntity(entity);
     }
 }
+*/

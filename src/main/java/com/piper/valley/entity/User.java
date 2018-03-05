@@ -24,7 +24,7 @@ public class User  {
 		this.password = password;
 	}
 
-	@Override
+    @Override
     public boolean equals(Object obj) {
         return ((this.username.equals(((User) obj).username)
                 && this.password.equals(((User) obj).password))||(this.email.equals(((User) obj).email)&&this.password.equals(((User) obj).password)));

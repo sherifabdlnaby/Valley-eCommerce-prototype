@@ -1,3 +1,4 @@
+/*
 package com.piper.valley.service;
 
 import com.piper.valley.dao.EntityDao;
@@ -35,3 +36,4 @@ public class EntityService {
         this.entityDao.insertEntityToDb(entity);
     }
 }
+*/

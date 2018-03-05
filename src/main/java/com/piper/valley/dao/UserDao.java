@@ -1,6 +1,5 @@
 package com.piper.valley.dao;
-
-import com.piper.valley.entity.Entity;
+import com.piper.valley.entity.User;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
@@ -9,48 +8,58 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Repository
-@Qualifier("fakeData")
-public class FakeEntityDaoImpl implements EntityDao {
+@Qualifier("UserDao")
+public class UserDao implements EntityDao<User> {
 
-    private static Map<Integer, Entity> entities;
+    private static Map<String, User> entities;
 
     static {
-
-        entities = new HashMap<Integer, Entity>() {
-
+        entities = new HashMap<String, User>() {
             {
-                put(1, new Entity(1, "Toba", "Desc for first entity"));
-                put(2, new Entity(2, "Wara2a", "Desc for second entity"));
-                put(3, new Entity(3, "Ma2as", "Desc for third entity"));
+                put("1", new User("1", "Sherif", "sherifabdlnaby", "hashedpassword", "sherif@email.com"));
+                put("2", new User("2", "Khaled", "wewark",         "hashedpassword", "wewark@email.com"));
+                put("3", new User("3", "Refaie", "refaie        ", "hashedpassword", "refaie@email.com"));
             }
         };
     }
 
     @Override
-    public Collection<Entity> getAllEntities() {
+    public Collection<User> getAllEntities() {
         return entities.values();
     }
 
+
     @Override
-    public Entity getEntityById(int id) {
+    public User getEntityById(String id) {
         return entities.get(id);
     }
 
     @Override
-    public void removeEntityById(int id) {
+    public boolean removeEntityById(String id) {
         entities.remove(id);
+        return true;
     }
 
     @Override
-    public void updateEntity(Entity entity) {
-        Entity s = entities.get(entity.getId());
-        s.setDesc(entity.getDesc());
-        s.setName(entity.getName());
-        entities.put(entity.getId(), entity);
+    public boolean updateEntity(User User) {
+        User s = entities.get(User.getId());
+        entities.put(User.getId(), User);
+        return true;
     }
 
     @Override
-    public void insertEntityToDb(Entity entity) {
-        entities.put(entity.getId(), entity);
+    public boolean insertEntityToDb(User User) {
+        entities.put(User.getId(), User);
+        return true;
+    }
+
+    public User getEntityByUsername(String Username)
+    {
+    	Collection<User> users = this.getAllEntities();
+	    for (User user:  users) {
+		    if(user.getUsername().equals(Username))
+		    	return user;
+	    }
+	    return null;
     }
 }
