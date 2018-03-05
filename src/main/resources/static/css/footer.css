@@ -1,0 +1,47 @@
+/*
+    This should contain all the common css to be used across, the name is not restricting, just make sure it is included
+    in all the needed layouts.
+ */
+
+.footer-social:hover {
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -o-transform: scale(1.1);
+}
+
+.footer-social {
+    -webkit-transform: scale(0.8);
+    -moz-transform: scale(0.8);
+    -o-transform: scale(0.8);
+    -webkit-transition-duration: 0.5s;
+    -moz-transition-duration: 0.5s;
+    -o-transition-duration: 0.5s;
+}
+
+#social-fb {
+    color: #3B5998;
+}
+
+#social-tw {
+    color: #4099FF;
+}
+
+#social-gp {
+    color: #d34836;
+}
+
+#social-li {
+    color: #0068a8;
+}
+
+#social-gh {
+    color: #20252a;
+}
+
+#social-em {
+    color: #f39c12;
+}
+
+#social-lv {
+    color: #ba0002;
+}

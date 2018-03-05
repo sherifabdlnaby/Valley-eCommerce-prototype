@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8">
+
+    <title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">Valley</title>
+
+    <!--layout styles-->
+    <th:block th:replace="fragments/style"></th:block>
+    <!-- custom styles-->
+    <th:block layout:fragment="customStyles"></th:block>
+
+</head>
+<body>
+<!--Header-->
+<nav class="navbar navbar-default" th:replace="fragments/header :: header"></nav>
+<!--/Header-->
+
+<!-- Content -->
+<div layout:fragment="content">
+
+</div>
+<!-- /Content -->
+
+<!--Footer-->
+<footer class="page-footer" th:replace="fragments/footer"></footer>
+<!--/Footer-->
+
+<!--Layout Scripts-->
+<th:block th:replace="fragments/script"></th:block>
+
+<!--Custom Scripts bta3t kol view-->
+<th:block layout:fragment="customScripts"></th:block>
+
+</body>
+</html>
