@@ -1,17 +1,17 @@
-<th:block layout:decorator="../layout/bootstraplayout" layout:fragment="content">
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>All Entities</title>
+</head>
+<body>
 
-    <!-- Page Content -->
-    <div class="container" id="homePage">
-        <div class="row">
-            <div class="col-lg-12">
-                <h2>This is Home Page</h2>
-                <div class="well">
-                    I am inside a bootstrap well.
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- /.container -->
-
-
+<th:block th:each="entity : ${entities}">
+    <p th:text="${entity.id}" />
+    <p th:text="${entity.name} + ' ' + ${entity.desc}"> </p>
+    <br/>
 </th:block>
+
+</body>
+
+</html>

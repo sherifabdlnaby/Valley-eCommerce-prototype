@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/default">
+<head>
+    <meta charset="utf-8">
+    <title>500 - Error!</title>
+    <th:block layout:fragment="customStyle">
+        <!--El Custom Styles le el 7eta deh-->
+        <link rel="stylesheet" th:href="@{/css/error.css}">
+    </th:block>
+</head>
+
+<!-- Body !-->
+<body layout:fragment="content">
+<div class="col-log-12">
+    <div class="error-template">
+        <br/><br/><br/><br/>
+        <div class="error-details">
+            <h2> 500, Internal Server Error !</h2>
+        </div>
+        <br/><br/>
+        <div class="error-actions">
+            <a href="/" class="btn btn-primary">
+                <i class="icon-home icon-white"></i> Take Me Home </a>
+        </div>
+    </div>
+</div>
+
+<!--El Custom Scripts le el 7eta deh-->
+<th:block layout:fragment="customScripts">
+</th:block>
+
+</body>
+</html>
