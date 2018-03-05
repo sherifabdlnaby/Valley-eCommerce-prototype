@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="entities/layout :: header">
+</head>
+<body>
+
+    <p th:text="${message}"></p>
+    <form method="post">
+        <input type="text" name="username" placeholder="UserName"/>
+        <input type="password" name="password" />
+        <button type="submit">Login</button>
+    </form>
+
+</body>
+<div th:replace="entities/layout ::footer"></div>
+
+</html>

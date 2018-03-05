@@ -3,11 +3,8 @@
 <head th:replace="entities/layout :: header">
 </head>
 <body>
-<!--This looks ugly afff -->
-<h1     th:text="${id}"   ></h1>
-<p      th:text="${name}" ></p>
-<p      th:text="${desc}" ></p>
-hello
+    <h1 th:text=" 'welcome, '+ ${username}"></h1>
+
 </body>
 <div th:replace="entities/layout ::footer"></div>
 

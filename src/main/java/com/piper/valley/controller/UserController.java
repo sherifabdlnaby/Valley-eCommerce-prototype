@@ -1,39 +1,39 @@
-package com.piper.valley.controller;
+package com.helloworld.controller;
 
-import com.piper.valley.entity.User;
-import org.springframework.web.bind.annotation.RequestBody;
+import com.helloworld.dao.FakeEntityDaoImpl;
+import com.helloworld.entity.User;
+import com.helloworld.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@RestController
+@Controller
 @RequestMapping("/users")
 public class UserController {
 
-    private List<User>users;
+	@Autowired
+	private UserService userService;
 
-    public UserController()
-    {
-        users= new ArrayList<>();
-        users.add(new User("Refaie","ref","123","ref@go.com"));
-        users.add(new User("Hamed","hamed","1234","hamed@go.com"));
-        users.add(new User("Sherif","sherif","12345","sherif@go.com"));
+//	@RequestMapping("/all")
+//	public List<User> getall() {
+//		return users;
+//	}
 
-    }
-    @RequestMapping("/all" )
-    public List<User> getall()
-    {
-        return users;
-    }
+	@RequestMapping(value = "/register")
+	public String register(Model model) {
+		User user = new User();
+		model.addAttribute("user", user);
+		model.addAttribute("title","Register");
+		return "entities/register";
+	}
 
-    @RequestMapping(value = "/register",method = RequestMethod.POST)
-    public List<User>register(@RequestBody User user)
-    {
-        users.add(user);
-        return users;
-    }
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public String register(@ModelAttribute User user) {
+		userService.addUser(user);
+		return "entities/register";
+	}
 
 }
