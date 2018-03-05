@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/html" lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <title>Home</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<head th:replace="entities/layout :: header">
 </head>
 <body>
 <form action="/users/register" method="post" th:object="${user}">
@@ -12,5 +9,6 @@
     <input type="submit" />
 </form>
 </body>
+<div th:replace="entities/layout ::footer"></div>
 
 </html>

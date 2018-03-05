@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head  th:fragment="header">
+        <meta charset="UTF-8" />
+        <title th:text="${title}">Home</title>
+        <link rel="stylesheet" href="../static/bootstrap.css" th:href="@{/bootstrap.css}"/>
+    </head>
+
+
+
+    <div th:fragment="footer">
+        <p>Copyright &copy; TeamBlack</p>
+    </div>
+
+</html>

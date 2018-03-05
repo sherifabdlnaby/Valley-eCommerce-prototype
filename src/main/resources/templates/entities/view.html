@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html  xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <title th:text="${name}"></title>
+<head th:replace="entities/layout :: header">
 </head>
 <body>
 <!--This looks ugly afff -->
@@ -11,5 +9,6 @@
 <p      th:text="${desc}" ></p>
 hello
 </body>
+<div th:replace="entities/layout ::footer"></div>
 
 </html>

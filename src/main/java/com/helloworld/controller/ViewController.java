@@ -37,9 +37,12 @@ public class ViewController {
         if(users.contains(u))
         {
             model.addAttribute("username",username);
+            model.addAttribute("title",username);
             return "entities/profile";
         }
-        else
+        else {
+            model.addAttribute("message","Wrong Username or password");
             return "entities/login";
+        }
     }
 }
