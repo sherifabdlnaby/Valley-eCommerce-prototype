@@ -1,6 +1,6 @@
-package com.helloworld.dao;
+package com.piper.valley.dao;
 
-import com.helloworld.entity.Entity;
+import com.piper.valley.entity.Entity;
 
 import java.util.Collection;
 

@@ -1,7 +1,7 @@
-package com.helloworld.controller;
+package com.piper.valley.controller;
 
-import com.helloworld.entity.Entity;
-import com.helloworld.service.EntityService;
+import com.piper.valley.entity.Entity;
+import com.piper.valley.service.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

@@ -1,6 +1,6 @@
-package com.helloworld.controller;
+package com.piper.valley.controller;
 
-import com.helloworld.entity.User;
+import com.piper.valley.entity.User;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

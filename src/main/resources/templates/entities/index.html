@@ -1,13 +1,17 @@
-<!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <title>Home</title>
-    <link rel="stylesheet" href="../static/bootstrap.css" th:href="@{/bootstrap.css}"/>
-</head>
-<body>
+<th:block layout:decorator="../layout/bootstraplayout" layout:fragment="content">
 
-hello
-</body>
+    <!-- Page Content -->
+    <div class="container" id="homePage">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>This is Home Page</h2>
+                <div class="well">
+                    I am inside a bootstrap well.
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
 
-</html>
+
+</th:block>

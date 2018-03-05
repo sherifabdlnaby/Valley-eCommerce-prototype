@@ -1,4 +1,4 @@
-package com.helloworld.entity;
+package com.piper.valley.entity;
 
 public class Entity {
 

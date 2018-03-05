@@ -1,6 +1,6 @@
-package com.helloworld.controller;
-import com.helloworld.entity.Entity;
-import com.helloworld.service.EntityService;
+package com.piper.valley.controller;
+import com.piper.valley.entity.Entity;
+import com.piper.valley.service.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
