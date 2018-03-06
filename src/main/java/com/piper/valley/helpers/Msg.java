@@ -14,7 +14,9 @@ public enum Msg {
 	INVALID_USERNAME("la2ena tare2a ngeb howa failed leh"),
 	PASSWORD_CONFIRM("la2ena tare2a ngeb howa failed leh"),
 	USERNAME_EXISTS("la2ena tare2a ngeb howa failed leh"),
-	UNKNOWN("la2ena tare2a ngeb howa failed leh");
+	USER_NOT_EXIST("la2ena tare2a ngeb howa failed leh"),
+	WRONG_PASSWORD("la2ena tare2a ngeb howa failed leh"),
+	UNKNOWN("m3rfsh walahi");
 	// TODO: refill with appropriate messages
 	// ... add more messages if needed
 
