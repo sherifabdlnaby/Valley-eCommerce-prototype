@@ -2,6 +2,7 @@ package com.piper.valley.service;
 
 import com.piper.valley.dao.UserDao;
 import com.piper.valley.entity.User;
+import com.piper.valley.helpers.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.xml.bind.DatatypeConverter;
@@ -15,15 +16,35 @@ public class UserService {
 	@Autowired
 	private UserDao userDao;
 
-	public boolean register(User user, String confirmPassword) {
-		//Validation (TODO Validate all attributes)
-		if (!confirmPassword.equals(user.getPasswordHash()))
-			return false;
+	public Msg register(User user, String password, String confirmPassword) {
+		if (!validateEmail(user.getEmail())) {
+			return Msg.WRONG_EMAIL;
+		}
 
-		if (userDao.getEntityByUsername(user.getUsername()) != null)
-			return false;
+		if (userDao.emailExists(user.getEmail())) {
+			return Msg.EMAIL_EXISTS;
+		}
 
-		return userDao.insertEntityToDb(new User("tmpId", user.getName(), user.getUsername(), user.getPasswordHash(), user.getEmail(),user.getType()));
+		if (!password.equals(confirmPassword)) {
+			return Msg.PASSWORD_CONFIRM;
+		}
+
+		if (!validateUsername(user.getUsername())) {
+			return Msg.INVALID_USERNAME;
+		}
+
+		if (!validatePassword(password)) {
+			return Msg.INVALID_PASSWORD;
+		}
+
+		if (userDao.getEntityByUsername(user.getUsername()) != null) {
+			return Msg.USERNAME_EXISTS;
+		}
+
+		if (userDao.insertEntityToDb(new User("tmpId", user, encrypt(password))))
+			return Msg.SUCCESS;
+
+		return Msg.UNKNOWN;
 	}
 
 	public boolean login(String username, String password) {
@@ -32,25 +53,42 @@ public class UserService {
 		User user = userDao.getEntityByUsername(username);
 
 		//Check if user exists and has same password
-		if (user != null && user.getPasswordHash().equals(password))
+		if (user != null && matchPassword(user, password))
 			return true;
 
 		//User doesn't exist. or password doesn't match.
 		return false;
 	}
 
-	public void updatePassword(User user, String newPassword) {
+	private boolean validateEmail(String email) {
+		return email.matches("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:" +
+				"[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0" +
+				"e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(" +
+				"?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0" +
+				"-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x" +
+				"7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
+	}
+
+	private boolean validateUsername(String username) {
+		return username.length() >= 5;
+	}
+
+	private boolean validatePassword(String password) {
+		return password.length() >= 8;
+	}
+
+	private void updatePassword(User user, String newPassword) {
 		String passwordHash = encrypt(newPassword);
 		user.setPasswordHash(passwordHash);
 		userDao.updateEntity(user);
 	}
 
-	public boolean matchPassword(User user, String password) {
+	private boolean matchPassword(User user, String password) {
 		String hash = encrypt(password);
 		return hash.equals(user.getPasswordHash());
 	}
 
-	private static String encrypt(String password) {
+	private String encrypt(String password) {
 		try {
 			MessageDigest md5 = MessageDigest.getInstance("MD5");
 			md5.update(password.getBytes());

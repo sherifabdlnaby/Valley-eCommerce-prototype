@@ -2,6 +2,7 @@ package com.piper.valley.controller;
 
 import com.piper.valley.auth.Authenticator;
 import com.piper.valley.entity.User;
+import com.piper.valley.helpers.Msg;
 import com.piper.valley.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,14 +54,19 @@ public class UserController {
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String register(@ModelAttribute User user, HttpServletRequest request, Model model) {
+		String password = request.getParameter("password");
 		String confirmPassword = request.getParameter("confirmPassword");
-		if (userService.register(user, confirmPassword)) {
+
+		Msg result = userService.register(user, password, confirmPassword);
+
+		if (result == Msg.SUCCESS) {
 			//SAVE SESSION
 			//TODO userID
 			authenticator.saveAuth(1337,user.getUsername());
 			return "redirect:/user/view/"+ user.getUsername();
 		}
-		model.addAttribute("message", "Failed to Register, hanl2y tare2a ngeb howa failed leh bezabt ba3den");
+
+		model.addAttribute("message", result.getValue());
 		return "user/register";
 	}
 

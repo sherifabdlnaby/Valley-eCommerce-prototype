@@ -33,6 +33,15 @@ public class User {
 		this.passwordHash = password;
 	}
 
+	public User(String id, User user, String passwordHash) {
+		this.id = id;
+		this.name = user.name;
+		this.username = user.username;
+		this.passwordHash = user.passwordHash;
+		this.email = user.email;
+		this.type= user.type;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		return ((this.username.equals(((User) obj).username)
