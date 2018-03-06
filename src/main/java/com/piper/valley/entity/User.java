@@ -4,7 +4,7 @@ public class User {
 	private String id;
 	private String name;
 	private String username;
-	private String password;
+	private String passwordHash;
 	private String email;
 
 	public User() {
@@ -15,19 +15,19 @@ public class User {
 		this.id = id;
 		this.name = name;
 		this.username = username;
-		this.password = password;
+		this.passwordHash = password;
 		this.email = email;
 	}
 
 	public User(String name, String password) {
 		this.name = name;
-		this.password = password;
+		this.passwordHash = password;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		return ((this.username.equals(((User) obj).username)
-				&& this.password.equals(((User) obj).password)) || (this.email.equals(((User) obj).email) && this.password.equals(((User) obj).password)));
+				&& this.passwordHash.equals(((User) obj).passwordHash)) || (this.email.equals(((User) obj).email) && this.passwordHash.equals(((User) obj).passwordHash)));
 	}
 
 
@@ -55,12 +55,12 @@ public class User {
 		this.id = id;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getPasswordHash() {
+		return passwordHash;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPasswordHash(String password) {
+		this.passwordHash = password;
 	}
 
 	public String getEmail() {
