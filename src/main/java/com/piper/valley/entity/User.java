@@ -1,22 +1,31 @@
 package com.piper.valley.entity;
 
-public class User {
-	private String id;
-	private String name;
-	private String username;
-	private String passwordHash;
-	private String email;
+import javax.persistence.*;
+import javax.persistence.Entity;
 
+@Entity // This tells Hibernate to make a table out of this class
+public class User {
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private String id;
+	private String name;
+    @Column(unique = true) //Unique username.
+    private String username;
+    private String passwordHash;
+    @Column(unique = true) //Unique username.
+    private String email;
+	private int type;
 	public User() {
 
 	}
 
-	public User(String id, String name, String username, String password, String email) {
+	public User(String id, String name, String username, String password, String email,int type) {
 		this.id = id;
 		this.name = name;
 		this.username = username;
 		this.passwordHash = password;
 		this.email = email;
+		this.type= type;
 	}
 
 	public User(String name, String password) {
@@ -70,4 +79,12 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 }

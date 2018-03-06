@@ -4,10 +4,10 @@ import com.piper.valley.dao.UserDao;
 import com.piper.valley.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.xml.bind.DatatypeConverter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
 
 @Service
 public class UserService {
@@ -23,7 +23,7 @@ public class UserService {
 		if (userDao.getEntityByUsername(user.getUsername()) != null)
 			return false;
 
-		return userDao.insertEntityToDb(new User("tmpId", user.getName(), user.getUsername(), user.getPasswordHash(), user.getEmail()));
+		return userDao.insertEntityToDb(new User("tmpId", user.getName(), user.getUsername(), user.getPasswordHash(), user.getEmail(),user.getType()));
 	}
 
 	public boolean login(String username, String password) {
