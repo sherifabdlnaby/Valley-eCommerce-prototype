@@ -34,7 +34,7 @@ public class UserController {
 	public String login(HttpServletRequest request, Model model) {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		if (userService.login(username, password)) {
+		if (userService.login(username, password) ) {
 			//Save New Session
 			//TODO userID
 			authenticator.saveAuth(1337, username);

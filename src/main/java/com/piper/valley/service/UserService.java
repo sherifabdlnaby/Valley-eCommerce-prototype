@@ -6,6 +6,7 @@ import com.piper.valley.helpers.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.xml.bind.DatatypeConverter;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -41,7 +42,13 @@ public class UserService {
 			return Msg.USERNAME_EXISTS;
 		}
 
-		if (userDao.insertEntityToDb(new User("tmpId", user, encrypt(password))))
+		if (userDao.insertEntityToDb(new User(
+				"tmpId",
+				user.getName(),
+				user.getUsername(),
+				encrypt(password),
+				user.getEmail(),
+				user.getType())))
 			return Msg.SUCCESS;
 
 		return Msg.UNKNOWN;
@@ -89,15 +96,22 @@ public class UserService {
 	}
 
 	private String encrypt(String password) {
+		MessageDigest digest = null;
 		try {
-			MessageDigest md5 = MessageDigest.getInstance("MD5");
-			md5.update(password.getBytes());
-			byte[] digest = md5.digest();
-			return DatatypeConverter.printHexBinary(digest).toLowerCase();
+			digest = MessageDigest.getInstance("SHA-256");
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-		return "";
+		byte[] encodedhash = digest.digest(
+				password.getBytes(StandardCharsets.UTF_8));
+
+		StringBuffer hexString = new StringBuffer();
+		for (int i = 0; i < encodedhash.length; i++) {
+			String hex = Integer.toHexString(0xff & encodedhash[i]);
+			if(hex.length() == 1) hexString.append('0');
+			hexString.append(hex);
+		}
+		return hexString.toString();
 	}
 
 }
