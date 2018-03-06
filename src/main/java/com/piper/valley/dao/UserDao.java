@@ -17,9 +17,9 @@ public class UserDao implements EntityDao<User> {
 	static {
 		entities = new HashMap<String, User>() {
 			{
-				put("1", new User("1", "Sherif", "sherifabdlnaby", "e10adc3949ba59abbe56e057f20f883e", "sherif@email.com",0));
-				put("2", new User("2", "Khaled", "wewark", "e10adc3949ba59abbe56e057f20f883e", "wewark@email.com",1));
-				put("3", new User("3", "Refaie", "refaie        ", "e10adc3949ba59abbe56e057f20f883e", "refaie@email.com",2));
+				put("1", new User("1", "Sherif", "sherifabdlnaby", "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "sherif@email.com",0));
+				put("2", new User("2", "Khaled", "wewark", "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "wewark@email.com",1));
+				put("3", new User("3", "Refaie", "refaie        ", "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "refaie@email.com",2));
 			}
 		};
 	}

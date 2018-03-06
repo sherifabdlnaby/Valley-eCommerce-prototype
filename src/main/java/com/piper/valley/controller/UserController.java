@@ -34,7 +34,7 @@ public class UserController {
 	public String login(HttpServletRequest request, Model model) {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		if (userService.login(username, password) ) {
+		if (userService.login(username, password) == Msg.SUCCESS ) {
 			//Save New Session
 			//TODO userID
 			authenticator.saveAuth(1337, username);
@@ -78,8 +78,16 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/view/{username}")
-	public String view(@PathVariable("username") String username) {
-		return "user/profile";
+	public String view(@PathVariable("username") String username, Model model) {
+		User user = userService.view(username);
+		if(user != null) {
+			model.addAttribute("username", user.getUsername());
+			model.addAttribute("email", user.getEmail());
+			model.addAttribute("name", user.getName());
+			return "user/profile";
+		}
+		else
+			return "error/404";
 	}
 
 }
