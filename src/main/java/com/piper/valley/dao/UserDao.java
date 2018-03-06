@@ -17,9 +17,9 @@ public class UserDao implements EntityDao<User> {
 	static {
 		entities = new HashMap<String, User>() {
 			{
-				put("1", new User("1", "Sherif", "sherifabdlnaby", "123456", "sherif@email.com",0));
-				put("2", new User("2", "Khaled", "wewark", "123456", "wewark@email.com",1));
-				put("3", new User("3", "Refaie", "refaie        ", "123456", "refaie@email.com",2));
+				put("1", new User("1", "Sherif", "sherifabdlnaby", "e10adc3949ba59abbe56e057f20f883e", "sherif@email.com",0));
+				put("2", new User("2", "Khaled", "wewark", "e10adc3949ba59abbe56e057f20f883e", "wewark@email.com",1));
+				put("3", new User("3", "Refaie", "refaie        ", "e10adc3949ba59abbe56e057f20f883e", "refaie@email.com",2));
 			}
 		};
 	}
@@ -61,5 +61,10 @@ public class UserDao implements EntityDao<User> {
 				return user;
 		}
 		return null;
+	}
+
+	public boolean emailExists(String email) {
+		// TODO
+		return false;
 	}
 }

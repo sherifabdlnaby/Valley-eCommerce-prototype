@@ -1,13 +1,12 @@
 package com.piper.valley.controller;
 
 import com.piper.valley.entity.User;
+import com.piper.valley.helpers.Msg;
 import com.piper.valley.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,40 +17,47 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@GetMapping(value = "/login")
 	public String login() {
 		return "user/login";
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@PostMapping(value = "/login")
 	public String login(HttpServletRequest request, Model model) {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 
-		if (userService.login(username, password)) {
+		Msg result = userService.login(username, password);
+
+		if (result == Msg.SUCCESS) {
 			//TODO SET SESSIONS OR WHTVR TO MAKE U LOGIN
 			model.addAttribute("username", username);
 			model.addAttribute("title", username);
 			return "user/profile";
-		} else {
-			model.addAttribute("message", "Wrong Username or password");
-			return "user/login";
 		}
+
+		model.addAttribute("message", result.getValue());
+		return "user/login";
 	}
 
-	@RequestMapping(value = "/register")
+	@GetMapping(value = "/register")
 	public String register(Model model) {
 		return "user/register";
 	}
 
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@PostMapping(value = "/register")
 	public String register(@ModelAttribute User user, HttpServletRequest request, Model model) {
+		String password = request.getParameter("password");
 		String confirmPassword = request.getParameter("confirmPassword");
-		if (userService.register(user, confirmPassword)) {
+
+		Msg result = userService.register(user, password, confirmPassword);
+
+		if (result == Msg.SUCCESS) {
 			//TODO FFS THIS SPRING SHIT IS FUCKING RETARDED IT REDIRECTS USING CONTEXT PATH FFFSFS!#$!#
-			return "redirect: .../";
+			return "redirect:http://localhost:8080/"; // temp
 		}
-		model.addAttribute("message", "Failed to Register, hanl2y tare2a ngeb howa failed leh bezabt ba3den");
+
+		model.addAttribute("message", result.getValue());
 		return "user/register";
 	}
 
