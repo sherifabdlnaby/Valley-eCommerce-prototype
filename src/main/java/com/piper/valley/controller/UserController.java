@@ -27,15 +27,17 @@ public class UserController {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 
-		if (userService.login(username, password)) {
+		Msg result = userService.login(username, password);
+
+		if (result == Msg.SUCCESS) {
 			//TODO SET SESSIONS OR WHTVR TO MAKE U LOGIN
 			model.addAttribute("username", username);
 			model.addAttribute("title", username);
 			return "user/profile";
-		} else {
-			model.addAttribute("message", "Wrong Username or password");
-			return "user/login";
 		}
+
+		model.addAttribute("message", result.getValue());
+		return "user/login";
 	}
 
 	@GetMapping(value = "/register")
@@ -52,7 +54,7 @@ public class UserController {
 
 		if (result == Msg.SUCCESS) {
 			//TODO FFS THIS SPRING SHIT IS FUCKING RETARDED IT REDIRECTS USING CONTEXT PATH FFFSFS!#$!#
-			return "redirect: .../";
+			return "redirect:http://localhost:8080/"; // temp
 		}
 
 		model.addAttribute("message", result.getValue());

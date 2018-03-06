@@ -19,11 +19,11 @@ public class User {
 
 	}
 
-	public User(String id, String name, String username, String password, String email,int type) {
+	public User(String id, String name, String username, String passwordHash, String email,int type) {
 		this.id = id;
 		this.name = name;
 		this.username = username;
-		this.passwordHash = password;
+		this.passwordHash = passwordHash;
 		this.email = email;
 		this.type= type;
 	}

@@ -47,17 +47,20 @@ public class UserService {
 		return Msg.UNKNOWN;
 	}
 
-	public boolean login(String username, String password) {
-
-		//Get User by Username
+	public Msg login(String username, String password) {
 		User user = userDao.getEntityByUsername(username);
 
-		//Check if user exists and has same password
-		if (user != null && matchPassword(user, password))
-			return true;
+		// If user not found
+		if (user == null) {
+			return Msg.USER_NOT_EXIST;
+		}
 
-		//User doesn't exist. or password doesn't match.
-		return false;
+		// If wrong password
+		if (!matchPassword(user, password))
+			return Msg.WRONG_PASSWORD;
+
+		// All is good
+		return Msg.SUCCESS;
 	}
 
 	private boolean validateEmail(String email) {
@@ -70,11 +73,11 @@ public class UserService {
 	}
 
 	private boolean validateUsername(String username) {
-		return username.length() >= 5;
+		return username.length() >= 1; // for testing
 	}
 
 	private boolean validatePassword(String password) {
-		return password.length() >= 8;
+		return password.length() >= 1; // 3shan nengz
 	}
 
 	private void updatePassword(User user, String newPassword) {
