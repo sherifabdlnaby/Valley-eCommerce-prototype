@@ -21,22 +21,27 @@ public class UserService {
 			return Msg.WRONG_EMAIL;
 		}
 
-		//Validation (TODO Validate all attributes)
+		if (userDao.emailExists(user.getEmail())) {
+			return Msg.EMAIL_EXISTS;
+		}
+
 		if (!password.equals(confirmPassword)) {
 			return Msg.PASSWORD_CONFIRM;
+		}
+
+		if (!validateUsername(user.getUsername())) {
+			return Msg.INVALID_USERNAME;
+		}
+
+		if (!validatePassword(password)) {
+			return Msg.INVALID_PASSWORD;
 		}
 
 		if (userDao.getEntityByUsername(user.getUsername()) != null) {
 			return Msg.USERNAME_EXISTS;
 		}
 
-		if (userDao.insertEntityToDb(new User(
-				"tmpId",
-				user.getName(),
-				user.getUsername(),
-				encrypt(password),
-				user.getEmail(),
-				user.getType())))
+		if (userDao.insertEntityToDb(new User("tmpId", user, encrypt(password))))
 			return Msg.SUCCESS;
 
 		return Msg.UNKNOWN;
@@ -62,6 +67,14 @@ public class UserService {
 				"?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0" +
 				"-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x" +
 				"7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
+	}
+
+	private boolean validateUsername(String username) {
+		return username.length() >= 5;
+	}
+
+	private boolean validatePassword(String password) {
+		return password.length() >= 8;
 	}
 
 	private void updatePassword(User user, String newPassword) {

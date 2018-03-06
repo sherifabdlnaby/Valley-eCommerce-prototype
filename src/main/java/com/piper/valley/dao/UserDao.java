@@ -62,4 +62,9 @@ public class UserDao implements EntityDao<User> {
 		}
 		return null;
 	}
+
+	public boolean emailExists(String email) {
+		// TODO
+		return false;
+	}
 }

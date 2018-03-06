@@ -11,7 +11,7 @@ public enum Msg {
 	WRONG_EMAIL("Please enter a valid Email"),
 	EMAIL_EXISTS("la2ena tare2a ngeb howa failed leh"),
 	INVALID_PASSWORD("la2ena tare2a ngeb howa failed leh"),
-	PASSWORD_EXISTS("la2ena tare2a ngeb howa failed leh"),
+	INVALID_USERNAME("la2ena tare2a ngeb howa failed leh"),
 	PASSWORD_CONFIRM("la2ena tare2a ngeb howa failed leh"),
 	USERNAME_EXISTS("la2ena tare2a ngeb howa failed leh"),
 	UNKNOWN("la2ena tare2a ngeb howa failed leh");
