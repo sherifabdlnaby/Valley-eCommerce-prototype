@@ -1,33 +1,33 @@
 package com.piper.valley.models.service;
+import com.piper.valley.models.entity.Role;
 import com.piper.valley.models.entity.User;
+import com.piper.valley.models.repository.RoleRepository;
 import com.piper.valley.models.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 
 @Service
 public class UserService {
-
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private RoleRepository roleRepository;
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-	public boolean register(User user, String confirmPassword) {
-		//Validation (TODO Validate all attributes)
-		List<User> x = userRepository.findAll();
+	public boolean register(User user) {
+		//Hash password using bCrypt
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		user.setRoles(new HashSet<>(roleRepository.findAll()));
 
-		if (!confirmPassword.equals(user.getPassword()))
-			return false;
+		//Save to DB
+		userRepository.save(user);
 
-		if (userRepository.existsByUsername(user.getUsername()))
-			return false;
-
-		if (userRepository.existsByUsernameOrEmail(user.getUsername(), user.getEmail()))
-			return false;
-
-		User savedUser = userRepository.save(user);
-
-		return false;
+		return true;
 	}
 
 	public boolean login(String username, String password) {
@@ -44,5 +44,6 @@ public class UserService {
 		//User doesn't exist. or password doesn't match.
 		return false;
 	}
+
 
 }

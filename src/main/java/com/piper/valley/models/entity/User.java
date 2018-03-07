@@ -1,9 +1,8 @@
 package com.piper.valley.models.entity;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -22,8 +21,15 @@ public class User implements Serializable {
 	@NotBlank
 	private String password;
 
+	@Transient
+	private String passwordConfirm;
+
 	@NotBlank
 	private String email;
+
+	@ManyToMany
+	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles;
 
 	public User() {
 
@@ -40,6 +46,14 @@ public class User implements Serializable {
 	public User(String name, String password) {
 		this.name = name;
 		this.password = password;
+	}
+
+	public String getPasswordConfirm() {
+		return passwordConfirm;
+	}
+
+	public void setPasswordConfirm(String passwordConfirm) {
+		this.passwordConfirm = passwordConfirm;
 	}
 
 	public String getName() {
@@ -80,5 +94,13 @@ public class User implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 }
