@@ -1,31 +1,42 @@
 package com.piper.valley.models.service;
 
-import com.piper.valley.models.dao.UserDao;
 import com.piper.valley.models.entity.User;
+import com.piper.valley.models.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserService {
 
 	@Autowired
-	private UserDao userDao;
+	private UserRepository userRepository;
 
 	public boolean register(User user, String confirmPassword) {
 		//Validation (TODO Validate all attributes)
+		List<User> x = userRepository.findAll();
+
 		if (!confirmPassword.equals(user.getPassword()))
 			return false;
 
-		if (userDao.getEntityByUsername(user.getUsername()) != null)
+		if (userRepository.existsByUsername(user.getUsername()))
 			return false;
 
-		return userDao.insertEntityToDb(new User("tmpId", user.getName(), user.getUsername(), user.getPassword(), user.getEmail()));
+		if (userRepository.existsByUsernameOrEmail(user.getUsername()))
+			return false;
+
+		User savedUser = userRepository.save(user);
+
+		return false;
 	}
 
 	public boolean login(String username, String password) {
 
+		//UserDao userDao = null;
+
 		//Get User by Username
-		User user = userDao.getEntityByUsername(username);
+		User user = null;//userDao.getEntityByUsername(username);
 
 		//Check if user exists and has same password
 		if (user != null && user.getPassword().equals(password))

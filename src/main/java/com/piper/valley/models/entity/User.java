@@ -1,17 +1,35 @@
 package com.piper.valley.models.entity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
-public class User {
-	private String id;
+@Entity
+@Table(name = "user")
+public class User implements Serializable {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer id;
+
+	@NotBlank
 	private String name;
+
+	@NotBlank
 	private String username;
+
+	@NotBlank
 	private String password;
+
+	@NotBlank
 	private String email;
 
 	public User() {
 
 	}
 
-	public User(String id, String name, String username, String password, String email) {
+	public User(Integer id, String name, String username, String password, String email) {
 		this.id = id;
 		this.name = name;
 		this.username = username;
@@ -23,13 +41,6 @@ public class User {
 		this.name = name;
 		this.password = password;
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		return ((this.username.equals(((User) obj).username)
-				&& this.password.equals(((User) obj).password)) || (this.email.equals(((User) obj).email) && this.password.equals(((User) obj).password)));
-	}
-
 
 	public String getName() {
 		return name;
@@ -47,11 +58,11 @@ public class User {
 		this.username = username;
 	}
 
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
