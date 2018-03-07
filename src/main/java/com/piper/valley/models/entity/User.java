@@ -1,4 +1,4 @@
-package com.piper.valley.entity;
+package com.piper.valley.models.entity;
 
 public class User {
 	private String id;

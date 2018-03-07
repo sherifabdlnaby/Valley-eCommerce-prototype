@@ -1,4 +1,4 @@
-package com.piper.valley.controller;
+package com.piper.valley.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

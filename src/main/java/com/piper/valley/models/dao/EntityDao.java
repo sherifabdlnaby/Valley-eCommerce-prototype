@@ -1,4 +1,4 @@
-package com.piper.valley.dao;
+package com.piper.valley.models.dao;
 
 import java.util.Collection;
 

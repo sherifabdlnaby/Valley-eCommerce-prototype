@@ -1,6 +1,6 @@
-package com.piper.valley.dao;
+package com.piper.valley.models.dao;
 
-import com.piper.valley.entity.User;
+import com.piper.valley.models.entity.User;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 

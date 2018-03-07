@@ -1,7 +1,7 @@
-package com.piper.valley.controller;
+package com.piper.valley.controllers;
 
-import com.piper.valley.entity.User;
-import com.piper.valley.service.UserService;
+import com.piper.valley.models.entity.User;
+import com.piper.valley.models.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

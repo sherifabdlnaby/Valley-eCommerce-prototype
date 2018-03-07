@@ -1,7 +1,7 @@
-package com.piper.valley.service;
+package com.piper.valley.models.service;
 
-import com.piper.valley.dao.UserDao;
-import com.piper.valley.entity.User;
+import com.piper.valley.models.dao.UserDao;
+import com.piper.valley.models.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
