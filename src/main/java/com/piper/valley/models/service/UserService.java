@@ -1,5 +1,4 @@
 package com.piper.valley.models.service;
-
 import com.piper.valley.models.entity.User;
 import com.piper.valley.models.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ public class UserService {
 		if (userRepository.existsByUsername(user.getUsername()))
 			return false;
 
-		if (userRepository.existsByUsernameOrEmail(user.getUsername()))
+		if (userRepository.existsByUsernameOrEmail(user.getUsername(), user.getEmail()))
 			return false;
 
 		User savedUser = userRepository.save(user);
