@@ -1,49 +1,21 @@
 package com.piper.valley.models.service;
-import com.piper.valley.models.entity.Role;
-import com.piper.valley.models.entity.User;
-import com.piper.valley.models.repository.RoleRepository;
-import com.piper.valley.models.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
+import com.piper.valley.forms.UserCreateForm;
+import com.piper.valley.models.domain.User;
 
-@Service
-public class UserService {
-	@Autowired
-	private UserRepository userRepository;
-	@Autowired
-	private RoleRepository roleRepository;
-	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
+import java.util.Collection;
+import java.util.Optional;
 
-	public boolean register(User user) {
-		//Hash password using bCrypt
-		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		user.setRoles(new HashSet<>(roleRepository.findAll()));
+public interface UserService {
 
-		//Save to DB
-		userRepository.save(user);
+	Optional<User> getUserById(long id);
 
-		return true;
-	}
+	Optional<User> getUserByEmail(String email);
 
-	public boolean login(String username, String password) {
+	Optional<User> getUserByUsername(String email);
 
-		//UserDao userDao = null;
+	Collection<User> getAllUsers();
 
-		//Get User by Username
-		User user = null;//userDao.getEntityByUsername(username);
-
-		//Check if user exists and has same password
-		if (user != null && user.getPassword().equals(password))
-			return true;
-
-		//User doesn't exist. or password doesn't match.
-		return false;
-	}
-
+	User register(UserCreateForm form);
 
 }
