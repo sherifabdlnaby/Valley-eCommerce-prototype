@@ -1,15 +1,14 @@
 package com.piper.valley.models.repository;
-import com.piper.valley.models.entity.User;
+
+import com.piper.valley.models.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
-	/*Hibernate w JPA hayt3mlo fe el implementation*/
-	User findByUsername(String username);
-	boolean existsByUsername(String username);
-	boolean existsByEmail(String email);
-	boolean existsByUsernameOrEmail(String username, String email);
-	boolean findByEmail(String email);
+public interface UserRepository extends JpaRepository<User, Long> {
+	Optional<User> findOneByEmail(String email);
+
+	Optional<User> findOneByUsername(String username);
 }
