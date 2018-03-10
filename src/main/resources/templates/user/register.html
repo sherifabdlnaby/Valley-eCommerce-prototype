@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="layouts/default">
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8"/>
     <th:block layout:fragment="customStyle">
         <!--El Custom Styles le el 7eta deh-->
         <!-- <link rel="stylesheet" th:href="@{/css/home.css}"> -->
@@ -19,34 +19,38 @@
         <br/>
         <h1>Register</h1>
         <hr/>
-        <p th:text="${message}"></p>
-        <form method="post" autocomplete="on" action="/user/register">
+        <form method="post" autocomplete="on" action="/register">
             <fieldset>
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
                 <div class="form-group">
                     <label class="col-form-label">Name</label>
-                    <input type="text" name="name" class="form-control" placeholder="Name">
+                    <input type="text" name="name" class="form-control" placeholder="Name"
+                           th:value="${registerForm.name}"/>
                 </div>
 
                 <div class="form-group">
                     <label class="col-form-label">Username</label>
-                    <input type="text" name="username" class="form-control" placeholder="Username">
+                    <input type="text" name="username" class="form-control" placeholder="Username"
+                           th:value="${registerForm.username}"/>
                 </div>
 
                 <div class="form-group">
                     <label class="col-form-label">Password</label>
                     <input type="password" autocomplete="off" name="password" class="form-control"
-                           placeholder="Password">
+                           placeholder="Password"/>
                 </div>
 
                 <div class="form-group">
                     <label class="col-form-label">Confirm Password</label>
                     <input type="password" autocomplete="off" name="passwordConfirm" class="form-control"
-                           placeholder="Confirm Password">
+                           placeholder="Confirm Password"/>
                 </div>
 
                 <div class="form-group">
                     <label class="col-form-label">Email</label>
-                    <input type="text" name="email" class="form-control" placeholder="Email">
+                    <input type="text" name="email" class="form-control" placeholder="Email"
+                           th:value="${registerForm.email}"/>
                 </div>
 
                 <br/>

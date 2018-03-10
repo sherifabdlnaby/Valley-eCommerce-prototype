@@ -1,10 +1,13 @@
-<nav xmlns:th="http://wwww.thymeleaf.org" class="navbar navbar-expand-lg navbar-dark bg-primary" th:fragment="header">
+<nav xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+     class="navbar navbar-expand-lg navbar-dark bg-primary" th:fragment="header">
     <a class="navbar-brand" href="/"> Valley </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
             aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
+    <!--/*@thymesVar id="currentUser" type="com.piper.valley.auth.CurrentUser"*/-->
     <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
@@ -16,15 +19,31 @@
             </li>
         </ul>
         <div class="form-inline my-2 my-lg-0">
-            <ul class="navbar-nav mr-auto">
+            <ul sec:authorize="!isAuthenticated()" class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="\user\login"><i class="fas fa-sign-in-alt"></i> Login</a>
+                    <a class="nav-link" href="\login"><i class="fas fa-sign-in-alt"></i> Login</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link">|</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="\user\register"><i class="fas fa-user-plus"></i> Register</a>
+                    <a class="nav-link" href="\register"><i class="fas fa-user-plus"></i> Register</a>
+                </li>
+            </ul>
+            <ul sec:authorize="isAuthenticated()" class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <strong><a class="nav-link" th:href="@{/user/view/{username}(username = ${currentUser.username})}"
+                               th:text="${currentUser.username}"><i class="fas fa-sign-in-alt"></i> </a></strong>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link">|</a>
+                </li>
+                <li class="nav-item">
+                    <form id="logoutForm" method="post" action="/logout">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                        <a onclick="logoutForm.submit();" class="nav-link" style="cursor: pointer"><i
+                                class="fas fa-user-plus"></i>Logout</a>
+                    </form>
                 </li>
             </ul>
         </div>
