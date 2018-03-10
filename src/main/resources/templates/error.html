@@ -4,7 +4,7 @@
       layout:decorator="layouts/default">
 <head>
     <meta charset="utf-8"/>
-    <title>404 - Error!</title>
+    <title th:text="${status}">Error</title>
     <th:block layout:fragment="customStyle">
         <!--El Custom Styles le el 7eta deh-->
         <link rel="stylesheet" th:href="@{/css/error.css}"/>
@@ -17,7 +17,11 @@
     <div class="error-template">
         <br/><br/><br/><br/>
         <div class="error-details">
-            <h2>404, Page Not Found !</h2>
+            <h2>Oops... something went wrong.</h2>
+            <h3 th:text="${status + ' ' + error}"></h3>
+            <p class="col s12 center" th:text="${message}">
+                This page is not available
+            </p>
         </div>
         <br/><br/>
         <div class="error-actions">
