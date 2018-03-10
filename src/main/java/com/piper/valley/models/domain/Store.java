@@ -1,34 +1,36 @@
-package com.piper.valley.entity;
-
+package com.piper.valley.models.domain;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.ArrayList;
 
-@Entity // This tells Hibernate to make a table out of this class
-public class Company {
+//@Entity // This tells Hibernate to make a table out of this class
+public class Store {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private String id;
     private String name;
+    private User owner;
     private ArrayList<Product> products;
-
-    public Company() {
-        id="";
-        name="";
+    public Store() {
+        this.id="";
+        this.name="";
+        this.owner= null;
         products=null;
     }
 
-    public Company(String id, String name) {
+    public Store(String id, String name, User owner) {
         this.id = id;
         this.name = name;
+        this.owner = owner;
         products= new ArrayList<>();
     }
 
-    public Company(String id, String name, ArrayList<Product> products) {
+    public Store(String id, String name, User owner, ArrayList<Product> products) {
         this.id = id;
         this.name = name;
+        this.owner = owner;
         this.products = products;
     }
 
@@ -46,6 +48,14 @@ public class Company {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
     public ArrayList<Product> getProducts() {

@@ -1,4 +1,4 @@
-package com.piper.valley.entity;
+package com.piper.valley.models.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Column;
@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.ArrayList;
 
-@Entity // This tells Hibernate to make a table out of this class
+//@Entity // This tells Hibernate to make a table out of this class
 public class Brand {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
