@@ -20,6 +20,12 @@
         <br/>
         <h1>Login</h1>
         <hr/>
+
+        <div th:if="${error != null}" class="alert alert-dismissible alert-danger">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Oh snap!</strong> <a href="#" class="alert-link"> Incorrect Username or Password</a>
+        </div>
+
         <form role="form" method="post" autocomplete="on" action="/login">
             <fieldset>
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
@@ -37,12 +43,15 @@
                            autocomplete="on"/>
                 </div>
 
-                <div>
-                    <label for="remember-me">Remember me</label>
-                    <input type="checkbox" name="remember-me" id="remember-me"/>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" name="remember-me" id="remember-me"/>
+                    <label class="custom-control-label" for="remember-me">Remember me ?</label>
                 </div>
 
+                <br/>
+
                 <button type="submit" class="btn btn-primary">Login</button>
+
 
             </fieldset>
         </form>

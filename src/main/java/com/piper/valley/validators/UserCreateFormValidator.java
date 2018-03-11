@@ -28,19 +28,30 @@ public class UserCreateFormValidator implements Validator {
 
 	private void validatePasswords(Errors errors, UserCreateForm form) {
 		if (!form.getPassword().equals(form.getPasswordConfirm())) {
-			errors.reject("password.no_match", "Passwords do not match");
+			errors.rejectValue("password", "msg.PasswordNotMatch");
 		}
 	}
 
 	private void validateUsername(Errors errors, UserCreateForm form) {
+		//This to avoid querying using not valid or (and especially empty value "" ),
+		// empty value cause findOne to return more than one element causing an exception which is so stupid :'D, I hate this.
+		if(errors.hasFieldErrors("username"))
+			return;
+
+		//Actual Validation
 		if (userRepository.findOneByUsername(form.getUsername()).isPresent()) {
-			errors.reject("email.exists", "User with this email already exists");
+			errors.rejectValue("username", "msg.DuplicateUsername");
 		}
 	}
 
 	private void validateEmail(Errors errors, UserCreateForm form) {
+		//This to avoid querying using not valid or (and especially empty value "" ),
+		// empty value cause findOne to return more than one element causing an exception which is so stupid :'D, I hate this.
+		if(errors.hasFieldErrors("email"))
+			return;
+
 		if (userRepository.findOneByEmail(form.getEmail()).isPresent()) {
-			errors.reject("email.exists", "User with this email already exists");
+			errors.rejectValue("email", "msg.DuplicateEmail");
 		}
 	}
 }

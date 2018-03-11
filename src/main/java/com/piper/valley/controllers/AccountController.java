@@ -4,7 +4,6 @@ import com.piper.valley.forms.UserCreateForm;
 import com.piper.valley.models.service.UserService;
 import com.piper.valley.validators.UserCreateFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -39,7 +38,7 @@ public class AccountController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView getLoginPage(@RequestParam Optional<String> error) {
-		return new ModelAndView("user/login", "error", error);
+		return new ModelAndView("user/login", "error", error.isPresent() ? error : null);
 	}
 
 
