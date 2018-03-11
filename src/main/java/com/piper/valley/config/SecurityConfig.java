@@ -23,7 +23,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 				//Homepage
-				.antMatchers("/").permitAll()
+				.antMatchers("/", "/register").permitAll()
 				//Static Resource
 				.antMatchers("/css/**", "/images/**", "/js/**", "/bootstrap/**").permitAll()
 				//.antMatchers("/example/**").hasAuthority("ADMIN")

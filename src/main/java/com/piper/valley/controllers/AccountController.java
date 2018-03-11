@@ -4,12 +4,15 @@ import com.piper.valley.forms.UserCreateForm;
 import com.piper.valley.models.service.UserService;
 import com.piper.valley.validators.UserCreateFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -49,12 +52,20 @@ public class AccountController {
 
 	//@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public ModelAndView register(@Valid @ModelAttribute("registerForm") UserCreateForm registerForm, BindingResult bindingResult) {
+	public ModelAndView register(@Valid @ModelAttribute("registerForm") UserCreateForm registerForm, BindingResult bindingResult, HttpServletRequest request) {
 		if (bindingResult.hasErrors())
 			return new ModelAndView("user/register", "registerForm", registerForm);
 
 		//Save to DB
 		userService.register(registerForm);
+
+		//Login
+		try {
+			request.changeSessionId();
+			request.login(registerForm.getUsername(), registerForm.getPassword());
+		} catch (ServletException e) {
+			e.printStackTrace();
+		}
 
 		return new ModelAndView("redirect:/");
 	}
