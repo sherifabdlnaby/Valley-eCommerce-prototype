@@ -4,6 +4,7 @@ import com.piper.valley.forms.AddBrandForm;
 import com.piper.valley.models.service.BrandService;
 import com.piper.valley.validators.AddBrandFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -31,9 +32,11 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/admin/addbrand", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ModelAndView addBrand(@ModelAttribute("addBrandForm") AddBrandForm addBrandForm) {
         return new ModelAndView("admin/addbrand", "addBrandForm", addBrandForm);
     }
+    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/admin/addbrand", method = RequestMethod.POST)
     public ModelAndView addBrand(@Valid @ModelAttribute("addBrandForm")AddBrandForm addBrandForm, BindingResult bindingResult, HttpServletRequest request)
     {
