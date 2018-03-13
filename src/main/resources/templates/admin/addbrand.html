@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/default">
+<head>
+    <meta charset="utf-8"/>
+    <th:block layout:fragment="customStyle">
+        <!--El Custom Styles le el 7eta deh-->
+        <!-- <link rel="stylesheet" th:href="@{/css/home.css}"> -->
+    </th:block>
+</head>
+
+<!-- Body !-->
+<body layout:fragment="content">
+<!--Content Goes Here!-->
+<div class="col-lg-12">
+    <div class="col-lg-4">
+        <br/>
+        <br/>
+        <h1>Add Brand</h1>
+        <hr/>
+        <form method="post" autocomplete="on" th:object="${addBrandForm}" action="/add_brand">
+            <fieldset>
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+                <div class="form-group">
+                    <label class="col-form-label">Name</label>
+                    <input type="text" class="form-control" placeholder="Name"
+                           th:field="*{name}" th:errorclass="is-invalid" />
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Unspecified Error</div>
+                </div>
+                <br/>
+                <button type="submit" class="btn btn-primary">Add Brand</button>
+            </fieldset>
+        </form>
+    </div>
+</div>
+<!--El Custom Scripts le el 7eta deh-->
+<th:block layout:fragment="customScripts">
+
+</th:block>
+</body>
+</html>
