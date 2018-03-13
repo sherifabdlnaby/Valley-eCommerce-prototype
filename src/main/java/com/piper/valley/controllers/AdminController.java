@@ -30,15 +30,15 @@ public class AdminController {
         binder.addValidators(brandFormValidator); //This maps the add brand form to our own validator.
     }
 
-    @RequestMapping(value = "/add_brand", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/addbrand", method = RequestMethod.GET)
     public ModelAndView addBrand(@ModelAttribute("addBrandForm") AddBrandForm addBrandForm) {
-        return new ModelAndView("admin/add_brand", "addBrandForm", addBrandForm);
+        return new ModelAndView("admin/addbrand", "addBrandForm", addBrandForm);
     }
-    @RequestMapping(value = "/add_brand", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/addbrand", method = RequestMethod.POST)
     public ModelAndView addBrand(@Valid @ModelAttribute("addBrandForm")AddBrandForm addBrandForm, BindingResult bindingResult, HttpServletRequest request)
     {
         if(bindingResult.hasErrors())
-            return new ModelAndView("admin/add_brand","addBrandForm",addBrandForm);
+            return new ModelAndView("admin/addbrand","addBrandForm",addBrandForm);
         brandService.addBrand(addBrandForm);
         return new ModelAndView("redirect:/");
     }
