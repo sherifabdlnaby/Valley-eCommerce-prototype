@@ -46,7 +46,7 @@ public class StoreController {
 	}
 
 //	@PreAuthorize("hasAuthority('ADMIN')")
-	@RequestMapping("/store/accept/{id}")
+	@RequestMapping(value = "/store/accept/{id}", method = RequestMethod.POST)
 	public ModelAndView acceptStore(@PathVariable("id") long id) {
 		storeService.acceptStore(id);
 		return new ModelAndView("redirect:/"); // Temporary
