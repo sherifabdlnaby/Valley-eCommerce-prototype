@@ -1,5 +1,5 @@
 # Valley - Online Marketplace
-## SWE-2 Course Project using Java Spring/Spring Boot
+### SWE-2 Course Project using Java Spring/Spring Boot
 ----------------------------------------
 
 ## Screenshots
