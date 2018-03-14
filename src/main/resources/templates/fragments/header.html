@@ -17,6 +17,14 @@
             <li class="nav-item">
                 <a class="nav-link" href="/">About</a>
             </li>
+
+            <li sec:authorize="hasRole('ADMIN')" class="nav-item">
+                <a class="nav-link" href="/admin/addbrand"><i class="fas fa-plus"></i> Add Brand</a>
+            </li>
+
+            <li sec:authorize="hasRole('ADMIN')" class="nav-item">
+                <a class="nav-link" href="/admin/addproduct"><i class="fas fa-plus"></i> Add Product</a>
+            </li>
         </ul>
         <div class="form-inline my-2 my-lg-0">
             <ul sec:authorize="!isAuthenticated()" class="navbar-nav mr-auto">
