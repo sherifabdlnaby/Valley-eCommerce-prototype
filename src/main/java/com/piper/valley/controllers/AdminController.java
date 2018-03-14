@@ -1,21 +1,24 @@
 package com.piper.valley.controllers;
 
 import com.piper.valley.forms.AddBrandForm;
+import com.piper.valley.forms.AddProductForm;
+import com.piper.valley.forms.UserCreateForm;
 import com.piper.valley.models.service.BrandService;
+import com.piper.valley.models.service.ProductService;
 import com.piper.valley.validators.AddBrandFormValidator;
+import com.piper.valley.validators.AddProductFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 public class AdminController {
@@ -23,13 +26,29 @@ public class AdminController {
     @Autowired
     private BrandService brandService;
     @Autowired
+    private ProductService productService;
+
+    @Autowired
     private AddBrandFormValidator brandFormValidator;
+    @Autowired
+    private AddProductFormValidator addProductFormValidator;
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////*  VALIDATORS BINDING SECTION  *//////////////////////////////////////
+
     @InitBinder("addBrandForm")
     public void addBrandFormInitBinder(WebDataBinder binder) {
         binder.addValidators(brandFormValidator); //This maps the add brand form to our own validator.
     }
+
+    @InitBinder("addProductForm")
+    public void AddProductFormInitBinder(WebDataBinder binder)
+    {
+        binder.addValidators(addProductFormValidator);
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////*  CONTROLLER ACTION  *///////////////////////////////////////////
 
     @RequestMapping(value = "/admin/addbrand", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -47,9 +66,24 @@ public class AdminController {
     }
 
 
+   @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping(value = "/addproduct", method = RequestMethod.GET)
+    public ModelAndView addProduct(@ModelAttribute("addProductForm") AddProductForm addProductForm) {
+        return new ModelAndView("admin/addproduct", "addProductForm", addProductForm);
+    }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////*  CONTROLLER ACTION  *///////////////////////////////////////////
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping(value = "/addproduct", method = RequestMethod.POST)
+    public ModelAndView addProduct(@Valid @ModelAttribute("addProductForm") AddProductForm addProductForm, BindingResult bindingResult, HttpServletRequest request) {
+        if (bindingResult.hasErrors())
+            return new ModelAndView("admin/addproduct", "addProductForm", addProductForm);
+        productService.addProduct(addProductForm);
+        return new ModelAndView("redirect:/");
+    }
+
+
+
+
 
 
 
