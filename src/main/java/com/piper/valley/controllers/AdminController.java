@@ -3,8 +3,10 @@ package com.piper.valley.controllers;
 import com.piper.valley.forms.AddBrandForm;
 import com.piper.valley.forms.AddProductForm;
 import com.piper.valley.forms.UserCreateForm;
+import com.piper.valley.models.domain.Store;
 import com.piper.valley.models.service.BrandService;
 import com.piper.valley.models.service.ProductService;
+import com.piper.valley.models.service.StoreService;
 import com.piper.valley.validators.AddBrandFormValidator;
 import com.piper.valley.validators.AddProductFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +31,17 @@ public class AdminController {
     @Autowired
     private ProductService productService;
 
+	@Autowired
+	private StoreService storeService;
+
     @Autowired
     private AddBrandFormValidator brandFormValidator;
 
     @Autowired
     private AddProductFormValidator addProductFormValidator;
+
+	//	@Autowired
+//	private AddStoreFormValidator addStoreFormValidator;
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////*  VALIDATORS BINDING SECTION  *//////////////////////////////////////
@@ -49,6 +57,12 @@ public class AdminController {
         binder.addValidators(addProductFormValidator);
     }
 
+	//	@InitBinder("addStoreForm")
+//	public void addStoreFormInitBinder(WebDataBinder binder) {
+//		// This maps the add brand form to our own validator.
+//		binder.addValidators(addStoreFormValidator);
+//	}
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////*  CONTROLLER ACTION  *///////////////////////////////////////////
 
@@ -57,6 +71,7 @@ public class AdminController {
     public ModelAndView addBrand(@ModelAttribute("addBrandForm") AddBrandForm addBrandForm) {
         return new ModelAndView("admin/addbrand", "addBrandForm", addBrandForm);
     }
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/admin/addbrand", method = RequestMethod.POST)
     public ModelAndView addBrand(@Valid @ModelAttribute("addBrandForm")AddBrandForm addBrandForm, BindingResult bindingResult)
@@ -66,7 +81,6 @@ public class AdminController {
         brandService.addBrand(addBrandForm);
         return new ModelAndView("redirect:/");
     }
-
 
    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/admin/addproduct", method = RequestMethod.GET)
@@ -85,9 +99,29 @@ public class AdminController {
         return new ModelAndView("redirect:/");
     }
 
+    //@PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping(value = "/admin/acceptStore/{id}", method = RequestMethod.GET)
+    public ModelAndView viewAndAcceptStore(@PathVariable("id") long id) {
+        Optional<Store> store = storeService.getStoreById(id);
+
+        // If the store wasn't found
+        if (!store.isPresent()) {
+            return new ModelAndView("error/404");
+        }
+
+        return new ModelAndView("store/accept", "store", store);
+    }
+
+    //	@PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping(value = "/admin/acceptStore/{id}", method = RequestMethod.POST)
+    public ModelAndView acceptStore(@PathVariable("id") long id) {
+        storeService.acceptStore(id);
+        return new ModelAndView("redirect:/"); // Temporary
+    }
 
 
-
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////*  CONTROLLER ACTION  *///////////////////////////////////////////
 
 
 

@@ -1,68 +1,54 @@
 package com.piper.valley.models.domain;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 
-//@Entity // This tells Hibernate to make a table out of this class
+@Entity // This tells Hibernate to make a table out of this class
+@Table(name = "store")
 public class Store {
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private String id;
-    private String name;
-    private User owner;
-    private ArrayList<Product> products;
-    public Store() {
-        this.id="";
-        this.name="";
-        this.owner= null;
-        products=null;
-    }
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id", nullable = false, updatable = false)
+	private long id;
 
-    public Store(String id, String name, User owner) {
-        this.id = id;
-        this.name = name;
-        this.owner = owner;
-        products= new ArrayList<>();
-    }
+	@Column(name = "name", nullable = false, unique = true)
+	private String name;
 
-    public Store(String id, String name, User owner, ArrayList<Product> products) {
-        this.id = id;
-        this.name = name;
-        this.owner = owner;
-        this.products = products;
-    }
+	@Column(name = "ownerId", nullable = false, unique = true)
+	private long ownerId;
 
-    public String getId() {
-        return id;
-    }
+	@Column(name = "accepted", nullable = false)
+	private boolean accepted;
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public long getId() {
+		return id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setId(long id) {
+		this.id = id;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public User getOwner() {
-        return owner;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setOwner(User owner) {
-        this.owner = owner;
-    }
+	public long getOwnerId() {
+		return ownerId;
+	}
 
-    public ArrayList<Product> getProducts() {
-        return products;
-    }
+	public void setOwnerId(long ownerId) {
+		this.ownerId = ownerId;
+	}
 
-    public void setProducts(ArrayList<Product> products) {
-        this.products = products;
-    }
+	public boolean isAccepted() {
+		return accepted;
+	}
+
+	public void setAccepted(boolean accepted) {
+		this.accepted = accepted;
+	}
 }
