@@ -38,7 +38,9 @@ public class AdminController {
     }
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/admin/addbrand", method = RequestMethod.POST)
-    public ModelAndView addBrand(@Valid @ModelAttribute("addBrandForm")AddBrandForm addBrandForm, BindingResult bindingResult, HttpServletRequest request)
+    public ModelAndView addBrand(@Valid @ModelAttribute("addBrandForm")AddBrandForm addBrandForm,
+                                 BindingResult bindingResult,
+                                 HttpServletRequest request)
     {
         if(bindingResult.hasErrors())
             return new ModelAndView("admin/addbrand","addBrandForm",addBrandForm);

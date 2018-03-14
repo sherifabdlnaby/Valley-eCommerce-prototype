@@ -9,7 +9,7 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false, updatable = false)
-	private int id;
+	private long id;
 
 	@Column(name = "username", nullable = false, unique = true)
 	private String username;
@@ -45,7 +45,7 @@ public class User {
 		this.name = name;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
