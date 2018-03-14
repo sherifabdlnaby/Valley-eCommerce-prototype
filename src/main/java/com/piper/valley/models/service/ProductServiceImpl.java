@@ -1,17 +1,14 @@
 package com.piper.valley.models.service;
 
-import com.piper.valley.forms.UserCreateForm;
+import com.piper.valley.forms.AddProductForm;
 import com.piper.valley.models.domain.Product;
-import com.piper.valley.models.domain.Role;
-import com.piper.valley.models.domain.User;
 import com.piper.valley.models.repository.ProductRepository;
-import com.piper.valley.models.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -45,7 +42,13 @@ public class ProductServiceImpl implements ProductService {
 		return productRepository.findAll();
 	}
 
-
-
-
+	@Override
+	public Product addProduct(AddProductForm productForm) {
+		Product product=new Product();
+		product.setBrand(productForm.getBrand());
+		product.setName(productForm.getName());
+		product.setPrice(Double.parseDouble(productForm.getPrice()));
+		product.setDateTime(new Date());
+		return productRepository.save(product);
+	}
 }

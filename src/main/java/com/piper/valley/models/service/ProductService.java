@@ -1,6 +1,7 @@
 package com.piper.valley.models.service;
 
 
+import com.piper.valley.forms.AddProductForm;
 import com.piper.valley.models.domain.Product;
 
 import java.util.Collection;
@@ -12,6 +13,6 @@ public interface ProductService {
 	Optional<Product>getProductByName(String name);
 	Optional<Product>getPriceBetween(double start,double end);
 	Collection<Product>getAllProducts();
-	//Product addProduct(AddProductForm productForm);
+	Product addProduct(AddProductForm productForm);
 
 }
