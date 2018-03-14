@@ -16,7 +16,9 @@ public class Store {
 
 	@Column(name = "ownerId", nullable = false, unique = true)
 	private long ownerId;
-	//private User owner;
+
+	@Column(name = "accepted", nullable = false)
+	private boolean accepted;
 
 	public long getId() {
 		return id;
@@ -40,5 +42,13 @@ public class Store {
 
 	public void setOwnerId(long ownerId) {
 		this.ownerId = ownerId;
+	}
+
+	public boolean isAccepted() {
+		return accepted;
+	}
+
+	public void setAccepted(boolean accepted) {
+		this.accepted = accepted;
 	}
 }

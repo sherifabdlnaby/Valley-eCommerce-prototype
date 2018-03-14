@@ -34,18 +34,21 @@ public class StoreController {
 
 	//@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(value = "/store/accept/{id}", method = RequestMethod.GET)
-	public ModelAndView acceptStore(@PathVariable("id") long id) {
+	public ModelAndView viewAndAcceptStore(@PathVariable("id") long id) {
 		Optional<Store> store = storeService.getStoreById(id);
 
 		// If the store wasn't found
 		if (!store.isPresent()) {
 			return new ModelAndView("error/404");
 		}
-		System.out.println(store.get().getName());
+
 		return new ModelAndView("store/accept", "store", store);
 	}
 
 //	@PreAuthorize("hasAuthority('ADMIN')")
-//	@RequestMapping("/store/accept/{id}")
-//	public ModelAndView acceptStore()
+	@RequestMapping("/store/accept/{id}")
+	public ModelAndView acceptStore(@PathVariable("id") long id) {
+		storeService.acceptStore(id);
+		return new ModelAndView("redirect:/"); // Temporary
+	}
 }

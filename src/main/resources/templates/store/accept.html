@@ -20,7 +20,8 @@
 		<h1>Accept Store</h1>
 		<p th:text="${store.get().getName()}"></p>
 		<hr/>
-		<form method="post" autocomplete="on" action="/store/accept/${store.id}">
+		<form method="post" autocomplete="on"
+		      th:attr="action='/store/accept/'+${store.get().getId()}">
 			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 			<br/>
 			<button type="submit" class="btn btn-primary">Accept</button>

@@ -11,6 +11,8 @@ import java.util.Optional;
 public interface StoreService {
 	Optional<Store> getStoreById(long id);
 
+	void acceptStore(long storeId);
+
 	Collection<Store> getAllStores();
 
 	// TODO
