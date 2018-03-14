@@ -26,6 +26,7 @@ public class AddBrandFormValidator implements Validator{
    {
        if(errors.hasFieldErrors("name"))
            return;
+
        if(brandRepository.findOneByName(form.getName()).isPresent()) {
                 errors.rejectValue("name","msg.DuplicateBrandName");
        }
