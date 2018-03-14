@@ -29,7 +29,7 @@ public class ProductController {
         if (!product.isPresent()) {
             return new ModelAndView("error/404");
         }
-        return new ModelAndView("product/view", "product", product);
+        return new ModelAndView("product/view", "product", product.get());
     }
 
 

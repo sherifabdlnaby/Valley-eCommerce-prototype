@@ -46,6 +46,10 @@ public class Product {
         this.brand=brand;
     }
 
+    public long getId() {
+        return id;
+    }
+
     public void setPrice(Float price) {
         this.price = price;
     }

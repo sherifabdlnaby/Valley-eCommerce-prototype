@@ -5,7 +5,7 @@
 <head>
 	<meta charset="utf-8"/>
 	<th:block layout:fragment="customStyle">
-		<title th:text="${product.get().getName()}"></title>
+		<title th:text="${product.getName()}"></title>
 		<!--El Custom Styles le el 7eta deh-->
 		<!-- <link rel="stylesheet" th:href="@{/css/home.css}"> -->
 	</th:block>
@@ -20,10 +20,10 @@
 		<br/>
 		<ul class="list-group">
 			<li class="list-group-item text-muted">Product's Info</li>
-			<li class="list-group-item text-left"><span class="pull-right"><strong>Name: </strong></span><span th:text="${product.get().getName()}"></span></li>
-			<li class="list-group-item text-left"><span class="pull-right"><strong>Brand: </strong></span><span th:text="${product.get().getBrand()}"></span></li>
-			<li class="list-group-item text-left"><span class="pull-right"><strong>Price: </strong></span><span th:text="${product.get().getPrice()}"></span></li>
-			<li class="list-group-item text-left"><span class="pull-right"><strong>Date Added: </strong></span><span th:text="${product.get().getDateTime()}"></span></li>
+			<li class="list-group-item text-left"><span class="pull-right"><strong>Name: </strong></span><span th:text="${product.getName()}"></span></li>
+			<li class="list-group-item text-left"><span class="pull-right"><strong>Brand: </strong></span><span th:text="${product.getBrand()}"></span></li>
+			<li class="list-group-item text-left"><span class="pull-right"><strong>Price: </strong></span><span th:text="${product.getPrice()}"></span></li>
+			<li class="list-group-item text-left"><span class="pull-right"><strong>Date Added: </strong></span><span th:text="${product.getDateTime()}"></span></li>
 		</ul>
 
 
