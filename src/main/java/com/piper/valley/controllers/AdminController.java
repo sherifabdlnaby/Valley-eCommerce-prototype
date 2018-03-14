@@ -3,6 +3,7 @@ package com.piper.valley.controllers;
 import com.piper.valley.forms.AddBrandForm;
 import com.piper.valley.forms.AddProductForm;
 import com.piper.valley.forms.UserCreateForm;
+import com.piper.valley.models.domain.Product;
 import com.piper.valley.models.domain.Store;
 import com.piper.valley.models.service.BrandService;
 import com.piper.valley.models.service.ProductService;
@@ -94,9 +95,9 @@ public class AdminController {
         if (bindingResult.hasErrors())
             return new ModelAndView("admin/addproduct", "addProductForm", addProductForm);
 
-        productService.addProduct(addProductForm);
-
-        return new ModelAndView("redirect:/");
+        Product product=productService.addProduct(addProductForm);
+        long id=product.getId();
+        return new ModelAndView("redirect:/product/view/"+id);
     }
 
     //@PreAuthorize("hasAuthority('ADMIN')")
