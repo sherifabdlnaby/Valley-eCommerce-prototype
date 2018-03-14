@@ -8,7 +8,7 @@ public class Product {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name = "id", nullable = false, updatable = false)
-    private int id;
+    private long id;
 
     @Column(name = "name", nullable = false, updatable = true)
     private String name;
