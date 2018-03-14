@@ -27,6 +27,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 				//Static Resource
 				.antMatchers("/css/**", "/images/**", "/js/**", "/bootstrap/**").permitAll()
 				//.antMatchers("/example/**").hasAuthority("ADMIN")
+				.anyRequest().authenticated()
 				.and()
 				.formLogin()
 				.loginPage("/login")
