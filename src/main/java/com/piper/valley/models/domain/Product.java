@@ -8,34 +8,45 @@ public class Product {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name = "id", nullable = false, updatable = false)
-    private String id;
+    private int id;
 
     @Column(name = "name", nullable = false, updatable = true)
     private String name;
 
     @Column(name = "brand", nullable = false, unique = false )
-    private Brand brand;
+    private String brand;
 
    /* @Column(name = "company", nullable = false, unique = false)
     private Company company;*/
 
     @Column(name = "price", nullable = false, unique = false)
-    private float price;
+    private Double price;
 
     @Column(name = "dateTime", nullable = false, unique = false)
     private Date dateTime;
 
     public Product(){
         this.name = "";
-        this.brand = null;
-        this.price = 0;
+        this.brand = "";
+        this.price = 0.0;
         this.dateTime = null;
     }
-    public Product(String name, Brand brand, float price, Date dateTime) {
+    public Product(String name, String brand, Double price, Date dateTime) {
         this.name = name;
         this.brand=brand;
         this.price = price;
         this.dateTime = dateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", brand="+ brand +
+                ", price="+ price.toString() +
+                ", dateTime="+ dateTime.toString() +
+                '}';
     }
 
 
@@ -44,11 +55,11 @@ public class Product {
         this.name = name;
     }
 
-    public void setBrand(Brand brand) {
+    public void setBrand(String brand) {
         this.brand=brand;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -60,11 +71,11 @@ public class Product {
         return name;
     }
 
-    public Brand getBrand() {
+    public String getBrand() {
         return brand;
     }
 
-    public float getPrice() {
+    public Double getPrice() {
         return price;
     }
 
