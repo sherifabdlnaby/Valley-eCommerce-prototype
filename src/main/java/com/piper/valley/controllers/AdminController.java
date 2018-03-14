@@ -50,14 +50,14 @@ public class AdminController {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////*  CONTROLLER ACTION  *///////////////////////////////////////////
 
-    @RequestMapping(value = "/admin/addbrand", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping(value = "/addbrand", method = RequestMethod.GET)
     public ModelAndView addBrand(@ModelAttribute("addBrandForm") AddBrandForm addBrandForm) {
         return new ModelAndView("admin/addbrand", "addBrandForm", addBrandForm);
     }
     @PreAuthorize("hasAuthority('ADMIN')")
-    @RequestMapping(value = "/admin/addbrand", method = RequestMethod.POST)
-    public ModelAndView addBrand(@Valid @ModelAttribute("addBrandForm")AddBrandForm addBrandForm, BindingResult bindingResult, HttpServletRequest request)
+    @RequestMapping(value = "/addbrand", method = RequestMethod.POST)
+    public ModelAndView addBrand(@Valid @ModelAttribute("addBrandForm")AddBrandForm addBrandForm, BindingResult bindingResult)
     {
         if(bindingResult.hasErrors())
             return new ModelAndView("admin/addbrand","addBrandForm",addBrandForm);
@@ -74,7 +74,7 @@ public class AdminController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/addproduct", method = RequestMethod.POST)
-    public ModelAndView addProduct(@Valid @ModelAttribute("addProductForm") AddProductForm addProductForm, BindingResult bindingResult, HttpServletRequest request) {
+    public ModelAndView addProduct(@Valid @ModelAttribute("addProductForm") AddProductForm addProductForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             return new ModelAndView("admin/addproduct", "addProductForm", addProductForm);
         productService.addProduct(addProductForm);

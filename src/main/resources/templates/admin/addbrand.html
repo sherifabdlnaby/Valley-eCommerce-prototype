@@ -19,7 +19,7 @@
         <br/>
         <h1>Add Brand</h1>
         <hr/>
-        <form method="post" autocomplete="on" th:object="${addBrandForm}" action="/add_brand">
+        <form method="post" autocomplete="on" th:object="${addBrandForm}" action="addbrand">
             <fieldset>
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
