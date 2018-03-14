@@ -12,6 +12,7 @@ public class AddProductFormValidator implements Validator {
 	@Autowired
 	private ProductRepository productRepository;
 
+
 	@Override
 	public boolean supports(Class<?> clazz) {
 		return clazz.equals(AddProductForm.class);
