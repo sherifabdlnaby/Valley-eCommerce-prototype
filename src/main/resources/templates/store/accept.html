@@ -21,7 +21,7 @@
 		<p th:text="${store.get().getName()}"></p>
 		<hr/>
 		<form method="post" autocomplete="on"
-		      th:attr="action='/store/accept/'+${store.get().getId()}">
+		      th:attr="action='/admin/acceptStore/'+${store.get().getId()}">
 			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 			<br/>
 			<button type="submit" class="btn btn-primary">Accept</button>
