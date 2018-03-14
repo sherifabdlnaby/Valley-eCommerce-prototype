@@ -1,43 +1,41 @@
 package com.piper.valley.models.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
-//@Entity // This tells Hibernate to make a table out of this class
+@Entity     // This tells Hibernate to make a table out of this class
+@Table(name = "product")
 public class Product {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private String id;
+    @Column(name = "id", nullable = false, updatable = false)
+    private int id;
+
+    @Column(name = "name", nullable = false, updatable = true)
     private String name;
+
+    @Column(name = "brand", nullable = false, unique = false )
     private String brand;
-    private Company company;
-    private float price;
+
+   /* @Column(name = "company", nullable = false, unique = false)
+    private Company company;*/
+
+    @Column(name = "price", nullable = false, unique = false)
+    private Float price;
+
+    @Column(name = "dateTime", nullable = false, unique = false)
     private Date dateTime;
-    private Boolean accepted ;
+
     public Product(){
         this.name = "";
         this.brand = "";
-        this.price = 0;
+        this.price = 0f;
         this.dateTime = null;
-		this.accepted= false;
     }
-    public Product(String name, String brand, float price, Date dateTime,Boolean accepted,Company company) {
+    public Product(String name, String brand, Float price, Date dateTime) {
         this.name = name;
-        this.brand = brand;
+        this.brand=brand;
         this.price = price;
         this.dateTime = dateTime;
-        this.accepted= accepted;
-        this.company= company;
-    }
-
-    public Boolean getAccepted() {
-        return accepted;
-    }
-
-    public void setAccepted(Boolean accepted) {
-        this.accepted = accepted;
     }
 
     public void setName(String name) {
@@ -45,10 +43,10 @@ public class Product {
     }
 
     public void setBrand(String brand) {
-        this.brand = brand;
+        this.brand=brand;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 
@@ -64,7 +62,7 @@ public class Product {
         return brand;
     }
 
-    public float getPrice() {
+    public Float getPrice() {
         return price;
     }
 
