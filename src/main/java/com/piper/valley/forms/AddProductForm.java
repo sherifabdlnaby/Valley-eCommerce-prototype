@@ -1,6 +1,10 @@
 package com.piper.valley.forms;
-
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.format.annotation.NumberFormat;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 
 public class AddProductForm {
@@ -11,10 +15,9 @@ public class AddProductForm {
 	@NotEmpty
 	private String brand = "";
 
-	@NotEmpty
-	String  price ;
-
-
+	@NotNull
+	@Min(0)
+	private Float price ;
 
 	public String getName() {
 		return name;
@@ -28,29 +31,16 @@ public class AddProductForm {
 		this.brand = brand;
 	}
 
-
-
-	public String getPrice() {
+	public Float getPrice() {
 		return price;
 	}
 
-	public void setPrice(String price) {
+	public void setPrice(Float price) {
 		this.price = price;
 	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
-
-
-	@Override
-	public String toString() {
-		return "AddProductForm{" +
-				"name='" + name + '\'' +
-				", brand='" + brand + '\'' +
-				", price=" + price +
-				'}';
-	}
-
 
 }

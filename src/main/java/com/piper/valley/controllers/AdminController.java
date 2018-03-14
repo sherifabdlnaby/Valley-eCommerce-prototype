@@ -25,11 +25,13 @@ public class AdminController {
     /////////////////////////*  SERVICES, REPOSITORIES AND VALIDATORS SECTION  */////////////////////////////
     @Autowired
     private BrandService brandService;
+
     @Autowired
     private ProductService productService;
 
     @Autowired
     private AddBrandFormValidator brandFormValidator;
+
     @Autowired
     private AddProductFormValidator addProductFormValidator;
 
@@ -77,7 +79,9 @@ public class AdminController {
     public ModelAndView addProduct(@Valid @ModelAttribute("addProductForm") AddProductForm addProductForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             return new ModelAndView("admin/addproduct", "addProductForm", addProductForm);
+
         productService.addProduct(addProductForm);
+
         return new ModelAndView("redirect:/");
     }
 

@@ -12,7 +12,6 @@ public class AddProductFormValidator implements Validator {
 	@Autowired
 	private ProductRepository productRepository;
 
-
 	@Override
 	public boolean supports(Class<?> clazz) {
 		return clazz.equals(AddProductForm.class);
@@ -21,14 +20,21 @@ public class AddProductFormValidator implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		AddProductForm form = (AddProductForm) target;
-		validatePrice(errors,form);
 
+		//Not wanted now, validated using @Min(), Kept for future.
+		//validatePrice(errors,form);
+		//TODO validate that Brand and Company Exists in DB and a Unique Name for the product with the same brands
 	}
 
 	private void validatePrice(Errors errors,AddProductForm form)
 	{
-		if(Double.parseDouble(form.getPrice())<0)
-			errors.rejectValue("price","msg.Negative");
+		//Avoid if it is Null
+		if(errors.hasFieldErrors("price"))
+			return;
+
+		if(form.getPrice() < 0)
+			errors.rejectValue("price","msg.PriceNegative");
+
 	}
 
 

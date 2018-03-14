@@ -20,7 +20,7 @@ public class Product {
     private Company company;*/
 
     @Column(name = "price", nullable = false, unique = false)
-    private Double price;
+    private Float price;
 
     @Column(name = "dateTime", nullable = false, unique = false)
     private Date dateTime;
@@ -28,28 +28,15 @@ public class Product {
     public Product(){
         this.name = "";
         this.brand = "";
-        this.price = 0.0;
+        this.price = 0f;
         this.dateTime = null;
     }
-    public Product(String name, String brand, Double price, Date dateTime) {
+    public Product(String name, String brand, Float price, Date dateTime) {
         this.name = name;
         this.brand=brand;
         this.price = price;
         this.dateTime = dateTime;
     }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", brand="+ brand +
-                ", price="+ price.toString() +
-                ", dateTime="+ dateTime.toString() +
-                '}';
-    }
-
-
 
     public void setName(String name) {
         this.name = name;
@@ -59,7 +46,7 @@ public class Product {
         this.brand=brand;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 
@@ -75,7 +62,7 @@ public class Product {
         return brand;
     }
 
-    public Double getPrice() {
+    public Float getPrice() {
         return price;
     }
 
