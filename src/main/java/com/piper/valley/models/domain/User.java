@@ -1,6 +1,8 @@
 package com.piper.valley.models.domain;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -27,6 +29,11 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private Role role;
 
+	/*@OneToMany(cascade = CascadeType.ALL,
+			fetch = FetchType.LAZY,
+			mappedBy = "store")
+	private Set<Store> stores = new HashSet<>();
+*/
 	public String getUsername() {
 		return username;
 	}
@@ -73,7 +80,14 @@ public class User {
 		this.role = role;
 	}
 
-	@Override
+	/*public Set<Store> getStores() {
+		return this.stores;
+	}
+
+	public void setStores(Set<Store> stores) {
+		this.stores = stores;
+	}
+*/	@Override
 	public String toString() {
 		return "User{" +
 				"id=" + id +

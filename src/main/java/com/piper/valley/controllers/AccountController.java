@@ -1,7 +1,11 @@
 package com.piper.valley.controllers;
 
+import com.piper.valley.auth.CurrentUser;
+import com.piper.valley.forms.AddStoreForm;
 import com.piper.valley.forms.UserCreateForm;
+import com.piper.valley.models.service.StoreService;
 import com.piper.valley.models.service.UserService;
+import com.piper.valley.validators.AddStoreFormValidator;
 import com.piper.valley.validators.UserCreateFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,10 +26,20 @@ public class AccountController {
 	private UserService userService;
 
 	@Autowired
+	private StoreService storeService;
+
+	@Autowired
 	private UserCreateFormValidator userCreateFormValidator;
 
+	@Autowired
+	private AddStoreFormValidator addStoreFormValidator;
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////*  VALIDATORS BINDING SECTION  *//////////////////////////////////////
+	@InitBinder("addStoreForm")
+	public void addStoreFormInitBinder(WebDataBinder binder) {
+		binder.addValidators(addStoreFormValidator);
+	}
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 	@InitBinder("registerForm")
@@ -68,6 +82,23 @@ public class AccountController {
 
 		return new ModelAndView("redirect:/");
 	}
+	//@PreAuthorize("@currentUserServiceImpl.canAccessUser(principal, #pathVariable)")
+	//@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(value = "/add/store", method = RequestMethod.GET)
+	public ModelAndView addStore(@ModelAttribute("addStoreForm") AddStoreForm addStoreForm) {
+		return new ModelAndView("user/addstore", "addStoreForm", addStoreForm);
+	}
 
+	//@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(value = "/add/store", method = RequestMethod.POST)
+	public ModelAndView addStore(@Valid @ModelAttribute("addStoreForm") AddStoreForm addStoreForm, BindingResult bindingResult, HttpServletRequest request, CurrentUser currentUser) {
+		if (bindingResult.hasErrors())
+			return new ModelAndView("user/addstore", "addStoreForm", addStoreForm);
+
+		//Save to DB
+		storeService.add(addStoreForm,currentUser);
+
+		return new ModelAndView("redirect:/");
+	}
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

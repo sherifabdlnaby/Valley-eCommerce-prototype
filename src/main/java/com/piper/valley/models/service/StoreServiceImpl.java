@@ -1,7 +1,10 @@
 package com.piper.valley.models.service;
 
+import com.piper.valley.auth.CurrentUser;
 import com.piper.valley.models.domain.Store;
+import com.piper.valley.models.domain.Type;
 import com.piper.valley.models.repository.StoreRepository;
+import com.piper.valley.forms.AddStoreForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +15,11 @@ import java.util.Optional;
 public class StoreServiceImpl implements StoreService {
 	@Autowired
 	private StoreRepository storeRepository;
+
+	@Autowired
+	public StoreServiceImpl(StoreRepository storeRepository) {
+		this.storeRepository = storeRepository;
+	}
 
 	@Override
 	public Optional<Store> getStoreById(long id) {
@@ -29,13 +37,18 @@ public class StoreServiceImpl implements StoreService {
 
 	@Override
 	public Collection<Store> getAllStores() {
-		// TODO
-		return null;
+		return storeRepository.findAll();
 	}
 
-	// TODO
-//	@Override
-//	public Store add(StoreCreateForm form) {
-//		return null;
-//	}
+
+	@Override
+	public Store add(AddStoreForm form, CurrentUser user) {
+		Store store=new Store();
+		store.setName(form.getName());
+		store.setAddress(form.getAddress());
+		store.setPhone(form.getPhone());
+		store.setType(Type.valueOf(form.getType()));
+		store.setOwner_id(user.getUser().getId());
+		return storeRepository.save(store);
+	}
 }

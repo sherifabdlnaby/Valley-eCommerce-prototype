@@ -1,8 +1,8 @@
 package com.piper.valley.models.service;
 
-import com.piper.valley.forms.UserCreateForm;
+import com.piper.valley.auth.CurrentUser;
+import com.piper.valley.forms.AddStoreForm;
 import com.piper.valley.models.domain.Store;
-import com.piper.valley.models.domain.User;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -15,6 +15,6 @@ public interface StoreService {
 
 	Collection<Store> getAllStores();
 
-	// TODO
-	//Store add(StoreCreateForm form);
+	Store add(AddStoreForm form, CurrentUser user);
 }
+
