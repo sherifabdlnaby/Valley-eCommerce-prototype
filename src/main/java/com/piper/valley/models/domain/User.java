@@ -1,11 +1,18 @@
 package com.piper.valley.models.domain;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.FetchProfile;
+import org.springframework.data.repository.cdi.Eager;
+
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
+@Inheritance( strategy = InheritanceType.JOINED )
 public class User {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false, updatable = false)
@@ -23,9 +30,11 @@ public class User {
 	@Column(name = "name", nullable = false, unique = false)
 	private String name;
 
-	@Column(name = "role", nullable = false)
+	@ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+	@JoinTable(name = "userRoles", joinColumns = @JoinColumn(name = "id"))
+	@Column(name = "roles", nullable = false)
 	@Enumerated(EnumType.STRING)
-	private Role role;
+	private Collection<Role> roles;
 
 	public String getUsername() {
 		return username;
@@ -38,8 +47,6 @@ public class User {
 	public String getName() {
 		return name;
 	}
-
-	//TODO add more user attributes
 
 	public void setName(String name) {
 		this.name = name;
@@ -65,21 +72,11 @@ public class User {
 		this.passwordHash = passwordHash;
 	}
 
-	public Role getRole() {
-		return role;
+	public Collection<Role> getRole() {
+		return roles;
 	}
 
-	public void setRole(Role role) {
-		this.role = role;
-	}
-
-	@Override
-	public String toString() {
-		return "User{" +
-				"id=" + id +
-				", email='" + email.replaceFirst("@.*", "@***") +
-				", passwordHash='" + passwordHash.substring(0, 10) +
-				", role=" + role +
-				'}';
+	public void setRole(Collection<Role> roles) {
+		this.roles = roles;
 	}
 }
