@@ -36,6 +36,9 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private Collection<Role> roles;
 
+	@OneToMany(mappedBy = "user")
+	private List<Order> orders;
+
 	public String getUsername() {
 		return username;
 	}

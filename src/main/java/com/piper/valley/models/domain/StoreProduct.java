@@ -1,6 +1,7 @@
 package com.piper.valley.models.domain;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class StoreProduct {
@@ -15,6 +16,9 @@ public class StoreProduct {
 
 	@ManyToOne
 	private Store store;
+
+	@OneToMany(mappedBy = "storeProduct")
+	private List<Order> orders;
 
 	public Product getProduct() {
 		return product;
