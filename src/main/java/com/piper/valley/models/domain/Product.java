@@ -6,7 +6,7 @@ import java.util.List;
 @Entity
 @Table(name = "product")
 @Inheritance( strategy = InheritanceType.JOINED )
-public class Product {
+public abstract class Product {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name = "id", nullable = false, updatable = false)
@@ -44,7 +44,7 @@ public class Product {
         this.dateTime = dateTime;
     }
 
-    public void setName(String name) {
+	public void setName(String name) {
         this.name = name;
     }
 

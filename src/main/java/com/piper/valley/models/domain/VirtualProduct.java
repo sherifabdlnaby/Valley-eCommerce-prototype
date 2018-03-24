@@ -6,7 +6,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity
 @PrimaryKeyJoinColumn(referencedColumnName="id")
-public class VirtualProduct extends User {
+public class VirtualProduct extends Product {
 	private String serial;
 
 	public String getSerial() {

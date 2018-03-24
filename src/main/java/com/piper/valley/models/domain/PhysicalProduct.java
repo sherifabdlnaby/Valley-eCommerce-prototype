@@ -6,7 +6,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity
 @PrimaryKeyJoinColumn(referencedColumnName="id")
-public class PhysicalProduct extends User {
+public class PhysicalProduct extends Product {
 	private float weight;
 	private float length;
 	private float width;

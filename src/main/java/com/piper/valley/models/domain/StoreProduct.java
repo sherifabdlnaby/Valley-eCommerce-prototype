@@ -14,6 +14,9 @@ public class StoreProduct {
 	@ManyToOne
 	private Product product;
 
+	@ManyToOne
+	private Store store;
+
 	public Product getProduct() {
 		return product;
 	}

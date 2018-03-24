@@ -1,6 +1,7 @@
 package com.piper.valley.models.service;
 
 import com.piper.valley.forms.AddProductForm;
+import com.piper.valley.models.domain.PhysicalProduct;
 import com.piper.valley.models.domain.Product;
 import com.piper.valley.models.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,8 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Product addProduct(AddProductForm productForm) {
-		Product product=new Product();
+		//TODO Add Virtual/Physical Product
+		Product product=new PhysicalProduct();
 		product.setBrand(productForm.getBrand());
 		product.setName(productForm.getName());
 		product.setAveragePrice(productForm.getPrice());
