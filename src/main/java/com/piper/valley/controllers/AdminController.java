@@ -3,6 +3,7 @@ package com.piper.valley.controllers;
 import com.piper.valley.forms.AddBrandForm;
 import com.piper.valley.forms.AddProductForm;
 import com.piper.valley.forms.UserCreateForm;
+import com.piper.valley.models.domain.Brand;
 import com.piper.valley.models.domain.Product;
 import com.piper.valley.models.domain.Store;
 import com.piper.valley.models.service.BrandService;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.Optional;
 
 @Controller
@@ -86,14 +88,22 @@ public class AdminController {
    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/admin/addproduct", method = RequestMethod.GET)
     public ModelAndView addProduct(@ModelAttribute("addProductForm") AddProductForm addProductForm) {
-        return new ModelAndView("admin/addproduct", "addProductForm", addProductForm);
+       Collection<Brand>allBrands=brandService.getAllBrands();
+       ModelAndView mv=new ModelAndView("admin/addproduct");
+       mv.addObject("addProductForm",addProductForm);
+       mv.addObject("brands",allBrands);
+        return mv;
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/admin/addproduct", method = RequestMethod.POST)
     public ModelAndView addProduct(@Valid @ModelAttribute("addProductForm") AddProductForm addProductForm, BindingResult bindingResult) {
+        Collection<Brand>allBrands=brandService.getAllBrands();
+        ModelAndView mv=new ModelAndView("admin/addproduct");
+        mv.addObject("addProductForm",addProductForm);
+        mv.addObject("brands",allBrands);
         if (bindingResult.hasErrors())
-            return new ModelAndView("admin/addproduct", "addProductForm", addProductForm);
+            return mv;
 
         Product product=productService.addProduct(addProductForm);
         long id=product.getId();
