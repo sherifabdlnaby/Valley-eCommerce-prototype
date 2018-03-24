@@ -6,7 +6,6 @@ import com.piper.valley.models.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
@@ -33,7 +32,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Optional<Product> getPriceBetween(double start,double end)
 	{
-		return productRepository.findByPriceBetween(start,end);
+		return productRepository.findByAveragePriceBetween(start,end);
 	}
 
 	@Override
@@ -47,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
 		Product product=new Product();
 		product.setBrand(productForm.getBrand());
 		product.setName(productForm.getName());
-		product.setPrice(productForm.getPrice());
+		product.setAveragePrice(productForm.getPrice());
 		product.setDateTime(new Date());
 		return productRepository.save(product);
 	}

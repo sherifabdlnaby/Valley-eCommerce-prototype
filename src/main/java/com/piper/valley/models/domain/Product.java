@@ -1,9 +1,10 @@
 package com.piper.valley.models.domain;
-
 import javax.persistence.*;
 import java.util.Date;
-@Entity     // This tells Hibernate to make a table out of this class
+
+@Entity
 @Table(name = "product")
+@Inheritance( strategy = InheritanceType.JOINED )
 public class Product {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -19,8 +20,8 @@ public class Product {
    /* @Column(name = "company", nullable = false, unique = false)
     private Company company;*/
 
-    @Column(name = "price", nullable = false, unique = false)
-    private Float price;
+    @Column(name = "averagePrice", nullable = false, unique = false)
+    private Float averagePrice;
 
     @Column(name = "dateTime", nullable = false, unique = false)
     private Date dateTime;
@@ -28,13 +29,14 @@ public class Product {
     public Product(){
         this.name = "";
         this.brand = "";
-        this.price = 0f;
+        this.averagePrice = 0f;
         this.dateTime = null;
     }
-    public Product(String name, String brand, Float price, Date dateTime) {
+
+    public Product(String name, String brand, Float averagePrice, Date dateTime) {
         this.name = name;
         this.brand=brand;
-        this.price = price;
+        this.averagePrice = averagePrice;
         this.dateTime = dateTime;
     }
 
@@ -50,8 +52,8 @@ public class Product {
         return id;
     }
 
-    public void setPrice(Float price) {
-        this.price = price;
+    public void setAveragePrice(Float averagePrice) {
+        this.averagePrice = averagePrice;
     }
 
     public void setDateTime(Date dateTime) {
@@ -66,8 +68,8 @@ public class Product {
         return brand;
     }
 
-    public Float getPrice() {
-        return price;
+    public Float getAveragePrice() {
+        return averagePrice;
     }
 
     public Date getDateTime() {
