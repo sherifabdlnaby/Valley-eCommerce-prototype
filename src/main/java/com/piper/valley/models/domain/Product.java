@@ -1,6 +1,7 @@
 package com.piper.valley.models.domain;
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "product")
@@ -25,6 +26,9 @@ public class Product {
 
     @Column(name = "dateTime", nullable = false, unique = false)
     private Date dateTime;
+
+	@OneToMany(mappedBy = "product")
+	private List<StoreProduct> storeProducts;
 
     public Product(){
         this.name = "";
