@@ -6,8 +6,8 @@ import java.util.List;
 
 @Entity
 @PrimaryKeyJoinColumn(referencedColumnName="id")
-public class UserStoreOwner extends User {
-	@OneToMany(mappedBy = "userStoreOwner")
+public class StoreOwner extends User {
+	@OneToMany(mappedBy = "storeOwner")
 	private List<Store> stores;
 }
 

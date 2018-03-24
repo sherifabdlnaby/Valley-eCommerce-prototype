@@ -3,7 +3,6 @@ package com.piper.valley.models.domain;
 import javax.persistence.*;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 public class StoreProduct {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

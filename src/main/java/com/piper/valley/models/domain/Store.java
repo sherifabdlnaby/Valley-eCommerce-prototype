@@ -4,9 +4,10 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity // This tells Hibernate to make a table out of this class
+@Entity
 @Table(name = "store")
-@Inheritance( strategy = InheritanceType.JOINED )
+@Inheritance( strategy = InheritanceType.SINGLE_TABLE )
+@DiscriminatorColumn(name = "storeType")
 public abstract class Store {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,7 +21,7 @@ public abstract class Store {
 	private boolean accepted;
 
 	@ManyToOne
-	protected UserStoreOwner userStoreOwner;
+	protected StoreOwner storeOwner;
 
 	@OneToMany(mappedBy = "store")
 	protected List<StoreProduct> storeProducts;
@@ -40,12 +41,12 @@ public abstract class Store {
 		return true;
 	}
 
-	public UserStoreOwner getUserStoreOwner() {
-		return userStoreOwner;
+	public StoreOwner getStoreOwner() {
+		return storeOwner;
 	}
 
-	public void setUserStoreOwner(UserStoreOwner userStoreOwner) {
-		this.userStoreOwner = userStoreOwner;
+	public void setStoreOwner(StoreOwner storeOwner) {
+		this.storeOwner = storeOwner;
 	}
 
 	public long getId() {
