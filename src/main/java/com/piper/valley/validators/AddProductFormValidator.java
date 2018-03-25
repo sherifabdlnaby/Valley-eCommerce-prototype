@@ -12,7 +12,6 @@ public class AddProductFormValidator implements Validator {
 	@Autowired
 	private ProductRepository productRepository;
 
-
 	@Override
 	public boolean supports(Class<?> clazz) {
 		return clazz.equals(AddProductForm.class);
@@ -21,26 +20,33 @@ public class AddProductFormValidator implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		AddProductForm form = (AddProductForm) target;
-
-		//Not wanted now, validated using @Min(), Kept for future.
-		//validatePrice(errors,form);
-		//TODO validate that Brand and Company Exists in DB and a Unique Name for the product with the same brands
+		if(form.getPhysicalProduct())
+			validatePhysical(errors, form);
+		else
+			validateVirtual(errors, form);
 	}
 
-	private void validatePrice(Errors errors,AddProductForm form)
+	private void validatePhysical(Errors errors,AddProductForm form)
 	{
-		//Avoid if it is Null
-		if(errors.hasFieldErrors("price"))
-			return;
+		if(form.getLength() == null)
+			errors.rejectValue("length","NotEmpty");
 
-		if(form.getAveragePrice() < 0)
-			errors.rejectValue("price","msg.PriceNegative");
+		if(form.getWidth() == null)
+			errors.rejectValue("width","NotEmpty");
 
+		if(form.getHeight() == null)
+			errors.rejectValue("height","NotEmpty");
+
+		if(form.getWeight() == null)
+			errors.rejectValue("weight","NotEmpty");
 	}
 
-
-
-
-
+	private void validateVirtual(Errors errors,AddProductForm form)
+	{
+		if(form.getSerial() == null || form.getSerial().equals(""))
+			errors.rejectValue("serial","NotEmpty");
+		if(form.getSerial().length() < 2 || form.getSerial().length() > 60)
+			errors.rejectValue("serial","msg.SerialSizeRange");
+	}
 
 }

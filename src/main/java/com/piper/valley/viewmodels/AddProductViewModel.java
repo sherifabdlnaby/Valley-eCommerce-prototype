@@ -28,4 +28,12 @@ public class AddProductViewModel {
 		model.put("companies"       , companyService.getAllCompanies());
 		return model;
 	}
+
+	public ModelAndView modelAndView(String path,AddProductForm form) {
+		ModelAndView modelAndView = new ModelAndView(path);
+		modelAndView.addObject("addProductForm"  , form);
+		modelAndView.addObject("brands"          , brandService.getAllBrands());
+		modelAndView.addObject("companies"       , companyService.getAllCompanies());
+		return modelAndView;
+	}
 }

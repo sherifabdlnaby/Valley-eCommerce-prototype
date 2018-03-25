@@ -13,21 +13,24 @@
 <!-- Body !-->
 <body layout:fragment="content">
 <!--Content Goes Here!-->
-<div class="col-lg-12">
-    <div class="col-lg-4">
-        <br/>
-        <br/>
-        <h1>Add Product</h1>
-        <hr/>
-        <form method="post" autocomplete="on" th:object="${addProductForm}" action="/admin/addproduct">
-            <fieldset>
+<div class="col-lg-8">
+    <br/>
+    <br/>
+    <h1>Add Product</h1>
+    <hr/>
+    <form method="post" autocomplete="on" th:object="${addProductForm}" action="/admin/addproduct">
+        <div class="row">
+            <div class="col-lg-6">
+                <br/>
+                <br/>
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-
                 <div class="form-group">
                     <label class="col-form-label">Name</label>
                     <input type="text" class="form-control" placeholder="Name"
                            th:field="*{name}" th:errorclass="is-invalid"/>
-                    <div class="invalid-feedback" th:if="*{#fields.hasErrors('name')}" th:errors="*{name}">Unspecified Error</div>
+                    <div class="invalid-feedback" th:if="*{#fields.hasErrors('name')}" th:errors="*{name}">Unspecified
+                        Error
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -36,7 +39,9 @@
                         <option th:each="company : ${companies}" th:value="${company.id}"
                                 th:text="${company.name}"></option>
                     </select>
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('companyId')}" th:errors="*{companyId}">Unspecified Error</div>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('companyId')}" th:errors="*{companyId}">
+                        Unspecified Error
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -45,26 +50,109 @@
                         <option th:each="brand : ${brands}" th:value="${brand.id}"
                                 th:text="${brand.name}"></option>
                     </select>
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('brandId')}" th:errors="*{brandId}">Unspecified Error</div>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('brandId')}" th:errors="*{brandId}">
+                        Unspecified Error
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-form-label">Average Price</label>
                     <input type="text" th:errorclass="is-invalid" class="form-control" placeholder="Average Price"
-                           th:field="*{averagePrice}" />
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('averagePrice')}" th:errors="*{averagePrice}">Unspecified Error</div>
+                           th:field="*{averagePrice}"/>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('averagePrice')}"
+                         th:errors="*{averagePrice}">Unspecified Error
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+
+
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox">
+                        <input onchange="myToggle(this)" type="checkbox" class="custom-control-input"
+                               th:field="*{physicalProduct}"/>
+                        <label class="custom-control-label" th:for="${#ids.prev('physicalProduct')}">Physical / Virtual
+                            Product ?</label>
+                    </div>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('physicalProduct')}"
+                         th:errors="*{physicalProduct}">Unspecified Error
+                    </div>
                 </div>
 
+                <div id="physical-form" th:style="*{physicalProduct} ? 'display:block' : 'display:none'" >
+                    <div class="form-group">
+                        <label class="col-form-label">Length</label>
+                        <input type="text" th:errorclass="is-invalid" class="form-control" placeholder="Length"
+                               th:field="*{length}"/>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('length')}" th:errors="*{length}">
+                            Unspecified Error
+                        </div>
+                    </div>
 
-                <br/>
-                <button type="submit" class="btn btn-primary">Add</button>
-            </fieldset>
-        </form>
-    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Width</label>
+                        <input type="text" th:errorclass="is-invalid" class="form-control" placeholder="Width"
+                               th:field="*{width}"/>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('width')}" th:errors="*{width}">
+                            Unspecified
+                            Error
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-form-label">Height</label>
+                        <input type="text" th:errorclass="is-invalid" class="form-control" placeholder="Height"
+                               th:field="*{height}"/>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('height')}" th:errors="*{height}">
+                            Unspecified Error
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-form-label">Weight</label>
+                        <input type="text" th:errorclass="is-invalid" class="form-control" placeholder="Weight"
+                               th:field="*{weight}"/>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('weight')}" th:errors="*{weight}">
+                            Unspecified Error
+                        </div>
+                    </div>
+                </div>
+
+                <div id="virtual-form" th:style="*{physicalProduct} ? 'display:none' : 'display:block'" >
+                    <div class="form-group">
+                        <label class="col-form-label">Serial</label>
+                        <input type="text" th:errorclass="is-invalid" class="form-control" placeholder="Length"
+                               th:field="*{serial}"/>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('serial')}" th:errors="*{serial}">
+                            Unspecified Error
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br/>
+            <div class="col-lg-6">
+            <button type="submit" class="btn btn-primary">Add Product</button>
+            </div>
+        </div>
+    </form>
 </div>
 <!--El Custom Scripts le el 7eta deh-->
 <th:block layout:fragment="customScripts">
-
+    <script>
+        function myToggle(field) {
+            var x = document.getElementById('physical-form');
+            var y = document.getElementById('virtual-form');
+            if (field.checked === true) {
+                x.style.display = 'block';
+                y.style.display = 'none';
+            } else {
+                x.style.display = 'none';
+                y.style.display = 'block';
+            }
+        }
+    </script>
 </th:block>
 </body>
 </html>
