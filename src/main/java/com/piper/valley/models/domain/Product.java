@@ -18,8 +18,11 @@ public abstract class Product {
     @Column(name = "brand", nullable = false, unique = false )
     private String brand;
 
-   /* @Column(name = "company", nullable = false, unique = false)
-    private Company company;*/
+	@ManyToOne
+	private Brand brandObj; //Obj suffix temp.
+
+	@ManyToOne
+	private Company company; //Obj suffix temp.
 
     @Column(name = "averagePrice", nullable = false, unique = false)
     private Float averagePrice;

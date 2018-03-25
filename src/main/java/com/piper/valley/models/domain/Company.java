@@ -10,7 +10,7 @@ public class Company {
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
 	@Column(name = "id", nullable = false, updatable = false)
-	private int id;
+	private Long id;
 
     private String name;
     @OneToMany(mappedBy = "company")
