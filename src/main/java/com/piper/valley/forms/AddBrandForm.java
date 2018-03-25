@@ -2,12 +2,13 @@ package com.piper.valley.forms;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.Size;
+
 public class AddBrandForm {
 
     @NotEmpty
-
+    @Size(min = 2, max = 40)
     private String name="";
-
 
 
     public String getName() {
@@ -16,11 +17,5 @@ public class AddBrandForm {
 
     public void setName(String name) {
         this.name = name;
-    }
-    @Override
-    public String toString() {
-        return "AddBrandForm{" +
-                "name='" + name + '\'' +
-                '}';
     }
 }

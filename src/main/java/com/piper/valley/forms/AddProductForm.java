@@ -1,4 +1,5 @@
 package com.piper.valley.forms;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.stereotype.Component;
@@ -11,7 +12,7 @@ import javax.validation.constraints.Size;
 public class AddProductForm {
 
 	@NotEmpty
-	@Size(max = 140, min = 3)
+	@Length(max = 140, min = 3)
 	private String name = "";
 
 	@NotNull
