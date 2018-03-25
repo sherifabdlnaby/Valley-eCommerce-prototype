@@ -1,5 +1,4 @@
 package com.piper.valley.controllers.advice;
-
 import com.piper.valley.auth.CurrentUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.ControllerAdvice;
