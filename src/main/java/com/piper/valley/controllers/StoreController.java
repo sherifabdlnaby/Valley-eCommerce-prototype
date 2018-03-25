@@ -1,15 +1,18 @@
 package com.piper.valley.controllers;
 
+import com.piper.valley.auth.CurrentUser;
 import com.piper.valley.forms.AddBrandForm;
 import com.piper.valley.forms.AddCompanyForm;
 import com.piper.valley.forms.AddProductForm;
 import com.piper.valley.forms.AddStoreForm;
 import com.piper.valley.models.domain.Product;
+import com.piper.valley.models.domain.Role;
 import com.piper.valley.models.domain.Store;
 import com.piper.valley.models.service.BrandService;
 import com.piper.valley.models.service.CompanyService;
 import com.piper.valley.models.service.ProductService;
 import com.piper.valley.models.service.StoreService;
+import com.piper.valley.utilities.AuthUtil;
 import com.piper.valley.validators.AddBrandFormValidator;
 import com.piper.valley.validators.AddCompanyFormValidator;
 import com.piper.valley.validators.AddProductFormValidator;
@@ -50,15 +53,21 @@ public class StoreController {
     ///////////////////////////////////////*  CONTROLLER ACTION  *///////////////////////////////////////////
 
     @RequestMapping(value = "/store/add", method = RequestMethod.GET)
-    public ModelAndView addBrand(@ModelAttribute("addStoreForm") AddStoreForm addStoreForm) {
+    public ModelAndView addStore(@ModelAttribute("addStoreForm") AddStoreForm addStoreForm) {
         return new ModelAndView("store/add", "addStoreForm", addStoreForm);
     }
 
     @RequestMapping(value = "/store/add", method = RequestMethod.POST)
-    public ModelAndView addBrand(@Valid @ModelAttribute("addStoreForm")AddStoreForm addStoreForm, BindingResult bindingResult)
+    public ModelAndView addStore(@Valid @ModelAttribute("addStoreForm")AddStoreForm addStoreForm, BindingResult bindingResult, CurrentUser currentUser)
     {
         if(bindingResult.hasErrors())
             return new ModelAndView("store/add","AddStoreForm",addStoreForm);
+
+        Store x = storeService.add(addStoreForm, currentUser.getUser());
+
+		if(true)
+		    //Add Role to Runtime Session
+            AuthUtil.addRoleAtRuntime(Role.STORE_OWNER);
 
         return new ModelAndView("redirect:/");
     }
