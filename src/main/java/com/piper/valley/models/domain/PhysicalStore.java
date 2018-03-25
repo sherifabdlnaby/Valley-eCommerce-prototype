@@ -10,6 +10,14 @@ import java.util.List;
 @Entity
 @DiscriminatorValue(value = "physical")
 public class PhysicalStore extends Store {
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
 	private String address;
 }
 

@@ -12,15 +12,15 @@ public abstract class Store {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", nullable = false, updatable = false)
-	private long id;
+	protected Long id;
 
 	@Column(name = "name", nullable = false, unique = true)
-	private String name;
+	protected String name;
 
 	@Column(name = "accepted", nullable = false)
-	private boolean accepted;
+	protected boolean accepted;
 
-	@ManyToOne
+	@ManyToOne(optional = false)
 	protected StoreOwner storeOwner;
 
 	@OneToMany(mappedBy = "store")
@@ -49,11 +49,11 @@ public abstract class Store {
 		this.storeOwner = storeOwner;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
