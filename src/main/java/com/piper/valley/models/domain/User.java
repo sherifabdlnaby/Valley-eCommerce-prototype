@@ -33,7 +33,7 @@ public class User {
 	@Column(name = "roles", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Set<Role> roles;
-	//TODO MAKE SET OF ROLES NOT COLLECITON
+
 	@OneToMany(mappedBy = "user")
 	private List<Order> orders;
 
