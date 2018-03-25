@@ -10,7 +10,7 @@ public class Company {
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
 	@Column(name = "id", nullable = false, updatable = false)
-	private Long id;
+	private Integer id;
 
     private String name;
     @OneToMany(mappedBy = "company")
@@ -31,4 +31,12 @@ public class Company {
     public void setProducts(ArrayList<Product> products) {
         this.products = products;
     }
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 }

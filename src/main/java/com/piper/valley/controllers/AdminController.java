@@ -13,6 +13,7 @@ import com.piper.valley.models.service.StoreService;
 import com.piper.valley.validators.AddBrandFormValidator;
 import com.piper.valley.validators.AddCompanyFormValidator;
 import com.piper.valley.validators.AddProductFormValidator;
+import com.piper.valley.viewmodels.AddProductViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -49,6 +50,9 @@ public class AdminController {
 
 	@Autowired
 	private AddCompanyFormValidator addCompanyFormValidator;
+
+	@Autowired
+	private AddProductViewModel addProductViewModel;
 
 	//	@Autowired
 //	private AddStoreFormValidator addStoreFormValidator;
@@ -110,21 +114,21 @@ public class AdminController {
    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/admin/addproduct", method = RequestMethod.GET)
     public ModelAndView addProduct(@ModelAttribute("addProductForm") AddProductForm addProductForm) {
-        return new ModelAndView("admin/addproduct", "addProductForm", addProductForm);
+	   return new ModelAndView("admin/addproduct", addProductViewModel.create(addProductForm));
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/admin/addproduct", method = RequestMethod.POST)
     public ModelAndView addProduct(@Valid @ModelAttribute("addProductForm") AddProductForm addProductForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors())
-            return new ModelAndView("admin/addproduct", "addProductForm", addProductForm);
+	        return new ModelAndView("admin/addproduct", addProductViewModel.create(addProductForm));
 
-        Product product=productService.addProduct(addProductForm);
-        long id=product.getId();
-        return new ModelAndView("redirect:/product/view/"+id);
+        Product product = productService.addProduct(addProductForm);
+
+        return new ModelAndView("redirect:/product/view/"+product.getId());
     }
 
-    //@PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/admin/acceptStore/{id}", method = RequestMethod.GET)
     public ModelAndView viewAndAcceptStore(@PathVariable("id") long id) {
         Optional<Store> store = storeService.getStoreById(id);
@@ -137,7 +141,7 @@ public class AdminController {
         return new ModelAndView("store/accept", "store", store);
     }
 
-    //	@PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/admin/acceptStore/{id}", method = RequestMethod.POST)
     public ModelAndView acceptStore(@PathVariable("id") long id) {
         storeService.acceptStore(id);

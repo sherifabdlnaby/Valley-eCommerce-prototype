@@ -9,19 +9,19 @@ public class Brand {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name = "id", nullable = false, updatable = false)
-    private int id;
+    private Integer id;
 
     @Column(name = "name", nullable = false, updatable = true)
     private String name;
 
-    @OneToMany(mappedBy = "brandObj")
+    @OneToMany(mappedBy = "brand")
     private List<Product> products;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

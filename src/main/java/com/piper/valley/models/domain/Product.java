@@ -10,16 +10,13 @@ public abstract class Product {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name = "id", nullable = false, updatable = false)
-    private long id;
+    private Integer id;
 
     @Column(name = "name", nullable = false, updatable = true)
     private String name;
 
-    @Column(name = "brand", nullable = false, unique = false )
-    private String brand;
-
 	@ManyToOne
-	private Brand brandObj; //Obj suffix temp.
+	private Brand brand; //Obj suffix temp.
 
 	@ManyToOne
 	private Company company; //Obj suffix temp.
@@ -35,14 +32,13 @@ public abstract class Product {
 
     public Product(){
         this.name = "";
-        this.brand = "";
         this.averagePrice = 0f;
         this.dateTime = null;
     }
 
-    public Product(String name, String brand, Float averagePrice, Date dateTime) {
+    public Product(String name, Brand brand, Float averagePrice, Date dateTime) {
         this.name = name;
-        this.brand=brand;
+        this.brand = brand;
         this.averagePrice = averagePrice;
         this.dateTime = dateTime;
     }
@@ -51,15 +47,19 @@ public abstract class Product {
         this.name = name;
     }
 
-    public void setBrand(String brand) {
+    public void setBrand(Brand brand) {
         this.brand=brand;
     }
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setAveragePrice(Float averagePrice) {
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public void setAveragePrice(Float averagePrice) {
         this.averagePrice = averagePrice;
     }
 
@@ -71,7 +71,7 @@ public abstract class Product {
         return name;
     }
 
-    public String getBrand() {
+    public Brand getBrand() {
         return brand;
     }
 
@@ -82,4 +82,12 @@ public abstract class Product {
     public Date getDateTime() {
         return dateTime;
     }
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
 }

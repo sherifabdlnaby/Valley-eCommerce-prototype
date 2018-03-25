@@ -1,17 +1,21 @@
 package com.piper.valley.forms;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-
+@Component
 public class AddProductForm {
 
 	@NotEmpty
 	private String name = "";
 
-	@NotEmpty
-	private String brand = "";
+	@NotNull
+	private Integer companyId;
+
+	@NotNull
+	private Integer brandId;
 
 	@NotNull
 	@Min(0)
@@ -19,14 +23,6 @@ public class AddProductForm {
 
 	public String getName() {
 		return name;
-	}
-
-	public String getBrand() {
-		return brand;
-	}
-
-	public void setBrand(String brand) {
-		this.brand = brand;
 	}
 
 	public Float getAveragePrice() {
@@ -41,4 +37,21 @@ public class AddProductForm {
 		this.name = name;
 	}
 
+	public Integer getCompanyId() {
+		return companyId;
+	}
+
+	public Integer getBrandId() {
+		return brandId;
+	}
+
+	public void setBrandId(Integer brandId) {
+		this.brandId = brandId;
+	}
+
+	public void setCompanyId(Integer companyId) {
+		this.companyId = companyId;
+
+
+	}
 }

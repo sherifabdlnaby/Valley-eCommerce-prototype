@@ -24,7 +24,7 @@ public class ProductController {
 
     //@PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/product/view/{id}", method = RequestMethod.GET)
-    public ModelAndView viewProduct(@PathVariable("id") long id) {
+    public ModelAndView viewProduct(@PathVariable("id") Integer id) {
         Optional<Product> product = productService.getProductById(id);
         if (!product.isPresent()) {
             return new ModelAndView("error/404");
