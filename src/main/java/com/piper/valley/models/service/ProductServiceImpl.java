@@ -48,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
 		Product product=new PhysicalProduct();
 		product.setBrand(productForm.getBrand());
 		product.setName(productForm.getName());
-		product.setAveragePrice(productForm.getPrice());
+		product.setAveragePrice(productForm.getAveragePrice());
 		product.setDateTime(new Date());
 		return productRepository.save(product);
 	}

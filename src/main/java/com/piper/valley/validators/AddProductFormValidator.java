@@ -33,7 +33,7 @@ public class AddProductFormValidator implements Validator {
 		if(errors.hasFieldErrors("price"))
 			return;
 
-		if(form.getPrice() < 0)
+		if(form.getAveragePrice() < 0)
 			errors.rejectValue("price","msg.PriceNegative");
 
 	}
