@@ -6,17 +6,15 @@ import org.hibernate.annotations.FetchProfile;
 import org.springframework.data.repository.cdi.Eager;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "user")
-@Inheritance( strategy = InheritanceType.JOINED )
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false, updatable = false)
-	private long id;
+	private Long id;
 
 	@Column(name = "username", nullable = false, unique = true)
 	private String username;
@@ -34,13 +32,22 @@ public class User {
 	@JoinTable(name = "userRoles", joinColumns = @JoinColumn(name = "id"))
 	@Column(name = "roles", nullable = false)
 	@Enumerated(EnumType.STRING)
-	private Collection<Role> roles;
-
+	private Set<Role> roles;
+	//TODO MAKE SET OF ROLES NOT COLLECITON
 	@OneToMany(mappedBy = "user")
 	private List<Order> orders;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
+	@PrimaryKeyJoinColumn
 	private ShoppingCart shoppingCart;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@PrimaryKeyJoinColumn
+	private StoreOwner storeOwner;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@PrimaryKeyJoinColumn
+	private Admin admin;
 
 	public String getUsername() {
 		return username;
@@ -58,8 +65,12 @@ public class User {
 		this.name = name;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
+	}
+
+	public void setId(Long Id) {
+		this.id = Id;
 	}
 
 	public String getEmail() {
@@ -78,11 +89,72 @@ public class User {
 		this.passwordHash = passwordHash;
 	}
 
-	public Collection<Role> getRole() {
+	public Set<Role> getRole() {
 		return roles;
 	}
 
-	public void setRole(Collection<Role> roles) {
+	public void setRole(Set<Role> roles) {
 		this.roles = roles;
 	}
+
+	public void addRole(Role role) {
+
+		if(roles == null)
+			roles = new HashSet<>();
+
+		roles.add(role);
+	}
+	public User(Long Id, String username, String email, String passwordHash, String name, Set<Role> roles) {
+		this.id = Id;
+		this.username = username;
+		this.email = email;
+		this.passwordHash = passwordHash;
+		this.name = name;
+		this.roles = roles;
+	}
+
+	public User() {
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
+
+	public ShoppingCart getShoppingCart() {
+		return shoppingCart;
+	}
+
+	public void setShoppingCart(ShoppingCart shoppingCart) {
+		this.shoppingCart = shoppingCart;
+	}
+
+	public StoreOwner getStoreOwner() {
+		return storeOwner;
+	}
+
+	public void setStoreOwner(StoreOwner storeOwner) {
+		this.storeOwner = storeOwner;
+	}
+
+
+	public Admin getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
+	}
+
 }
