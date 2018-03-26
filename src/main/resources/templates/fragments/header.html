@@ -18,13 +18,20 @@
                 <a class="nav-link" href="/">About</a>
             </li>
 
-            <li sec:authorize="hasRole('ADMIN')" class="nav-item dropdown">
+            <th:block sec:authorize="isAuthenticated()">
+                <li class="nav-item">
+                    <a class="nav-link" href="/store/add">
+                        <i class="fas fa-plus"></i> Apply Store</a>
+                </li>
+            </th:block>
 
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-plus"></i>  Add Entities</a>
+            <li sec:authorize="hasRole('ADMIN')" class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-plus"></i>  Admin Actions</a>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="/admin/addcompany"><i class="fas fa-plus"> </i> Add Company</a>
                     <a class="dropdown-item" href="/admin/addbrand"><i class="fas fa-plus"> </i> Add Brand</a>
                     <a class="dropdown-item" href="/admin/addproduct"><i class="fas fa-plus"> </i> Add Product</a>
+                    <a class="dropdown-item" href="/admin/acceptstores"><i class="fas fa-plus"> </i> Accept Stores</a>
                 </div>
             </li>
 

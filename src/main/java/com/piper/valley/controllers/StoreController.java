@@ -63,13 +63,30 @@ public class StoreController {
         if(bindingResult.hasErrors())
             return new ModelAndView("store/add","AddStoreForm",addStoreForm);
 
-        Store x = storeService.add(addStoreForm, currentUser.getUser());
+        Store store = storeService.add(addStoreForm, currentUser.getUser());
 
 		if(true)
 		    //Add Role to Runtime Session
             AuthUtil.addRoleAtRuntime(Role.STORE_OWNER);
 
-        return new ModelAndView("redirect:/");
+	    return new ModelAndView("redirect:/store/view/"+store.getId());
     }
+
+	@RequestMapping(value = "/store/view/{id}", method = RequestMethod.GET)
+	public ModelAndView viewProduct(@PathVariable("id") Long id, CurrentUser currentUser) {
+		Optional<Store> storeTmp = storeService.getStoreById(id);
+
+		//TODO send 404 status code not just render error.
+		if (!storeTmp.isPresent())
+			return new ModelAndView("error/404");
+
+		Store store = storeTmp.get();
+		//TODO use custom authorizor instead of hardcoding it here (lateR)
+		if(store.isAccepted() || currentUser.getRole().contains(Role.ADMIN) || store.getStoreOwner().getId() == currentUser.getId())
+			return new ModelAndView("store/view", "store", store);
+		else
+			return new ModelAndView("error/403");
+	}
+
 
 }
