@@ -1,10 +1,7 @@
 package com.piper.valley.controllers;
 
 import com.piper.valley.auth.CurrentUser;
-import com.piper.valley.forms.AddBrandForm;
-import com.piper.valley.forms.AddCompanyForm;
-import com.piper.valley.forms.AddProductForm;
-import com.piper.valley.forms.AddStoreForm;
+import com.piper.valley.forms.*;
 import com.piper.valley.models.domain.Product;
 import com.piper.valley.models.domain.Role;
 import com.piper.valley.models.domain.Store;
@@ -13,11 +10,9 @@ import com.piper.valley.models.service.CompanyService;
 import com.piper.valley.models.service.ProductService;
 import com.piper.valley.models.service.StoreService;
 import com.piper.valley.utilities.AuthUtil;
-import com.piper.valley.validators.AddBrandFormValidator;
-import com.piper.valley.validators.AddCompanyFormValidator;
-import com.piper.valley.validators.AddProductFormValidator;
-import com.piper.valley.validators.AddStoreFormValidator;
+import com.piper.valley.validators.*;
 import com.piper.valley.viewmodels.AddProductViewModel;
+import com.piper.valley.viewmodels.AddStoreProductViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -27,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.Optional;
 
 @Controller
@@ -35,17 +31,22 @@ public class StoreController {
     @Autowired
     private StoreService storeService;
 
+	@Autowired
+	private ProductService productService;
+
+	@Autowired
+	private AddStoreProductViewModel addStoreProductViewModel;
 
     @Autowired
-    private AddStoreFormValidator addStoreFormValidator;
+    private AddStoreProductFormValidator addStoreProductFormValidator;
 
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////*  VALIDATORS BINDING SECTION  *//////////////////////////////////////
 
-    @InitBinder("addStoreForm")
+    @InitBinder("addStoreProductForm")
     public void addBrandFormInitBinder(WebDataBinder binder) {
-        binder.addValidators(addStoreFormValidator);
+        binder.addValidators(addStoreProductFormValidator);
     }
 
 
@@ -86,6 +87,24 @@ public class StoreController {
 			return new ModelAndView("store/view", "store", store);
 		else
 			return new ModelAndView("error/403");
+	}
+
+	@PreAuthorize("hasAuthority('STORE_OWNER')")
+	@RequestMapping(value = "/store/addproduct", method = RequestMethod.GET)
+	public ModelAndView addStoreProduct(@ModelAttribute("addStoreProductForm") AddStoreProductForm addStoreProductForm, CurrentUser currentUser) {
+		return new ModelAndView("store/addproduct", addStoreProductViewModel.create(addStoreProductForm, currentUser.getId()));
+	}
+
+
+	@PreAuthorize("hasAuthority('STORE_OWNER')")
+	@RequestMapping(value = "/store/addproduct", method = RequestMethod.POST)
+	public ModelAndView addStoreProduct(@Valid @ModelAttribute("addStoreProductForm") AddStoreProductForm addStoreProductForm, BindingResult bindingResult, CurrentUser currentUser) {
+		if(bindingResult.hasErrors())
+			return new ModelAndView("store/addproduct", addStoreProductViewModel.create(addStoreProductForm, currentUser.getId()));
+
+
+		//TODO LOGIC
+		return new ModelAndView("redirect:/admin/acceptstores");
 	}
 
 

@@ -30,7 +30,7 @@ public class ProductServiceImpl implements ProductService {
 	public ProductServiceImpl(ProductRepository productRepository){this.productRepository=productRepository;}
 
 	@Override
-	public Optional<Product> getProductById(Integer id) {
+	public Optional<Product> getProductById(Long id) {
 		return Optional.ofNullable(productRepository.findOne(id));
 	}
 

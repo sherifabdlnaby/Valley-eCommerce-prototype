@@ -48,6 +48,16 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
+	public 	Collection<Store> getAllAcceptedUserStores(Long storeOwnerId){
+		return storeRepository.findByStoreOwner_IdAndAccepted(storeOwnerId, true);
+	}
+
+	@Override
+	public 	Collection<Store> getAllNotAcceptedUserStores(Long storeOwnerId){
+		return storeRepository.findByStoreOwner_IdAndAccepted(storeOwnerId, false);
+	}
+
+	@Override
 	public Store add(AddStoreForm form, User sessionUser) {
 		Store store;
 		if(form.getPhysical())

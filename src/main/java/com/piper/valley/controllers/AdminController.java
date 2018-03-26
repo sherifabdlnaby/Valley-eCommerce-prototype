@@ -146,6 +146,7 @@ public class AdminController {
         return new ModelAndView("admin/acceptstore", "store", store);
     }
 
+    //TODO POST REQUEST IN URL AR U FUKING KIDDING ME ?
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/admin/acceptstores/{id}", method = RequestMethod.POST)
     public ModelAndView acceptStore(@PathVariable("id") long id) {

@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface StoreRepository extends JpaRepository<Store, Long> {
 	List<Store> findAllByAccepted(Boolean accepted);
 	List<Store> findByStoreOwner_IdAndName(Long id, String Name);
+	List<Store> findByStoreOwner_Id(Long id);
+	List<Store> findByStoreOwner_IdAndAccepted(Long id, Boolean accepted);
 }

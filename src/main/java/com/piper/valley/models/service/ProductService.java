@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface ProductService {
 
-	Optional<Product>getProductById(Integer id);
+	Optional<Product>getProductById(Long id);
 	Optional<Product>getProductByName(String name);
 	Optional<Product>getPriceBetween(Float start,Float end);
 	Collection<Product>getAllProducts();
