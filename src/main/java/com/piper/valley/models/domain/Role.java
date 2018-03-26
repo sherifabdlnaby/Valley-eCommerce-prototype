@@ -2,6 +2,6 @@ package com.piper.valley.models.domain;
 
 public enum Role {
 
-	USER, ADMIN
+	USER, ADMIN, STORE_OWNER
 
 }

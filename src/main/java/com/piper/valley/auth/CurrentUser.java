@@ -1,15 +1,23 @@
 package com.piper.valley.auth;
 
+import antlr.StringUtils;
 import com.piper.valley.models.domain.Role;
 import com.piper.valley.models.domain.User;
 import org.springframework.security.core.authority.AuthorityUtils;
+
+import java.util.Collection;
+import java.util.List;
 
 public class CurrentUser extends org.springframework.security.core.userdetails.User {
 
 	private User user;
 
 	public CurrentUser(User user) {
-		super(user.getUsername(), user.getPasswordHash(), AuthorityUtils.createAuthorityList(user.getRole().toString()));
+		super(user.getUsername(), user.getPasswordHash(),
+			AuthorityUtils.commaSeparatedStringToAuthorityList(
+					StringUtils.stripFrontBack(user.getRole().toString(), "[", "]" )
+			)
+		);
 		this.user = user;
 	}
 
@@ -21,7 +29,7 @@ public class CurrentUser extends org.springframework.security.core.userdetails.U
 		return user.getId();
 	}
 
-	public Role getRole() {
+	public Collection<Role> getRole() {
 		return user.getRole();
 	}
 

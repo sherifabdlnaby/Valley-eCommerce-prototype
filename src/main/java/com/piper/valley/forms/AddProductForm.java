@@ -1,46 +1,130 @@
 package com.piper.valley.forms;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.format.annotation.NumberFormat;
+import org.hibernate.validator.constraints.Range;
+import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-
+@Component
 public class AddProductForm {
 
 	@NotEmpty
+	@Length(max = 140, min = 3)
 	private String name = "";
 
-	@NotEmpty
-	private String brand = "";
+	@NotNull
+	private Integer companyId;
+
+	@NotNull
+	private Integer brandId;
 
 	@NotNull
 	@Min(0)
-	private Float price ;
+	private Float averagePrice;
+
+	@NotNull
+	private Boolean isPhysicalProduct = true;
+
+	//Nullity/Empty check will be done by the custom validatior
+	@Min(0)
+	private Float weight;
+
+	@Min(0)
+	private Float length;
+
+	@Min(0)
+	private Float width;
+
+	@Min(0)
+	private Float height;
+
+	private String serial;
+
+	public AddProductForm() {
+	}
 
 	public String getName() {
 		return name;
 	}
 
-	public String getBrand() {
-		return brand;
+	public Float getAveragePrice() {
+		return averagePrice;
 	}
 
-	public void setBrand(String brand) {
-		this.brand = brand;
-	}
-
-	public Float getPrice() {
-		return price;
-	}
-
-	public void setPrice(Float price) {
-		this.price = price;
+	public void setAveragePrice(Float averagePrice) {
+		this.averagePrice = averagePrice;
 	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	public Integer getCompanyId() {
+		return companyId;
+	}
+
+	public Integer getBrandId() {
+		return brandId;
+	}
+
+	public void setBrandId(Integer brandId) {
+		this.brandId = brandId;
+	}
+
+	public void setCompanyId(Integer companyId) {
+		this.companyId = companyId;
+
+
+	}
+
+	public Boolean getPhysicalProduct() {
+		return isPhysicalProduct;
+	}
+
+	public void setPhysicalProduct(Boolean physicalProduct) {
+		isPhysicalProduct = physicalProduct;
+	}
+
+	public Float getWeight() {
+		return weight;
+	}
+
+	public void setWeight(Float weight) {
+		this.weight = weight;
+	}
+
+	public Float getLength() {
+		return length;
+	}
+
+	public void setLength(Float length) {
+		this.length = length;
+	}
+
+	public Float getWidth() {
+		return width;
+	}
+
+	public void setWidth(Float width) {
+		this.width = width;
+	}
+
+	public Float getHeight() {
+		return height;
+	}
+
+	public void setHeight(Float height) {
+		this.height = height;
+	}
+
+	public String getSerial() {
+		return serial;
+	}
+
+	public void setSerial(String serial) {
+		this.serial = serial;
+	}
 }

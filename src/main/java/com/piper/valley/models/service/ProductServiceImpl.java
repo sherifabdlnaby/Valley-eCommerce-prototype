@@ -1,12 +1,15 @@
 package com.piper.valley.models.service;
 
 import com.piper.valley.forms.AddProductForm;
+import com.piper.valley.models.domain.PhysicalProduct;
 import com.piper.valley.models.domain.Product;
+import com.piper.valley.models.domain.VirtualProduct;
+import com.piper.valley.models.repository.BrandRepository;
+import com.piper.valley.models.repository.CompanyRepository;
 import com.piper.valley.models.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
@@ -18,10 +21,16 @@ public class ProductServiceImpl implements ProductService {
 	private ProductRepository productRepository;
 
 	@Autowired
+	private BrandRepository brandRepository;
+
+	@Autowired
+	private CompanyRepository companyRepository;
+
+	@Autowired
 	public ProductServiceImpl(ProductRepository productRepository){this.productRepository=productRepository;}
 
 	@Override
-	public Optional<Product> getProductById(long id) {
+	public Optional<Product> getProductById(Integer id) {
 		return Optional.ofNullable(productRepository.findOne(id));
 	}
 
@@ -31,9 +40,9 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Optional<Product> getPriceBetween(double start,double end)
+	public Optional<Product> getPriceBetween(Float start,Float end)
 	{
-		return productRepository.findByPriceBetween(start,end);
+		return productRepository.findByAveragePriceBetween(start,end);
 	}
 
 	@Override
@@ -44,11 +53,29 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Product addProduct(AddProductForm productForm) {
-		Product product=new Product();
-		product.setBrand(productForm.getBrand());
+		Product product;
+		if(productForm.getPhysicalProduct())
+		{
+			PhysicalProduct physicalProduct = new PhysicalProduct();
+			physicalProduct.setLength(productForm.getLength());
+			physicalProduct.setWidth (productForm.getWidth() );
+			physicalProduct.setHeight(productForm.getHeight());
+			physicalProduct.setWeight(productForm.getWeight());
+			product = physicalProduct;
+		}
+		else {
+			VirtualProduct virtualProduct = new VirtualProduct();
+			virtualProduct.setSerial(productForm.getSerial());
+			product = virtualProduct;
+		}
+
+		//Common Attributes
+		product.setBrand(brandRepository.findOneById(productForm.getBrandId()).get());
+		product.setCompany(companyRepository.findOneById(productForm.getCompanyId()).get());
 		product.setName(productForm.getName());
-		product.setPrice(productForm.getPrice());
+		product.setAveragePrice(productForm.getAveragePrice());
 		product.setDateTime(new Date());
+
 		return productRepository.save(product);
 	}
 }

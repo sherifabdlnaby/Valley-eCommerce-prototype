@@ -1,16 +1,18 @@
 package com.piper.valley.controllers;
 
 import com.piper.valley.forms.AddBrandForm;
+import com.piper.valley.forms.AddCompanyForm;
 import com.piper.valley.forms.AddProductForm;
-import com.piper.valley.forms.UserCreateForm;
-import com.piper.valley.models.domain.Brand;
 import com.piper.valley.models.domain.Product;
 import com.piper.valley.models.domain.Store;
 import com.piper.valley.models.service.BrandService;
+import com.piper.valley.models.service.CompanyService;
 import com.piper.valley.models.service.ProductService;
 import com.piper.valley.models.service.StoreService;
 import com.piper.valley.validators.AddBrandFormValidator;
+import com.piper.valley.validators.AddCompanyFormValidator;
 import com.piper.valley.validators.AddProductFormValidator;
+import com.piper.valley.viewmodels.AddProductViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -19,8 +21,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Collection;
 import java.util.Optional;
@@ -37,11 +37,20 @@ public class AdminController {
 	@Autowired
 	private StoreService storeService;
 
+	@Autowired
+	private CompanyService companyService;
+
     @Autowired
     private AddBrandFormValidator brandFormValidator;
 
     @Autowired
     private AddProductFormValidator addProductFormValidator;
+
+	@Autowired
+	private AddCompanyFormValidator addCompanyFormValidator;
+
+	@Autowired
+	private AddProductViewModel addProductViewModel;
 
 	//	@Autowired
 //	private AddStoreFormValidator addStoreFormValidator;
@@ -51,20 +60,19 @@ public class AdminController {
 
     @InitBinder("addBrandForm")
     public void addBrandFormInitBinder(WebDataBinder binder) {
-        binder.addValidators(brandFormValidator); //This maps the add brand form to our own validator.
+        binder.addValidators(brandFormValidator);
     }
 
     @InitBinder("addProductForm")
-    public void AddProductFormInitBinder(WebDataBinder binder)
-    {
+    public void AddProductFormInitBinder(WebDataBinder binder){
         binder.addValidators(addProductFormValidator);
     }
 
-	//	@InitBinder("addStoreForm")
-//	public void addStoreFormInitBinder(WebDataBinder binder) {
-//		// This maps the add brand form to our own validator.
-//		binder.addValidators(addStoreFormValidator);
-//	}
+	@InitBinder("addCompanyForm")
+	public void AddCompanyFormInitBinder(WebDataBinder binder){
+		binder.addValidators(addCompanyFormValidator);
+	}
+
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////*  CONTROLLER ACTION  *///////////////////////////////////////////
@@ -85,33 +93,48 @@ public class AdminController {
         return new ModelAndView("redirect:/");
     }
 
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(value = "/admin/addcompany", method = RequestMethod.GET)
+	public ModelAndView addCompany(@ModelAttribute("addCompanyForm") AddCompanyForm addCompanyForm) {
+		return new ModelAndView("admin/addcompany", "addCompanyForm", addCompanyForm);
+	}
+
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(value = "/admin/addcompany", method = RequestMethod.POST)
+	public ModelAndView addCompany(@Valid @ModelAttribute("addCompanyForm")AddCompanyForm addCompanyForm, BindingResult bindingResult)
+	{
+		if(bindingResult.hasErrors())
+			return new ModelAndView("admin/addcompany","addCompanyForm",addCompanyForm);
+		companyService.addCompany(addCompanyForm);
+		return new ModelAndView("redirect:/");
+	}
+
    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/admin/addproduct", method = RequestMethod.GET)
     public ModelAndView addProduct(@ModelAttribute("addProductForm") AddProductForm addProductForm) {
-       Collection<Brand>allBrands=brandService.getAllBrands();
-       ModelAndView mv=new ModelAndView("admin/addproduct");
-       mv.addObject("addProductForm",addProductForm);
-       mv.addObject("brands",allBrands);
-        return mv;
+	   return new ModelAndView("admin/addproduct", addProductViewModel.create(addProductForm));
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/admin/addproduct", method = RequestMethod.POST)
     public ModelAndView addProduct(@Valid @ModelAttribute("addProductForm") AddProductForm addProductForm, BindingResult bindingResult) {
-        Collection<Brand>allBrands=brandService.getAllBrands();
-        ModelAndView mv=new ModelAndView("admin/addproduct");
-        mv.addObject("addProductForm",addProductForm);
-        mv.addObject("brands",allBrands);
         if (bindingResult.hasErrors())
-            return mv;
+	        return new ModelAndView("admin/addproduct", addProductViewModel.create(addProductForm));
 
-        Product product=productService.addProduct(addProductForm);
-        long id=product.getId();
-        return new ModelAndView("redirect:/product/view/"+id);
+        Product product = productService.addProduct(addProductForm);
+
+        return new ModelAndView("redirect:/product/view/"+product.getId());
     }
 
-    //@PreAuthorize("hasAuthority('ADMIN')")
-    @RequestMapping(value = "/admin/acceptStore/{id}", method = RequestMethod.GET)
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(value = "/admin/acceptstores", method = RequestMethod.GET)
+	public ModelAndView viewAppliedStore() {
+		Collection<Store> stores = storeService.getAllAppliedStores();
+		return new ModelAndView("admin/acceptStoreList", "stores", stores);
+	}
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping(value = "/admin/acceptstores/{id}", method = RequestMethod.GET)
     public ModelAndView viewAndAcceptStore(@PathVariable("id") long id) {
         Optional<Store> store = storeService.getStoreById(id);
 
@@ -120,23 +143,14 @@ public class AdminController {
             return new ModelAndView("error/404");
         }
 
-        return new ModelAndView("store/accept", "store", store);
+        return new ModelAndView("admin/acceptstore", "store", store);
     }
 
-    //	@PreAuthorize("hasAuthority('ADMIN')")
-    @RequestMapping(value = "/admin/acceptStore/{id}", method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping(value = "/admin/acceptstores/{id}", method = RequestMethod.POST)
     public ModelAndView acceptStore(@PathVariable("id") long id) {
         storeService.acceptStore(id);
-        return new ModelAndView("redirect:/"); // Temporary
+        return new ModelAndView("redirect:/admin/acceptstores"); // Temporary
     }
-
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////*  CONTROLLER ACTION  *///////////////////////////////////////////
-
-
-
-
-
 
 }

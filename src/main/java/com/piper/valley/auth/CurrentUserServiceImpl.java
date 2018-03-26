@@ -9,7 +9,7 @@ public class CurrentUserServiceImpl implements CurrentUserService {
 	@Override
 	public boolean canAccessUser(CurrentUser currentUser, int userId) {
 		return currentUser != null
-				&& (currentUser.getRole() == Role.ADMIN || currentUser.getId() == userId);
+				&& (currentUser.getRole().contains(Role.ADMIN) || currentUser.getId() == userId);
 	}
 
 }

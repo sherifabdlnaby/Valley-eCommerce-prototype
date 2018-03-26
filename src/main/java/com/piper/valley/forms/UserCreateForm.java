@@ -1,23 +1,33 @@
 package com.piper.valley.forms;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 
 
 public class UserCreateForm {
 
 	@NotEmpty
+	@Length(min = 2, max = 50)
 	private String name = "";
 
 	@NotEmpty
+	@Length(min = 6, max = 36)
 	private String username = "";
 
 	@NotEmpty
+	@Length(min = 2, max = 40)
+	@Email
 	private String email = "";
 
 	@NotEmpty
+	@Min(6)
 	private String password = "";
-	@NotEmpty
 
+	@NotEmpty
 	private String passwordConfirm = "";
 
 	public String getName() {
@@ -59,14 +69,4 @@ public class UserCreateForm {
 	public void setPasswordConfirm(String passwordConfirm) {
 		this.passwordConfirm = passwordConfirm;
 	}
-
-	@Override
-	public String toString() {
-		return "UserCreateForm{" +
-				"email='" + email.replaceFirst("@.+", "@***") + '\'' +
-				", password=***" + '\'' +
-				", passwordConfirm=***" +
-				'}';
-	}
-
 }

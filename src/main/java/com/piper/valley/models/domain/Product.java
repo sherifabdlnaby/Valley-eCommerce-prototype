@@ -1,57 +1,66 @@
 package com.piper.valley.models.domain;
-
 import javax.persistence.*;
 import java.util.Date;
-@Entity     // This tells Hibernate to make a table out of this class
+import java.util.List;
+
+@Entity
 @Table(name = "product")
-public class Product {
+@Inheritance( strategy = InheritanceType.JOINED )
+public abstract class Product {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name = "id", nullable = false, updatable = false)
-    private long id;
+    private Integer id;
 
     @Column(name = "name", nullable = false, updatable = true)
     private String name;
 
-    @Column(name = "brand", nullable = false, unique = false )
-    private String brand;
+	@ManyToOne
+	private Brand brand; //Obj suffix temp.
 
-   /* @Column(name = "company", nullable = false, unique = false)
-    private Company company;*/
+	@ManyToOne
+	private Company company; //Obj suffix temp.
 
-    @Column(name = "price", nullable = false, unique = false)
-    private Float price;
+    @Column(name = "averagePrice", nullable = false, unique = false)
+    private Float averagePrice;
 
     @Column(name = "dateTime", nullable = false, unique = false)
     private Date dateTime;
 
+	@OneToMany(mappedBy = "product")
+	private List<StoreProduct> storeProducts;
+
     public Product(){
         this.name = "";
-        this.brand = "";
-        this.price = 0f;
+        this.averagePrice = 0f;
         this.dateTime = null;
     }
-    public Product(String name, String brand, Float price, Date dateTime) {
+
+    public Product(String name, Brand brand, Float averagePrice, Date dateTime) {
         this.name = name;
-        this.brand=brand;
-        this.price = price;
+        this.brand = brand;
+        this.averagePrice = averagePrice;
         this.dateTime = dateTime;
     }
 
-    public void setName(String name) {
+	public void setName(String name) {
         this.name = name;
     }
 
-    public void setBrand(String brand) {
+    public void setBrand(Brand brand) {
         this.brand=brand;
     }
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setPrice(Float price) {
-        this.price = price;
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public void setAveragePrice(Float averagePrice) {
+        this.averagePrice = averagePrice;
     }
 
     public void setDateTime(Date dateTime) {
@@ -62,15 +71,23 @@ public class Product {
         return name;
     }
 
-    public String getBrand() {
+    public Brand getBrand() {
         return brand;
     }
 
-    public Float getPrice() {
-        return price;
+    public Float getAveragePrice() {
+        return averagePrice;
     }
 
     public Date getDateTime() {
         return dateTime;
     }
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
 }
