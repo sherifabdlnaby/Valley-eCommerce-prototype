@@ -9,5 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface StoreRepository extends JpaRepository<Store, Long> {
+	List<Store> findAllByAccepted(Boolean accepted);
 	List<Store> findByStoreOwner_IdAndName(Long id, String Name);
 }

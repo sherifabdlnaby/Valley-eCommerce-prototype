@@ -24,7 +24,7 @@ public class StoreServiceImpl implements StoreService {
 	private UserRepository userRepository;
 
 	@Override
-	public Optional<Store> getStoreById(long id) {
+	public Optional<Store> getStoreById(Long id) {
 		return Optional.ofNullable(storeRepository.findOne(id));
 	}
 
@@ -40,6 +40,11 @@ public class StoreServiceImpl implements StoreService {
 	@Override
 	public Collection<Store> getAllStores() {
 		return storeRepository.findAll();
+	}
+
+	@Override
+	public Collection<Store> getAllAppliedStores() {
+		return storeRepository.findAllByAccepted(false);
 	}
 
 	@Override

@@ -10,11 +10,13 @@ import java.util.Optional;
 
 
 public interface StoreService {
-	Optional<Store> getStoreById(long id);
+	Optional<Store> getStoreById(Long id);
 
 	void acceptStore(long storeId);
 
 	Collection<Store> getAllStores();
+
+	Collection<Store> getAllAppliedStores();
 
 	Store add(AddStoreForm form, User user);
 }

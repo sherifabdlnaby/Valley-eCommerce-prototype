@@ -3,7 +3,6 @@ package com.piper.valley.controllers;
 import com.piper.valley.forms.AddBrandForm;
 import com.piper.valley.forms.AddCompanyForm;
 import com.piper.valley.forms.AddProductForm;
-import com.piper.valley.forms.UserCreateForm;
 import com.piper.valley.models.domain.Product;
 import com.piper.valley.models.domain.Store;
 import com.piper.valley.models.service.BrandService;
@@ -22,9 +21,8 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.Optional;
 
 @Controller
@@ -128,8 +126,15 @@ public class AdminController {
         return new ModelAndView("redirect:/product/view/"+product.getId());
     }
 
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(value = "/admin/acceptstores", method = RequestMethod.GET)
+	public ModelAndView viewAppliedStore() {
+		Collection<Store> stores = storeService.getAllAppliedStores();
+		return new ModelAndView("admin/acceptStoreList", "stores", stores);
+	}
+
     @PreAuthorize("hasAuthority('ADMIN')")
-    @RequestMapping(value = "/admin/acceptStore/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/acceptstores/{id}", method = RequestMethod.GET)
     public ModelAndView viewAndAcceptStore(@PathVariable("id") long id) {
         Optional<Store> store = storeService.getStoreById(id);
 
@@ -138,23 +143,14 @@ public class AdminController {
             return new ModelAndView("error/404");
         }
 
-        return new ModelAndView("store/accept", "store", store);
+        return new ModelAndView("admin/acceptstore", "store", store);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @RequestMapping(value = "/admin/acceptStore/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/acceptstores/{id}", method = RequestMethod.POST)
     public ModelAndView acceptStore(@PathVariable("id") long id) {
         storeService.acceptStore(id);
-        return new ModelAndView("redirect:/"); // Temporary
+        return new ModelAndView("redirect:/admin/acceptstores"); // Temporary
     }
-
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////*  CONTROLLER ACTION  *///////////////////////////////////////////
-
-
-
-
-
 
 }
