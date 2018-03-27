@@ -17,8 +17,9 @@ public abstract class Store {
 	@Column(name = "name", nullable = false, unique = true)
 	protected String name;
 
-	@Column(name = "accepted", nullable = false)
-	protected boolean accepted;
+	@Column(name = "status", nullable = false)
+	@Enumerated(EnumType.STRING)
+	protected StoreStatus status;
 
 	@ManyToOne(optional = false)
 	protected StoreOwner storeOwner;
@@ -65,11 +66,11 @@ public abstract class Store {
 		this.name = name;
 	}
 
-	public boolean isAccepted() {
-		return accepted;
+	public StoreStatus getStatus() {
+		return status;
 	}
 
-	public void setAccepted(boolean accepted) {
-		this.accepted = accepted;
+	public void setStatus(StoreStatus status) {
+		this.status = status;
 	}
 }
