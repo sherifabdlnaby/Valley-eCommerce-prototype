@@ -2,9 +2,7 @@ package com.piper.valley.models.service;
 
 import com.piper.valley.forms.AddStoreForm;
 import com.piper.valley.forms.AddStoreProductForm;
-import com.piper.valley.forms.UserCreateForm;
 import com.piper.valley.models.domain.Store;
-import com.piper.valley.models.domain.StoreOwner;
 import com.piper.valley.models.domain.StoreProduct;
 import com.piper.valley.models.domain.User;
 
@@ -15,7 +13,7 @@ import java.util.Optional;
 public interface StoreService {
 	Optional<Store> getStoreById(Long id);
 
-	void acceptStore(long storeId);
+	void acceptStore(Long storeId);
 
 	Collection<Store> getAllStores();
 
