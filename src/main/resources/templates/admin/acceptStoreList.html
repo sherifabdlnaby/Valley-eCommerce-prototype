@@ -26,15 +26,23 @@
                 <th>#</th>
                 <th>Store Name</th>
                 <th>Store Owner</th>
-                <th>Accept</th>
+                <th>Review Details</th>
+                <th>Quick Accept</th>
             </tr>
             </thead>
             <tbody id="items">
             <tr th:each="store,i : ${stores}">
-                <td th:text="${i.index+1}">#</td>
-                <td><a th:href="@{/store/view/{id}(id = ${store.id})}" th:text="${store.name}">-</a> </td>
-                <td th:text="${store.storeOwner.user.name}">-</td>
-                <td><a th:href="@{/admin/acceptstores/{id}(id = ${store.id})}"><i class="fas fa-sign-in-alt"></i> </a> </td>
+                <td class="align-middle" th:text="${i.index+1}">#</td>
+                <td class="align-middle"><a th:href="@{/store/view/{id}(id = ${store.id})}" th:text="${store.name}">-</a> </td>
+                <td class="align-middle" th:text="${store.storeOwner.user.name}">-</td>
+                <td class="align-middle"><a class="btn btn-sm btn-primary" th:href="@{/admin/acceptstores/{id}(id = ${store.id})}"><i class="fas fa-clipboard-check"></i>  Check Details</a> </td>
+                <td class="align-middle">
+                    <form method="post" autocomplete="on"  action="/admin/acceptstores/">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                        <input type="hidden" th:name="id" th:value="${store.id}"/>
+                        <button type="submit" class="btn btn-sm btn-success"><i class="fas fa-check"></i> Accept</button>
+                    </form>
+                </td>
             </tr>
             </tbody>
         </table>
