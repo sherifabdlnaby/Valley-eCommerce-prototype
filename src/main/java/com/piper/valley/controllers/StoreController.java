@@ -5,6 +5,7 @@ import com.piper.valley.forms.*;
 import com.piper.valley.models.domain.Product;
 import com.piper.valley.models.domain.Role;
 import com.piper.valley.models.domain.Store;
+import com.piper.valley.models.domain.StoreProduct;
 import com.piper.valley.models.service.BrandService;
 import com.piper.valley.models.service.CompanyService;
 import com.piper.valley.models.service.ProductService;
@@ -102,8 +103,8 @@ public class StoreController {
 		if(bindingResult.hasErrors())
 			return new ModelAndView("store/addproduct", addStoreProductViewModel.create(addStoreProductForm, currentUser.getId()));
 
+		StoreProduct storeProduct = storeService.addProductToStore(addStoreProductForm, currentUser.getUser());
 
-		//TODO LOGIC
 		return new ModelAndView("redirect:/admin/acceptstores");
 	}
 

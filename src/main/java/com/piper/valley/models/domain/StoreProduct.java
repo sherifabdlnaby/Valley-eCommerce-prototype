@@ -8,7 +8,8 @@ public class StoreProduct {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", nullable = false, updatable = false)
-	private long id;
+	private Long id;
+
 	private float price;
 
 	@ManyToOne
@@ -17,7 +18,7 @@ public class StoreProduct {
 	@ManyToOne
 	private Store store;
 
-	@OneToMany(mappedBy = "storeProduct")
+	@OneToMany(mappedBy = "storeProduct", cascade = CascadeType.ALL)
 	private List<Order> orders;
 
 	public Product getProduct() {
@@ -28,11 +29,11 @@ public class StoreProduct {
 		this.product = product;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -43,4 +44,21 @@ public class StoreProduct {
 	public void setPrice(float price) {
 		this.price = price;
 	}
+
+	public Store getStore() {
+		return store;
+	}
+
+	public void setStore(Store store) {
+		this.store = store;
+	}
+
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
+
 }

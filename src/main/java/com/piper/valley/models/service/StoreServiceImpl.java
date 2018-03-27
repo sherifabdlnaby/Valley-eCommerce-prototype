@@ -1,6 +1,7 @@
 package com.piper.valley.models.service;
 
 import com.piper.valley.forms.AddStoreForm;
+import com.piper.valley.forms.AddStoreProductForm;
 import com.piper.valley.models.domain.*;
 import com.piper.valley.models.repository.StoreRepository;
 import com.piper.valley.models.repository.UserRepository;
@@ -22,6 +23,10 @@ public class StoreServiceImpl implements StoreService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private ProductService productService;
+
 
 	@Override
 	public Optional<Store> getStoreById(Long id) {
@@ -92,6 +97,27 @@ public class StoreServiceImpl implements StoreService {
 		store.setStoreOwner(user.getStoreOwner());
 
 		return storeRepository.save(store);
+	}
+
+	@Override
+	public StoreProduct addProductToStore(AddStoreProductForm form, User user) {
+		Optional<Product> productOptional = productService.getProductById(form.getProductId());
+		Optional<Store>   storeOptional   = this.getStoreById(form.getStoreId());
+
+		//Don't have to check for Presence (validator should've checked for their existence)
+		Product product = productOptional.get();
+		Store store = storeOptional.get();
+
+		StoreProduct storeProduct = new StoreProduct();
+		storeProduct.setPrice(form.getPrice());
+		storeProduct.setProduct(product);
+		storeProduct.setStore(store);
+		store.addStoreProduct(storeProduct);
+
+		//Hibernate Bugs ? :"D
+		Store save = storeRepository.save(store);
+
+		return storeProduct;
 	}
 }
 
