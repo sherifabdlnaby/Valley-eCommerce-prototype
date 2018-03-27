@@ -135,7 +135,7 @@ public class AdminController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/admin/acceptstores/{id}", method = RequestMethod.GET)
-    public ModelAndView viewAndAcceptStore(@PathVariable("id") long id) {
+    public ModelAndView viewAndAcceptStore(@PathVariable("id") Long id) {
         Optional<Store> store = storeService.getStoreById(id);
 
         // If the store wasn't found
@@ -146,10 +146,9 @@ public class AdminController {
         return new ModelAndView("admin/acceptstore", "store", store);
     }
 
-    //TODO POST REQUEST IN URL AR U FUKING KIDDING ME ?
     @PreAuthorize("hasAuthority('ADMIN')")
-    @RequestMapping(value = "/admin/acceptstores/{id}", method = RequestMethod.POST)
-    public ModelAndView acceptStore(@PathVariable("id") long id) {
+    @RequestMapping(value = "/admin/acceptstores", method = RequestMethod.POST)
+    public ModelAndView acceptStore(@RequestParam("id") Long id) {
         storeService.acceptStore(id);
         return new ModelAndView("redirect:/admin/acceptstores"); // Temporary
     }
