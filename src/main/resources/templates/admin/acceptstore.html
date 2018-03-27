@@ -17,12 +17,12 @@
 	<div class="col-lg-4">
 		<br/>
 		<br/>
-		<h1>Accept Store</h1>
+		<h1>Accept Store ?</h1>
 		<p th:text="${store.get().getName()}"></p>
 		<hr/>
-		<form method="post" autocomplete="on"
-		      th:attr="action='/admin/acceptstores/'+${store.get().getId()}">
+		<form method="post" autocomplete="on"  action="/admin/acceptstores/">
 			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+			<input type="hidden" th:name="id" th:value="${store.get().getId()}"/>
 			<br/>
 			<button type="submit" class="btn btn-primary">Accept</button>
 		</form>
