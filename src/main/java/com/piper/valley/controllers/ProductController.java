@@ -30,6 +30,7 @@ public class ProductController {
         if (!product.isPresent()) {
             return new ModelAndView("error/404");
         }
+        productService.incrementViews(product.get());
         return new ModelAndView("product/view", "product", product.get());
     }
 

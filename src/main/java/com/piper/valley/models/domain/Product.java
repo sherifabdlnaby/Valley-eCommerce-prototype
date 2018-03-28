@@ -30,10 +30,14 @@ public abstract class Product {
 	@OneToMany(mappedBy = "product")
 	private List<StoreProduct> storeProducts;
 
+    @Column(name = "views", nullable = false, unique = false)
+    private int view;
+
     public Product(){
         this.name = "";
         this.averagePrice = 0f;
         this.dateTime = null;
+        this.view=0;
     }
 
     public Product(String name, Brand brand, Float averagePrice, Date dateTime) {
@@ -41,6 +45,7 @@ public abstract class Product {
         this.brand = brand;
         this.averagePrice = averagePrice;
         this.dateTime = dateTime;
+        this.view=0;
     }
 
 	public void setName(String name) {
@@ -90,4 +95,12 @@ public abstract class Product {
 	public void setCompany(Company company) {
 		this.company = company;
 	}
+
+    public int getView() {
+        return view;
+    }
+
+    public void setView(int view) {
+        this.view = view;
+    }
 }

@@ -78,4 +78,8 @@ public class ProductServiceImpl implements ProductService {
 
 		return productRepository.save(product);
 	}
+	public void incrementViews(Product product) {
+			product.setView(product.getView()+1);
+			productRepository.save(product);
+	}
 }
