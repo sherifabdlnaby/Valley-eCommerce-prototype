@@ -24,7 +24,7 @@ public class UserCreateForm {
 	private String email = "";
 
 	@NotEmpty
-	@Min(6)
+	@Length(min = 2, max = 120, message = "Password must be greater than or equal 6 characters.")
 	private String password = "";
 
 	@NotEmpty
