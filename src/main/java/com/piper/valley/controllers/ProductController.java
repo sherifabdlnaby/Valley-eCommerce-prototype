@@ -1,8 +1,10 @@
 package com.piper.valley.controllers;
 
 
+import com.piper.valley.models.domain.PhysicalProduct;
 import com.piper.valley.models.domain.Product;
 import com.piper.valley.models.domain.StoreProduct;
+import com.piper.valley.models.service.PhysicalProductService;
 import com.piper.valley.models.service.ProductService;
 import com.piper.valley.models.service.StoreProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,10 @@ public class ProductController {
     private ProductService productService;
 
     @Autowired
-    StoreProductService storeProductService;
+    private StoreProductService storeProductService;
+
+    @Autowired
+    private PhysicalProductService physicalProductService;
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////*  CONTROLLER ACTION  *///////////////////////////////////////////
@@ -42,7 +47,13 @@ public class ProductController {
         if (!product.isPresent()) {
             return new ModelAndView("error/404");
         }
-        return new ModelAndView("product/storeprodcutview", "product", product.get());
+        Optional<PhysicalProduct>physicalProduct=physicalProductService.getProductbyId(product.get().getProduct().getId());
+        ModelAndView mv=new ModelAndView("product/storeprodcutview");
+        product.get().getStore().getId();
+        mv.addObject("product",product.get());
+        if(physicalProduct.isPresent())
+             mv.addObject("physicalproduct",physicalProduct.get());
+        return mv;
     }
 
 

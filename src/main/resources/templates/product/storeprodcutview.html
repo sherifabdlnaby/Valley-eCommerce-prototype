@@ -23,6 +23,13 @@
 			<li class="list-group-item text-left"><span class="pull-right"><strong>Name: </strong></span><span th:text="${product.getProduct().getName()}"></span></li>
 			<li class="list-group-item text-left"><span class="pull-right"><strong>Brand: </strong></span><span th:text="${product.getProduct().brand.name}"></span></li>
 			<li class="list-group-item text-left"><span class="pull-right"><strong>Price: </strong></span><span th:text="${product.getPrice()}"></span></li>
+			<div th:if="${physicalproduct!=null}">
+				<li class="list-group-item text-left"><span class="pull-right"><strong>Length: </strong></span><span th:text="${physicalproduct.getLength()}"></span></li>
+				<li class="list-group-item text-left"><span class="pull-right"><strong>Width: </strong></span><span th:text="${physicalproduct.getWidth()}"></span></li>
+				<li class="list-group-item text-left"><span class="pull-right"><strong>Height: </strong></span><span th:text="${physicalproduct.getHeight()}"></span></li>
+				<li class="list-group-item text-left"><span class="pull-right"><strong>Weight: </strong></span><span th:text="${physicalproduct.getWeight()}"></span></li>
+			</div>
+			<li class="list-group-item text-left"><span class="pull-right"><a class="btn btn-sm btn-success" th:href="@{/store/view/{id}(id = ${product.getStore().getId()})}"><i class="fas fa-chevron-circle-left"></i> Visit Store</a></span></li>
 		</ul>
 
 	</div>
