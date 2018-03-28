@@ -14,5 +14,5 @@ public interface ProductService {
 	Optional<Product>getPriceBetween(Float start,Float end);
 	Collection<Product>getAllProducts();
 	Product addProduct(AddProductForm productForm);
-
+	void incrementViews(Long productId);
 }

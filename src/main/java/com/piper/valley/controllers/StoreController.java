@@ -119,10 +119,10 @@ public class StoreController {
 	public ModelAndView viewStoreProduct(@PathVariable("id") Long id) {
 
 		Optional<StoreProduct> product = storeProductService.getProductById(id);
-
 		if (!product.isPresent())
 			return new ModelAndView("error/404");
-
+        storeProductService.incrementViews(id);
+        productService.incrementViews(id);
 		return new ModelAndView("store/storeprodcutview", storeProductViewModel.create(product.get()));
 	}
 

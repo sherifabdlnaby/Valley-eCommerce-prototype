@@ -21,6 +21,13 @@ public class StoreProduct {
 	@OneToMany(mappedBy = "storeProduct", cascade = CascadeType.ALL)
 	private List<Order> orders;
 
+	@Column(name = "views", nullable = false, unique = false)
+	private int storeViews;
+
+	public StoreProduct() {
+		storeViews=0;
+	}
+
 	public Product getProduct() {
 		return product;
 	}
@@ -61,4 +68,11 @@ public class StoreProduct {
 		this.orders = orders;
 	}
 
+	public int getStoreViews() {
+		return storeViews;
+	}
+
+	public void setStoreViews(int storeViews) {
+		this.storeViews = storeViews;
+	}
 }
