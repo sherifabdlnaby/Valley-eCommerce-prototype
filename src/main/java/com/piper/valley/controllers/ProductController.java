@@ -42,7 +42,7 @@ public class ProductController {
         if (!product.isPresent()) {
             return new ModelAndView("error/404");
         }
-        return new ModelAndView("product/view", "product", product.get());
+        return new ModelAndView("product/storeprodcutview", "product", product.get());
     }
 
 
