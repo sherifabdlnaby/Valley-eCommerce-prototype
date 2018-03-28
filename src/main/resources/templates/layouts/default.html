@@ -16,7 +16,11 @@
 <!--Header-->
 <nav class="navbar navbar-default" th:replace="fragments/header :: header"></nav>
 <!--/Header-->
+<!--flash messages-->
 
+<th:block th:replace="fragments/flash"></th:block>
+
+<!--/flash messages-->
 <!-- Content -->
 <div layout:fragment="content">
 

@@ -72,9 +72,8 @@ public class StoreController {
 
         Store store = storeService.add(addStoreForm, currentUser.getUser());
 
-		if(true)
-		    //Add Role to Runtime Session
-            AuthUtil.addRoleAtRuntime(Role.STORE_OWNER);
+	    //Add Role to Runtime Session
+        AuthUtil.addRoleAtRuntime(Role.STORE_OWNER);
 
 	    return new ModelAndView("redirect:/store/view/"+store.getId());
     }

@@ -1,0 +1,33 @@
+<th:block xmlns:th="http://www.thymeleaf.org"
+          th:fragment="flash">
+
+    <div class="col-lg-12 position-absolute" style="top: 10%;  z-index: 5000;">
+    <div style="width: 50%;" class="container">
+    <div th:each="msg : ${_danger}" class="alert alert-dismissible alert-danger"    style="-webkit-box-shadow: 0px 6px 32px -4px rgba(0,0,0,0.33);
+                                                                                            -moz-box-shadow: 0px 6px 32px -4px rgba(0,0,0,0.33);
+                                                                                            box-shadow: 0px 6px 32px -4px rgba(0,0,0,0.33);">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong th:text="${msg}"> </strong>
+        </div>
+        <div th:each="msg : ${_info}" class="alert alert-dismissible alert-info"    style="-webkit-box-shadow: 0px 6px 32px -4px rgba(0,0,0,0.33);
+                                                                                             -moz-box-shadow: 0px 6px 32px -4px rgba(0,0,0,0.33);
+                                                                                             box-shadow: 0px 6px 32px -4px rgba(0,0,0,0.33);">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong th:text="${msg}"> </strong>
+        </div>
+        <div th:each="msg : ${_success}" class="alert alert-dismissible alert-success"    style="-webkit-box-shadow: 0px 6px 32px -4px rgba(0,0,0,0.33);
+                                                                                                -moz-box-shadow: 0px 6px 32px -4px rgba(0,0,0,0.33);
+                                                                                                box-shadow: 0px 6px 32px -4px rgba(0,0,0,0.33);">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong th:text="${msg}"> </strong>
+        </div>
+        <div th:each="msg : ${_warning}" class="alert alert-dismissible alert-warning"     style="-webkit-box-shadow: 0px 6px 32px -4px rgba(0,0,0,0.33);
+                                                                                                -moz-box-shadow: 0px 6px 32px -4px rgba(0,0,0,0.33);
+                                                                                                box-shadow: 0px 6px 32px -4px rgba(0,0,0,0.33);">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong th:text="${msg}"> </strong>
+        </div>
+    </div>
+</div>
+
+</th:block>
