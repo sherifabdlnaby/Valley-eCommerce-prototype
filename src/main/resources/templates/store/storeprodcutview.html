@@ -29,7 +29,10 @@
 				<li class="list-group-item text-left"><span class="pull-right"><strong>Height: </strong></span><span th:text="${physicalproduct.getHeight()}"></span></li>
 				<li class="list-group-item text-left"><span class="pull-right"><strong>Weight: </strong></span><span th:text="${physicalproduct.getWeight()}"></span></li>
 			</div>
-			<li class="list-group-item text-left"><span class="pull-right"><a class="btn btn-sm btn-success" th:href="@{/store/view/{id}(id = ${product.getStore().getId()})}"><i class="fas fa-chevron-circle-left"></i> Visit Store</a></span></li>
+			<li class="list-group-item text-left">
+				<span class="pull-right"><a class="btn btn-sm btn-primary" th:href="@{/store/view/{id}(id = ${product.getStore().getId()})}"><i class="fas fa-chevron-circle-left"></i> Visit Store</a></span>
+				<span class="pull-left"><a class="btn btn-sm btn-success" th:href="@{/store/product/{id}/buy(id = ${product.id})}"><i class="fas fa-shopping-cart"></i> Buy Product </a></span>
+			</li>
 		</ul>
 
 	</div>

@@ -8,10 +8,13 @@ import com.piper.valley.models.domain.Store;
 import com.piper.valley.models.domain.StoreProduct;
 import com.piper.valley.models.domain.StoreStatus;
 import com.piper.valley.models.service.ProductService;
+import com.piper.valley.models.service.StoreProductService;
 import com.piper.valley.models.service.StoreService;
 import com.piper.valley.utilities.AuthUtil;
 import com.piper.valley.validators.AddStoreProductFormValidator;
 import com.piper.valley.viewmodels.AddStoreProductViewModel;
+import com.piper.valley.viewmodels.StoreOwnerDashboardViewModel;
+import com.piper.valley.viewmodels.StoreProductViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -21,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.Collection;
 import java.util.Optional;
 
 @Controller
@@ -34,7 +36,16 @@ public class StoreController {
 	private ProductService productService;
 
 	@Autowired
+	private StoreProductService storeProductService;
+
+	@Autowired
 	private AddStoreProductViewModel addStoreProductViewModel;
+
+	@Autowired
+	private StoreProductViewModel storeProductViewModel;
+
+	@Autowired
+	private StoreOwnerDashboardViewModel storeOwnerDashboardViewModel;
 
     @Autowired
     private AddStoreProductFormValidator addStoreProductFormValidator;
@@ -110,14 +121,18 @@ public class StoreController {
 	@PreAuthorize("hasAuthority('STORE_OWNER')")
 	@RequestMapping(value = "/user/storeowner/dashbaord", method = RequestMethod.GET)
 	public ModelAndView addStoreProduct(CurrentUser currentUser) {
-		Collection<Store>Accepted=storeService.getAllAcceptedUserStores(currentUser.getId());
-		Collection<Store>Pending=storeService.getAllPendingUserStores(currentUser.getId());
-		Collection<Store>Rejected=storeService.getAllNotAcceptedUserStores(currentUser.getId());
-		ModelAndView mv=new ModelAndView("store/dashboard");
-		mv.addObject("accepted",Accepted);
-		mv.addObject("pending",Pending);
-		mv.addObject("rejected",Rejected);
-		return mv;
+    	return new ModelAndView("store/dashboard", storeOwnerDashboardViewModel.create(currentUser.getId()));
+	}
+
+	@RequestMapping(value = "/store/products/{id}", method = RequestMethod.GET)
+	public ModelAndView viewStoreProduct(@PathVariable("id") Long id) {
+
+		Optional<StoreProduct> product = storeProductService.getProductById(id);
+
+		if (!product.isPresent())
+			return new ModelAndView("error/404");
+
+		return new ModelAndView("store/storeprodcutview", storeProductViewModel.create(product.get()));
 	}
 
 

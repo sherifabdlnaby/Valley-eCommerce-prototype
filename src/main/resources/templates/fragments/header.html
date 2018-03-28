@@ -55,8 +55,8 @@
 
             <ul sec:authorize="isAuthenticated()" class="navbar-nav mr-auto">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown"  role="button" aria-haspopup="true"
-                       aria-expanded="false" th:text="${currentUser.username}"><i class="fas fa-user"></i> User</a>
+                    <a class="nav-link dropdown-toggle font-weight-bold" data-toggle="dropdown"  role="button" aria-haspopup="true"
+                       aria-expanded="false" th:text="${currentUser.username}"><i class="fas fa-user"></i></a>
                     <div class="dropdown-menu">
                         <h6 class="dropdown-header">Profile Actions</h6>
                         <a class="dropdown-item" th:href="@{/user/view/{username}(username = ${currentUser.username})}"><i class="fas fa-fw fa-user"> </i> View Profile</a>
