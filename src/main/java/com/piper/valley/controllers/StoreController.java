@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.Optional;
 
 @Controller
@@ -104,6 +105,19 @@ public class StoreController {
 
 		//TODO Flash message Successful!
 		return new ModelAndView("redirect:/");
+	}
+
+	@PreAuthorize("hasAuthority('STORE_OWNER')")
+	@RequestMapping(value = "/user/storeowner/dashbaord", method = RequestMethod.GET)
+	public ModelAndView addStoreProduct(CurrentUser currentUser) {
+		Collection<Store>Accepted=storeService.getAllAcceptedUserStores(currentUser.getId());
+		Collection<Store>Pending=storeService.getAllPendingUserStores(currentUser.getId());
+		Collection<Store>Rejected=storeService.getAllNotAcceptedUserStores(currentUser.getId());
+		ModelAndView mv=new ModelAndView("store/dashboard");
+		mv.addObject("accepted",Accepted);
+		mv.addObject("pending",Pending);
+		mv.addObject("rejected",Rejected);
+		return mv;
 	}
 
 

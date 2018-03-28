@@ -53,8 +53,13 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
+	public 	Collection<Store> getAllPendingUserStores(Long storeOwnerId){
+		return storeRepository.findByStoreOwner_IdAndStatus(storeOwnerId, StoreStatus.PENDING);
+	}
+
+	@Override
 	public 	Collection<Store> getAllNotAcceptedUserStores(Long storeOwnerId){
-		return storeRepository.findByStoreOwner_IdAndStatus(storeOwnerId, StoreStatus.ACCEPTED);
+		return storeRepository.findByStoreOwner_IdAndStatus(storeOwnerId, StoreStatus.REJECTED);
 	}
 
 	@Override

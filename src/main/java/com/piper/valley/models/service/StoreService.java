@@ -21,6 +21,8 @@ public interface StoreService {
 
 	Collection<Store> getAllAcceptedUserStores(Long storeOwnerId);
 
+	Collection<Store> getAllPendingUserStores(Long storeOwnerId);
+
 	Collection<Store> getAllNotAcceptedUserStores(Long storeOwnerId);
 
 	Store add(AddStoreForm form, User user);

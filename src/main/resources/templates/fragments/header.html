@@ -36,6 +36,12 @@
                 </div>
             </li>
 
+            <li sec:authorize="hasRole('STORE_OWNER')" class="nav-item" >
+                <a class="nav-link" href="/user/storeowner/dashbaord">
+                    <i class="fas fa-list-alt"></i> Dash Board</a>
+
+            </li>
+
         </ul>
         <div class="form-inline my-2 my-lg-0">
             <ul sec:authorize="!isAuthenticated()" class="navbar-nav mr-auto">
