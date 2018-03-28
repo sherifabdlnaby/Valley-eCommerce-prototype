@@ -104,7 +104,7 @@ public class StoreController {
 		StoreProduct storeProduct = storeService.addProductToStore(addStoreProductForm, currentUser.getUser());
 
 		//TODO Flash message Successful!
-		return new ModelAndView("redirect:/");
+		return new ModelAndView("redirect:/store/products/"+storeProduct.getId());
 	}
 
 	@PreAuthorize("hasAuthority('STORE_OWNER')")
