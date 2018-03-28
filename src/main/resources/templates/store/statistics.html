@@ -6,19 +6,32 @@
     <meta charset="utf-8"/>
     <title>Stores Statistics</title>
     <th:block layout:fragment="customStyle">
-        <!--El Custom Styles le el 7eta deh-->
-        <!-- <link rel="stylesheet" th:href="@{/css/home.css}"> -->
     </th:block>
 </head>
 
 <!-- Body !-->
 <body layout:fragment="content">
-<!--Content Goes Here!--><br/>
-<br/>
-<h1><i class="fas fa-tachometer-alt"></i> Store Statistics </h1>
-<hr/>
-<br/>
+<!--Content Goes Here!-->
 <div class="container">
+    <br/>
+    <h2><i class="fas fa-chart-line"></i> Store Statistics </h2>
+    <hr/>
+    <br/>
+    <h3> <i class="fas fa-chart-bar"></i> Stores Views Overview</h3>
+    <h5> Statistics are gathered live and are up to date. </h5>
+    <hr/>
+    <div class="col-lg-12" id="StoreViewsOverview" style="height: 315px;" > </div>
+    <div class="col-lg-12" >
+        <div style="width: 75%; margin: auto" id="canvas-holder">
+            <canvas id="bar-area"></canvas>
+        </div>
+    </div>
+    <br/>
+    <br/>
+    <hr/>
+    <br/>
+    <h3><i class="fas fa-table"></i> Detailed Per Store Views.</h3>
+    <hr/>
     <div class="col-lg-8">
     <div class="col-sm-12 table-responsive-md" th:if="${not #lists.isEmpty(accepted)}">
         <div th:each="store,i : ${accepted}">
@@ -27,7 +40,7 @@
                th:text="${store.getName()}">-</a>
         </h2>
             <div th:if="${#lists.isEmpty(store.getStoreProducts())}">
-                <pre style="font-size: 21px">   This store is empty. </pre>
+                <h3 class="text-muted">   This store is empty. </h3>
             </div>
         <div class="col-sm-12 table-responsive-md" th:if="${not #lists.isEmpty(store.getStoreProducts())}">
             <table class="table table-striped table-hover">
@@ -62,7 +75,67 @@
 </div>
 <!--El Custom Scripts le el 7eta deh-->
 <th:block layout:fragment="customScripts">
+    <script th:src="@{/js/Chart.bundle.min.js}"></script>
+    <script th:inline="javascript">
+        var chartData = {
+            labels:  [[${names}]],
+            datasets: [{
+                type: 'bar',
+                label: 'Total Views',
+                borderWidth: 2,
+                fill: false,
+                borderColor: "#2C3E50",
+                backgroundColor: "#2C3E50",
+                data: [[${productCount}]]
+            }]
+        };
+        var config = {
+            type: 'bar',
+            data: chartData,
+            options: {
+                responsive: true,
+                scaleFontColor: 'rgba(150, 150, 150,1)',
+                legend: {
+                    labels: {
+                        fontColor: 'rgba(150, 150, 150,1)'
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Total Views per Store',
+                    fontColor: 'rgba(150, 150, 150,1)'
+                },
+                scales: {
+                    yAxes : [{
+                        ticks : {
+                            min: 0,
+                            fontColor: 'rgba(150, 150, 150,1)'
+                        },
+                        gridLines: {
+                            color: "rgba(175, 175, 175, 0.25)",
+                            zeroLineColor: "#3c4146"
+                        }
+                    }],
+                    xAxes : [{
+                        ticks: {
+                            fontColor: 'rgba(150, 150, 150,1)',
+                        },
+                        gridLines: {
+                            color: "rgba(175, 175, 175, 0.25)",
+                            zeroLineColor: "#3c4146"
+                        }
+                    }]
+                }
 
+            }
+        };
+        window.onload = function () {
+            var placeHolder = document.getElementById("StoreViewsOverview");
+            placeHolder.style.display = 'none';
+            var chartContext = document.getElementById("bar-area");
+            var chart = new Chart(chartContext, config);
+        };
+    </script>
 </th:block>
 </body>
 </html>
