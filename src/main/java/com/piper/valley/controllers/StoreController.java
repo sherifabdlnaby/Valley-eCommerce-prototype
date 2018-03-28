@@ -121,9 +121,13 @@ public class StoreController {
 		Optional<StoreProduct> product = storeProductService.getProductById(id);
 		if (!product.isPresent())
 			return new ModelAndView("error/404");
-        storeProductService.incrementViews(id);
-        productService.incrementViews(id);
-		return new ModelAndView("store/storeprodcutview", storeProductViewModel.create(product.get()));
+
+		StoreProduct storeProduct = product.get();
+
+        storeProductService.incrementViews(storeProduct);
+        productService.incrementViews(storeProduct.getProduct());
+
+		return new ModelAndView("store/storeprodcutview", storeProductViewModel.create(storeProduct));
 	}
 
 }

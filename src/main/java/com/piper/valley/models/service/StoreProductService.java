@@ -8,6 +8,6 @@ import java.util.Optional;
 public interface StoreProductService {
 
 	Optional<StoreProduct>getProductById(Long id);
-	void incrementViews(Long storeProductId);
+	void incrementViews(StoreProduct storeProduct);
 
 }
