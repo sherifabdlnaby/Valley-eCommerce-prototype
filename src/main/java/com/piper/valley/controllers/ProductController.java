@@ -5,10 +5,11 @@ import com.piper.valley.models.domain.Product;
 import com.piper.valley.models.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.text.DateFormat;
 import java.util.Optional;
 
 @Controller
@@ -31,10 +32,5 @@ public class ProductController {
         }
         return new ModelAndView("product/view", "product", product.get());
     }
-
-
-
-
-
 
 }
