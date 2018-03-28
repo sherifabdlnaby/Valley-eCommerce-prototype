@@ -13,7 +13,6 @@ import com.piper.valley.models.service.StoreService;
 import com.piper.valley.utilities.AuthUtil;
 import com.piper.valley.validators.AddStoreProductFormValidator;
 import com.piper.valley.viewmodels.AddStoreProductViewModel;
-import com.piper.valley.viewmodels.StoreOwnerDashboardViewModel;
 import com.piper.valley.viewmodels.StoreProductViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -43,9 +42,6 @@ public class StoreController {
 
 	@Autowired
 	private StoreProductViewModel storeProductViewModel;
-
-	@Autowired
-	private StoreOwnerDashboardViewModel storeOwnerDashboardViewModel;
 
     @Autowired
     private AddStoreProductFormValidator addStoreProductFormValidator;
@@ -118,11 +114,6 @@ public class StoreController {
 		return new ModelAndView("redirect:/store/products/"+storeProduct.getId());
 	}
 
-	@PreAuthorize("hasAuthority('STORE_OWNER')")
-	@RequestMapping(value = "/user/storeowner/dashbaord", method = RequestMethod.GET)
-	public ModelAndView addStoreProduct(CurrentUser currentUser) {
-    	return new ModelAndView("store/dashboard", storeOwnerDashboardViewModel.create(currentUser.getId()));
-	}
 
 	@RequestMapping(value = "/store/products/{id}", method = RequestMethod.GET)
 	public ModelAndView viewStoreProduct(@PathVariable("id") Long id) {
@@ -134,6 +125,5 @@ public class StoreController {
 
 		return new ModelAndView("store/storeprodcutview", storeProductViewModel.create(product.get()));
 	}
-
 
 }

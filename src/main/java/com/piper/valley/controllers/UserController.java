@@ -1,8 +1,10 @@
 package com.piper.valley.controllers;
 
+import com.piper.valley.auth.CurrentUser;
 import com.piper.valley.forms.UserCreateForm;
 import com.piper.valley.models.service.UserService;
 import com.piper.valley.validators.UserCreateFormValidator;
+import com.piper.valley.viewmodels.StoreOwnerDashboardViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -17,13 +19,17 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
-public class AccountController {
+public class UserController {
 	/////////////////////////*  SERVICES, REPOSITORIES AND VALIDATORS SECTION  */////////////////////////////
 	@Autowired
 	private UserService userService;
 
 	@Autowired
 	private UserCreateFormValidator userCreateFormValidator;
+
+	@Autowired
+	private StoreOwnerDashboardViewModel storeOwnerDashboardViewModel;
+
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////*  VALIDATORS BINDING SECTION  *//////////////////////////////////////
@@ -68,6 +74,12 @@ public class AccountController {
 		}
 
 		return new ModelAndView("redirect:/");
+	}
+
+	@PreAuthorize("hasAuthority('STORE_OWNER')")
+	@RequestMapping(value = "/user/storeowner/dashbaord", method = RequestMethod.GET)
+	public ModelAndView addStoreProduct(CurrentUser currentUser) {
+		return new ModelAndView("store/dashboard", storeOwnerDashboardViewModel.create(currentUser.getId()));
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
