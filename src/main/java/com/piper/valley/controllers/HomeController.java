@@ -17,7 +17,7 @@ public class HomeController {
 	private HomePageModel homePageModel;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView register() {
+	public ModelAndView index() {
 		return new ModelAndView("home/index", homePageModel.create());
 	}
 

@@ -29,12 +29,14 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public void acceptStore(Long storeId) {
+	public Store acceptStore(Long storeId) {
 		Optional<Store> store = Optional.ofNullable(storeRepository.findOne(storeId));
-		store.ifPresent(store1 -> {
+		if(store.isPresent()) {
+			Store store1 = store.get();
 			store1.setStatus(StoreStatus.ACCEPTED);
-			storeRepository.save(store1);
-		});
+			return storeRepository.save(store1);
+		}
+		return null;
 	}
 
 	@Override

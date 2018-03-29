@@ -3,6 +3,7 @@ package com.piper.valley.controllers;
 import com.piper.valley.auth.CurrentUser;
 import com.piper.valley.forms.UserCreateForm;
 import com.piper.valley.models.service.UserService;
+import com.piper.valley.utilities.FlashMessages;
 import com.piper.valley.validators.UserCreateFormValidator;
 import com.piper.valley.viewmodels.StoreOwnerDashboardViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -58,7 +60,7 @@ public class UserController {
 
 	//@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public ModelAndView register(@Valid @ModelAttribute("registerForm") UserCreateForm registerForm, BindingResult bindingResult, HttpServletRequest request) {
+	public ModelAndView register(@Valid @ModelAttribute("registerForm") UserCreateForm registerForm, BindingResult bindingResult, HttpServletRequest request, RedirectAttributes redirectAttributes) {
 		if (bindingResult.hasErrors())
 			return new ModelAndView("user/register", "registerForm", registerForm);
 
@@ -72,6 +74,9 @@ public class UserController {
 		} catch (ServletException e) {
 			e.printStackTrace();
 		}
+
+		FlashMessages.info("Welcome to Valley! Thank you for registering, we're happy for having you!", redirectAttributes);
+
 
 		return new ModelAndView("redirect:/");
 	}

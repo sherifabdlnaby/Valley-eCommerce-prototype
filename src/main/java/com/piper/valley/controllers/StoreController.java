@@ -11,8 +11,10 @@ import com.piper.valley.models.service.ProductService;
 import com.piper.valley.models.service.StoreProductService;
 import com.piper.valley.models.service.StoreService;
 import com.piper.valley.utilities.AuthUtil;
+import com.piper.valley.utilities.FlashMessages;
 import com.piper.valley.validators.AddStoreProductFormValidator;
 import com.piper.valley.viewmodels.AddStoreProductViewModel;
+import com.piper.valley.viewmodels.StoreOwnerDashboardViewModel;
 import com.piper.valley.viewmodels.StoreProductViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,6 +23,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -46,6 +49,8 @@ public class StoreController {
     @Autowired
     private AddStoreProductFormValidator addStoreProductFormValidator;
 
+    @Autowired
+    private StoreOwnerDashboardViewModel storeOwnerDashboardViewModel;
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////*  VALIDATORS BINDING SECTION  *//////////////////////////////////////
@@ -65,16 +70,18 @@ public class StoreController {
     }
 
     @RequestMapping(value = "/store/add", method = RequestMethod.POST)
-    public ModelAndView addStore(@Valid @ModelAttribute("addStoreForm")AddStoreForm addStoreForm, BindingResult bindingResult, CurrentUser currentUser)
+    public ModelAndView addStore(@Valid @ModelAttribute("addStoreForm")AddStoreForm addStoreForm, BindingResult bindingResult, CurrentUser currentUser, RedirectAttributes redirectAttributes)
     {
         if(bindingResult.hasErrors())
             return new ModelAndView("store/add","AddStoreForm",addStoreForm);
 
         Store store = storeService.add(addStoreForm, currentUser.getUser());
 
-		if(true)
-		    //Add Role to Runtime Session
-            AuthUtil.addRoleAtRuntime(Role.STORE_OWNER);
+	    //Add Role to Runtime Session
+        AuthUtil.addRoleAtRuntime(Role.STORE_OWNER);
+
+	    FlashMessages.info(store.getName() + " added to the platform and awaiting Admin approval!", redirectAttributes);
+
 
 	    return new ModelAndView("redirect:/store/view/"+store.getId());
     }
@@ -83,7 +90,6 @@ public class StoreController {
 	public ModelAndView viewProduct(@PathVariable("id") Long id, CurrentUser currentUser) {
 		Optional<Store> storeTmp = storeService.getStoreById(id);
 
-		//TODO send 404 status code not just render error.
 		if (!storeTmp.isPresent())
 			return new ModelAndView("error/404");
 
@@ -104,16 +110,22 @@ public class StoreController {
 
 	@PreAuthorize("hasAuthority('STORE_OWNER')")
 	@RequestMapping(value = "/store/addproduct", method = RequestMethod.POST)
-	public ModelAndView addStoreProduct(@Valid @ModelAttribute("addStoreProductForm") AddStoreProductForm addStoreProductForm, BindingResult bindingResult, CurrentUser currentUser) {
+	public ModelAndView addStoreProduct(@Valid @ModelAttribute("addStoreProductForm") AddStoreProductForm addStoreProductForm, BindingResult bindingResult, CurrentUser currentUser, RedirectAttributes redirectAttributes) {
 		if(bindingResult.hasErrors())
 			return new ModelAndView("store/addproduct", addStoreProductViewModel.create(addStoreProductForm, currentUser.getId()));
 
 		StoreProduct storeProduct = storeService.addProductToStore(addStoreProductForm, currentUser.getUser());
 
-		//TODO Flash message Successful!
+		FlashMessages.success("Success! " + storeProduct.getProduct().getName() + " Added to your store!", redirectAttributes);
+
 		return new ModelAndView("redirect:/store/products/"+storeProduct.getId());
 	}
 
+    @PreAuthorize("hasAuthority('STORE_OWNER')")
+    @RequestMapping(value = "/store/statistics", method = RequestMethod.GET)
+    public ModelAndView viewStatistics(CurrentUser currentUser) {
+        return new ModelAndView("store/statistics", storeOwnerDashboardViewModel.create(currentUser.getId()));
+    }
 
 	@RequestMapping(value = "/store/products/{id}", method = RequestMethod.GET)
 	public ModelAndView viewStoreProduct(@PathVariable("id") Long id) {

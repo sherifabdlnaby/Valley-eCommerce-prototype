@@ -3,12 +3,15 @@ package com.piper.valley.controllers;
 import com.piper.valley.forms.AddBrandForm;
 import com.piper.valley.forms.AddCompanyForm;
 import com.piper.valley.forms.AddProductForm;
+import com.piper.valley.models.domain.Brand;
+import com.piper.valley.models.domain.Company;
 import com.piper.valley.models.domain.Product;
 import com.piper.valley.models.domain.Store;
 import com.piper.valley.models.service.BrandService;
 import com.piper.valley.models.service.CompanyService;
 import com.piper.valley.models.service.ProductService;
 import com.piper.valley.models.service.StoreService;
+import com.piper.valley.utilities.FlashMessages;
 import com.piper.valley.validators.AddBrandFormValidator;
 import com.piper.valley.validators.AddCompanyFormValidator;
 import com.piper.valley.validators.AddProductFormValidator;
@@ -20,6 +23,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.Collection;
@@ -85,12 +89,17 @@ public class AdminController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/admin/addbrand", method = RequestMethod.POST)
-    public ModelAndView addBrand(@Valid @ModelAttribute("addBrandForm")AddBrandForm addBrandForm, BindingResult bindingResult)
+    public ModelAndView addBrand(@Valid @ModelAttribute("addBrandForm")AddBrandForm addBrandForm, BindingResult bindingResult, RedirectAttributes redirectAttributes)
     {
         if(bindingResult.hasErrors())
             return new ModelAndView("admin/addbrand","addBrandForm",addBrandForm);
-        brandService.addBrand(addBrandForm);
-        return new ModelAndView("redirect:/");
+
+        Brand brand = brandService.addBrand(addBrandForm);
+
+	    FlashMessages.success("Success! Brand: " + brand.getName() + " Added to the platform!", redirectAttributes);
+
+
+	    return new ModelAndView("redirect:/admin/addbrand");
     }
 
 	@PreAuthorize("hasAuthority('ADMIN')")
@@ -101,12 +110,16 @@ public class AdminController {
 
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(value = "/admin/addcompany", method = RequestMethod.POST)
-	public ModelAndView addCompany(@Valid @ModelAttribute("addCompanyForm")AddCompanyForm addCompanyForm, BindingResult bindingResult)
+	public ModelAndView addCompany(@Valid @ModelAttribute("addCompanyForm")AddCompanyForm addCompanyForm, BindingResult bindingResult, RedirectAttributes redirectAttributes)
 	{
 		if(bindingResult.hasErrors())
 			return new ModelAndView("admin/addcompany","addCompanyForm",addCompanyForm);
-		companyService.addCompany(addCompanyForm);
-		return new ModelAndView("redirect:/");
+
+		Company company = companyService.addCompany(addCompanyForm);
+
+		FlashMessages.success("Success! Company: " + company.getName() + " Added to the platform!", redirectAttributes);
+
+		return new ModelAndView("redirect:/admin/addcompany");
 	}
 
    @PreAuthorize("hasAuthority('ADMIN')")
@@ -117,13 +130,15 @@ public class AdminController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/admin/addproduct", method = RequestMethod.POST)
-    public ModelAndView addProduct(@Valid @ModelAttribute("addProductForm") AddProductForm addProductForm, BindingResult bindingResult) {
+    public ModelAndView addProduct(@Valid @ModelAttribute("addProductForm") AddProductForm addProductForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors())
 	        return new ModelAndView("admin/addproduct", addProductViewModel.create(addProductForm));
 
         Product product = productService.addProduct(addProductForm);
 
-        return new ModelAndView("redirect:/product/view/"+product.getId());
+	    FlashMessages.success("Success! Product: " + product.getName() + " Added to the platform!", redirectAttributes);
+
+	    return new ModelAndView("redirect:/product/view/"+product.getId());
     }
 
 	@PreAuthorize("hasAuthority('ADMIN')")
@@ -148,9 +163,13 @@ public class AdminController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/admin/acceptstores", method = RequestMethod.POST)
-    public ModelAndView acceptStore(@RequestParam("id") Long id) {
-        storeService.acceptStore(id);
-        return new ModelAndView("redirect:/admin/acceptstores"); // Temporary
+    public ModelAndView acceptStore(@RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
+
+        Store store = storeService.acceptStore(id);
+
+	    FlashMessages.success("Success! Store: " + store.getName() + " Added to the platform!", redirectAttributes);
+
+        return new ModelAndView("redirect:/admin/acceptstores");
     }
 
 }
