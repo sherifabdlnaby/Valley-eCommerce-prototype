@@ -26,46 +26,26 @@
     <br/><br/><br/><br/><br/>
 </div> <!-- /container full -->
 
-<div class="container">
-    <hr/>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-heading"><h3>Hello.</h3></div>
-                <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius
-                    quam sit amet vulputate.
-                    Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis
-                    dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor
-                    accumsan.
-                    Aliquam in felis sit amet augue.
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-heading"><h3>Placeholder.</h3></div>
-                <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius
-                    quam sit amet vulputate.
-                    Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis
-                    dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor
-                    accumsan.
-                    Aliquam in felis sit amet augue.
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-heading"><h3>Text.</h3></div>
-                <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius
-                    quam sit amet vulputate.
-                    Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis
-                    dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor
-                    accumsan.
-                    Aliquam in felis sit amet augue.
+
+<div class="container" >
+    <br/>
+    <br/>
+    <div class="row ">
+        <div class="col-md-4 mb-3" th:each="product,i :${products}" >
+
+            <div class="card " style="width: 18rem;"   >
+
+                <img class="card-img-top" th:src="@{https://ahdc.vet.cornell.edu/Sects/duck/images/phbig2_000.jpg}" alt="Card image cap"/>
+
+                <div class="card-body">
+                    <h5 class="card-title"><span th:text="${product.name}"></span></h5>
+
+                    <a th:href="@{/product/view/{id}(id = ${product.id})}" class="btn btn-primary">More Details</a>
                 </div>
             </div>
         </div>
     </div>
+
 </div>
 
 <!--El Custom Scripts le el 7eta deh-->
