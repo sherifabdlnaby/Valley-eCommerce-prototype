@@ -111,6 +111,8 @@ public class StoreServiceImpl implements StoreService {
 		Store store = storeOptional.get();
 
 		StoreProduct storeProduct = new StoreProduct();
+		storeProduct.setName(form.getName());
+		storeProduct.setDescription(form.getDescription());
 		storeProduct.setPrice(form.getPrice());
 		storeProduct.setProduct(product);
 		storeProduct.setStore(store);

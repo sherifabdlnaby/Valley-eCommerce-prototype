@@ -12,6 +12,10 @@ public class StoreProduct {
 
 	private float price;
 
+	private String name;
+
+	private String description;
+
 	@ManyToOne
 	private Product product;
 
@@ -74,5 +78,21 @@ public class StoreProduct {
 
 	public void setStoreViews(int storeViews) {
 		this.storeViews = storeViews;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }

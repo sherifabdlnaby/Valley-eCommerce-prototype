@@ -48,13 +48,32 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-form-label">Average Price</label>
+                    <label class="col-form-label">Name</label>
+                    <input type="text" th:errorclass="is-invalid" class="form-control" placeholder="Name"
+                           th:field="*{name}"/>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}"
+                         th:errors="*{name}">Unspecified Error
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label">Description</label>
+                    <input type="text" th:errorclass="is-invalid" class="form-control" placeholder="Description"
+                           th:field="*{description}"/>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}"
+                         th:errors="*{description}">Unspecified Error
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label">Price</label>
                     <input type="text" th:errorclass="is-invalid" class="form-control" placeholder="Price"
                            th:field="*{price}"/>
                     <div class="invalid-feedback" th:if="${#fields.hasErrors('price')}"
                          th:errors="*{price}">Unspecified Error
                     </div>
                 </div>
+
                 <br/>
                 <button type="submit" class="btn btn-primary">Add Product To Store</button>
             </div>
