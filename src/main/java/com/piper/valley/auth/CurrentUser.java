@@ -6,7 +6,6 @@ import com.piper.valley.models.domain.User;
 import org.springframework.security.core.authority.AuthorityUtils;
 
 import java.util.Collection;
-import java.util.List;
 
 public class CurrentUser extends org.springframework.security.core.userdetails.User {
 
@@ -32,5 +31,4 @@ public class CurrentUser extends org.springframework.security.core.userdetails.U
 	public Collection<Role> getRole() {
 		return user.getRole();
 	}
-
 }

@@ -3,13 +3,8 @@ package com.piper.valley.controllers;
 import com.piper.valley.auth.CurrentUser;
 import com.piper.valley.forms.AddStoreForm;
 import com.piper.valley.forms.AddStoreProductForm;
-import com.piper.valley.models.domain.Role;
-import com.piper.valley.models.domain.Store;
-import com.piper.valley.models.domain.StoreProduct;
-import com.piper.valley.models.domain.StoreStatus;
-import com.piper.valley.models.service.ProductService;
-import com.piper.valley.models.service.StoreProductService;
-import com.piper.valley.models.service.StoreService;
+import com.piper.valley.models.domain.*;
+import com.piper.valley.models.service.*;
 import com.piper.valley.utilities.AuthUtil;
 import com.piper.valley.utilities.FlashMessages;
 import com.piper.valley.validators.AddStoreProductFormValidator;
@@ -39,6 +34,9 @@ public class StoreController {
 
 	@Autowired
 	private StoreProductService storeProductService;
+
+	@Autowired
+	private OrderService orderService;
 
 	@Autowired
 	private AddStoreProductViewModel addStoreProductViewModel;
@@ -142,4 +140,30 @@ public class StoreController {
 		return new ModelAndView("store/storeprodcutview", storeProductViewModel.create(storeProduct));
 	}
 
+//	@RequestMapping(value = "/store/product/{product_id}/buy", method = RequestMethod.GET)
+//	public ModelAndView addToCart(@RequestParam("store_id") Long store_id,
+//	                              @PathVariable("product_id") Long product_id,
+//	                              CurrentUser currentUser) {
+//    	Optional<StoreProduct> product = storeProductService.getProductById(product_id);
+//    	if (!product.isPresent()) {
+//    		return new ModelAndView("error/404");
+//	    }
+//
+//	    return new ModelAndView("product/addToCart", storeProductViewModel.create(product.get()));
+//	}
+
+	@RequestMapping(value = "/store/product/{product_id}/buy", method = RequestMethod.POST)
+	public ModelAndView addToCart(@RequestParam("store_id") Long store_id,
+	                              @PathVariable("product_id") Long product_id,
+	                              CurrentUser currentUser) {
+    	Optional<StoreProduct> product = storeProductService.getProductById(product_id);
+    	if (!product.isPresent()) {
+		    return new ModelAndView("error/404");
+	    }
+
+		System.out.println("buy");
+    	orderService.addOrder(currentUser.getUser(), product.get());
+
+	    return new ModelAndView("redirect:/store/products/" + product_id);
+	}
 }

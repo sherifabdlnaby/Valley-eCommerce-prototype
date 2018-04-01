@@ -31,7 +31,14 @@
 			</div>
 			<li class="list-group-item text-left">
 				<span class="pull-right"><a class="btn btn-sm btn-primary" th:href="@{/store/view/{id}(id = ${product.getStore().getId()})}"><i class="fas fa-chevron-circle-left"></i> Visit Store</a></span>
-				<span class="pull-left"><a class="btn btn-sm btn-success" th:href="@{/store/product/{id}/buy(id = ${product.id})}"><i class="fas fa-shopping-cart"></i> Buy Product </a></span>
+				<form th:action="@{/store/product/{id}/buy(id = ${product.id})}" method="post">
+					<input type="hidden" name="store_id" th:value="${product.getStore().getId()}"/>
+					<span class="pull-left">
+						<button type="submit" class="btn btn-sm btn-success">
+							<i class='fas fa-shopping-cart'></i> Buy Product
+						</button>
+					</span>
+				</form>
 			</li>
 		</ul>
 

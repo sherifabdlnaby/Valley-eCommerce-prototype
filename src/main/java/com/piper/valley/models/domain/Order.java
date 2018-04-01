@@ -14,7 +14,7 @@ public class Order {
 	@Column(name = "addedDate", nullable = false)
 	private Date addedDate;
 
-	@Column(name = "processedDate", nullable = false)
+	@Column(name = "processedDate")
 	private Date processedDate;
 
 	@Column(name = "quantity", nullable = false)
@@ -26,9 +26,6 @@ public class Order {
 
 	@ManyToOne
 	private StoreProduct storeProduct;
-
-	@ManyToOne
-	private ShoppingCart shoppingCart;
 
 	//TODO Index this.
 	@ManyToOne
@@ -89,5 +86,12 @@ public class Order {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+
+	public Order(User user, StoreProduct storeProduct, int quantity) {
+		this.storeProduct = storeProduct;
+		this.quantity = quantity;
+		this.user = user;
+		this.addedDate = new Date();
 	}
 }

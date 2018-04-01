@@ -2,7 +2,6 @@ package com.piper.valley.models.service;
 
 import com.piper.valley.forms.UserCreateForm;
 import com.piper.valley.models.domain.Role;
-import com.piper.valley.models.domain.ShoppingCart;
 import com.piper.valley.models.domain.User;
 import com.piper.valley.models.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -51,13 +53,6 @@ public class UserServiceImpl implements UserService {
 
 		//Add Roles List to User
 		user.setRole(roles);
-
-		//Create Shopping Cart
-		ShoppingCart shoppingCart = new ShoppingCart();
-
-		//Bidirectional Linking
-		user.setShoppingCart(shoppingCart);
-		user.getShoppingCart().setUser(user);
 
 		//Save da kolo
 		return userRepository.save(user);
