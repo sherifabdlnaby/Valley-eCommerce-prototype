@@ -20,6 +20,9 @@ public class Order {
 	@Column(name = "quantity", nullable = false)
 	private int quantity = 1;
 
+	@Column(name = "address",nullable = false)
+	private String address;
+
 	//Processed true = bought by the user.
 	@Column(name = "processed", nullable = false)
 	private boolean processed = false;
@@ -60,6 +63,14 @@ public class Order {
 
 	public Date getAddedDate() {
 		return addedDate;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public void setAddedDate(Date addedDate) {

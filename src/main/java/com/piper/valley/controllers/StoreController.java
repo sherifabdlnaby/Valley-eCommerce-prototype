@@ -1,6 +1,7 @@
 package com.piper.valley.controllers;
 
 import com.piper.valley.auth.CurrentUser;
+import com.piper.valley.forms.AddOrderForm;
 import com.piper.valley.forms.AddStoreForm;
 import com.piper.valley.forms.AddStoreProductForm;
 import com.piper.valley.models.domain.Role;
@@ -13,6 +14,7 @@ import com.piper.valley.models.service.StoreService;
 import com.piper.valley.utilities.AuthUtil;
 import com.piper.valley.utilities.FlashMessages;
 import com.piper.valley.validators.AddStoreProductFormValidator;
+import com.piper.valley.viewmodels.AddOrderViewModel;
 import com.piper.valley.viewmodels.AddStoreProductViewModel;
 import com.piper.valley.viewmodels.StoreOwnerDashboardViewModel;
 import com.piper.valley.viewmodels.StoreProductViewModel;
@@ -51,6 +53,9 @@ public class StoreController {
 
     @Autowired
     private StoreOwnerDashboardViewModel storeOwnerDashboardViewModel;
+
+    @Autowired
+	private AddOrderViewModel addOrderViewModel;
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////*  VALIDATORS BINDING SECTION  *//////////////////////////////////////
@@ -140,6 +145,31 @@ public class StoreController {
         productService.incrementViews(storeProduct.getProduct());
 
 		return new ModelAndView("store/storeprodcutview", storeProductViewModel.create(storeProduct));
+	}
+
+	@RequestMapping(value = "/store/products/{id}/buy", method = RequestMethod.GET)
+	public ModelAndView addStore(@PathVariable("id") Long id, @ModelAttribute("addOrderForm") AddOrderForm addOrderForm) {
+		Optional<StoreProduct> product = storeProductService.getProductById(id);
+		if (!product.isPresent())
+			return new ModelAndView("error/404");
+		return new ModelAndView("store/addorder", addOrderViewModel.create(addOrderForm,id));
+	}
+
+	@RequestMapping(value = "/store/products/{id}/buy", method = RequestMethod.POST)
+	public ModelAndView addStore(@PathVariable("id") Long id,@Valid @ModelAttribute("addOrderForm")AddOrderForm addOrderForm, BindingResult bindingResult, CurrentUser currentUser, RedirectAttributes redirectAttributes)
+	{
+		if(bindingResult.hasErrors())
+			return new ModelAndView("store/addorder","addOrderForm",addOrderForm);
+
+		/*Store store = storeService.add(addStoreForm, currentUser.getUser());
+
+		//Add Role to Runtime Session
+		AuthUtil.addRoleAtRuntime(Role.STORE_OWNER);
+
+		FlashMessages.info(store.getName() + " added to the platform and awaiting Admin approval!", redirectAttributes);*/
+
+
+		return new ModelAndView("index");
 	}
 
 }
