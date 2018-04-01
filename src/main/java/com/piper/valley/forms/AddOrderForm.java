@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 public class AddOrderForm {
 
 	@NotNull
-	private int quantity = 1;
+	private Integer quantity = 1;
 
 	@NotEmpty
 	private String address;
@@ -16,11 +16,11 @@ public class AddOrderForm {
 	public AddOrderForm() {
 	}
 
-	public int getQuantity() {
+	public Integer getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(int quantity) {
+	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
 

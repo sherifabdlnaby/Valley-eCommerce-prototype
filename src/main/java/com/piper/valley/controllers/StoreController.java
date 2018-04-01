@@ -148,7 +148,7 @@ public class StoreController {
 	}
 
 	@RequestMapping(value = "/store/products/{id}/buy", method = RequestMethod.GET)
-	public ModelAndView addStore(@PathVariable("id") Long id, @ModelAttribute("addOrderForm") AddOrderForm addOrderForm) {
+	public ModelAndView addOrder(@PathVariable("id") Long id, @ModelAttribute("addOrderForm") AddOrderForm addOrderForm) {
 		Optional<StoreProduct> product = storeProductService.getProductById(id);
 		if (!product.isPresent())
 			return new ModelAndView("error/404");
@@ -156,10 +156,10 @@ public class StoreController {
 	}
 
 	@RequestMapping(value = "/store/products/{id}/buy", method = RequestMethod.POST)
-	public ModelAndView addStore(@PathVariable("id") Long id,@Valid @ModelAttribute("addOrderForm")AddOrderForm addOrderForm, BindingResult bindingResult, CurrentUser currentUser, RedirectAttributes redirectAttributes)
+	public ModelAndView addOrder(@PathVariable("id") Long id,@Valid @ModelAttribute("addOrderForm")AddOrderForm addOrderForm, BindingResult bindingResult)
 	{
 		if(bindingResult.hasErrors())
-			return new ModelAndView("store/addorder","addOrderForm",addOrderForm);
+			return new ModelAndView("store/addorder",addOrderViewModel.create(addOrderForm,id));
 
 		/*Store store = storeService.add(addStoreForm, currentUser.getUser());
 
@@ -169,7 +169,7 @@ public class StoreController {
 		FlashMessages.info(store.getName() + " added to the platform and awaiting Admin approval!", redirectAttributes);*/
 
 
-		return new ModelAndView("index");
+		return new ModelAndView("redirect:/");
 	}
 
 }

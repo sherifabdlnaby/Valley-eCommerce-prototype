@@ -41,7 +41,7 @@
                     <h5 class="card-title"><a th:href="@{/store/products/{id}(id = ${product.getId()})}"
                                               th:text="${product.getProduct().getName()}">-</a></h5>
                     <p class="card-text" th:text="${product.getPrice()}"></p>
-                    <span class="pull-left"><a class="btn btn-sm btn-primary" th:href="@{/store/product/{id}/buy(id = ${product.id})}"><i class="fas fa-shopping-cart"></i> Buy Product </a></span>
+                    <span class="pull-left"><a class="btn btn-sm btn-primary" th:href="@{/store/products/{id}/buy(id = ${product.id})}"><i class="fas fa-shopping-cart"></i> Buy Product </a></span>
                 </div>
             </div>
         </div>
