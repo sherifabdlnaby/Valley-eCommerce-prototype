@@ -4,10 +4,8 @@ import com.piper.valley.auth.CurrentUser;
 import com.piper.valley.forms.AddOrderForm;
 import com.piper.valley.forms.AddStoreForm;
 import com.piper.valley.forms.AddStoreProductForm;
-import com.piper.valley.models.domain.Role;
-import com.piper.valley.models.domain.Store;
-import com.piper.valley.models.domain.StoreProduct;
-import com.piper.valley.models.domain.StoreStatus;
+import com.piper.valley.models.domain.*;
+import com.piper.valley.models.service.OrderService;
 import com.piper.valley.models.service.ProductService;
 import com.piper.valley.models.service.StoreProductService;
 import com.piper.valley.models.service.StoreService;
@@ -56,6 +54,9 @@ public class StoreController {
 
     @Autowired
 	private AddOrderViewModel addOrderViewModel;
+
+    @Autowired
+	private OrderService orderService;
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////*  VALIDATORS BINDING SECTION  *//////////////////////////////////////
@@ -156,17 +157,14 @@ public class StoreController {
 	}
 
 	@RequestMapping(value = "/store/products/{id}/buy", method = RequestMethod.POST)
-	public ModelAndView addOrder(@PathVariable("id") Long id,@Valid @ModelAttribute("addOrderForm")AddOrderForm addOrderForm, BindingResult bindingResult)
+	public ModelAndView addOrder(@PathVariable("id") Long id,@Valid @ModelAttribute("addOrderForm")AddOrderForm addOrderForm, BindingResult bindingResult,CurrentUser currentUser,RedirectAttributes redirectAttributes)
 	{
 		if(bindingResult.hasErrors())
 			return new ModelAndView("store/addorder",addOrderViewModel.create(addOrderForm,id));
+		Optional<StoreProduct> product = storeProductService.getProductById(id);
+		Order order = orderService.addOrder(currentUser.getUser(),product.get(),addOrderForm);
 
-		/*Store store = storeService.add(addStoreForm, currentUser.getUser());
-
-		//Add Role to Runtime Session
-		AuthUtil.addRoleAtRuntime(Role.STORE_OWNER);
-
-		FlashMessages.info(store.getName() + " added to the platform and awaiting Admin approval!", redirectAttributes);*/
+		FlashMessages.info(product.get().getProduct().getName() + " added to the Shopping Cart!", redirectAttributes);
 
 
 		return new ModelAndView("redirect:/");

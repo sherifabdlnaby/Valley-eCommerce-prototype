@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+/*
 @Entity
 @Table(name = "shopping_cart")
 public class ShoppingCart {
@@ -45,3 +46,4 @@ public class ShoppingCart {
 		this.orders = orders;
 	}
 }
+*/

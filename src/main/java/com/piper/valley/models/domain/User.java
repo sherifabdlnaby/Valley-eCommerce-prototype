@@ -1,9 +1,5 @@
 package com.piper.valley.models.domain;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.FetchProfile;
-import org.springframework.data.repository.cdi.Eager;
 
 import javax.persistence.*;
 import java.util.*;
@@ -37,9 +33,7 @@ public class User {
 	@OneToMany(mappedBy = "user")
 	private List<Order> orders;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@PrimaryKeyJoinColumn
-	private ShoppingCart shoppingCart;
+
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@PrimaryKeyJoinColumn
@@ -132,13 +126,7 @@ public class User {
 		this.orders = orders;
 	}
 
-	public ShoppingCart getShoppingCart() {
-		return shoppingCart;
-	}
 
-	public void setShoppingCart(ShoppingCart shoppingCart) {
-		this.shoppingCart = shoppingCart;
-	}
 
 	public StoreOwner getStoreOwner() {
 		return storeOwner;

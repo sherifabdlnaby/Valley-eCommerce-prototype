@@ -1,5 +1,7 @@
 package com.piper.valley.models.domain;
 
+import com.piper.valley.forms.AddOrderForm;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -14,7 +16,7 @@ public class Order {
 	@Column(name = "addedDate", nullable = false)
 	private Date addedDate;
 
-	@Column(name = "processedDate", nullable = false)
+	@Column(name = "processedDate")
 	private Date processedDate;
 
 	@Column(name = "quantity", nullable = false)
@@ -30,12 +32,20 @@ public class Order {
 	@ManyToOne
 	private StoreProduct storeProduct;
 
-	@ManyToOne
-	private ShoppingCart shoppingCart;
+
 
 	//TODO Index this.
 	@ManyToOne
 	private User user;
+
+	public Order(User user, StoreProduct storeProduct, AddOrderForm addOrderForm) {
+				this.storeProduct = storeProduct;
+				this.quantity = addOrderForm.getQuantity();
+				this.user = user;
+				this.addedDate = new Date();
+				this.address=addOrderForm.getAddress();
+				this.processedDate = new Date();
+	}
 
 	public StoreProduct getStoreProduct() {
 		return storeProduct;
