@@ -1,5 +1,7 @@
 package com.piper.valley.models.domain;
 
+import org.hibernate.search.annotations.Field;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +17,7 @@ public abstract class Store {
 	protected Long id;
 
 	@Column(name = "name", nullable = false, unique = true)
+	@Field
 	protected String name;
 
 	@Column(name = "status", nullable = false)

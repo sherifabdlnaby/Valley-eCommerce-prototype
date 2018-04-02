@@ -1,5 +1,7 @@
 package com.piper.valley.models.domain;
 
+import org.hibernate.search.annotations.Field;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +14,9 @@ public class Company {
 	@Column(name = "id", nullable = false, updatable = false)
 	private Integer id;
 
+	@Field
     private String name;
+
     @OneToMany(mappedBy = "company")
     private List<Product> products;
 

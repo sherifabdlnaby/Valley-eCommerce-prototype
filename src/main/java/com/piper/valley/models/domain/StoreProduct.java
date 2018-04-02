@@ -1,5 +1,8 @@
 package com.piper.valley.models.domain;
 
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.IndexedEmbedded;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -12,14 +15,18 @@ public class StoreProduct {
 
 	private float price;
 
+	@Field
 	private String name;
 
+	@Field
 	private String description;
 
 	@ManyToOne
+	@IndexedEmbedded
 	private Product product;
 
 	@ManyToOne
+	@IndexedEmbedded
 	private Store store;
 
 	@OneToMany(mappedBy = "storeProduct", cascade = CascadeType.ALL)
