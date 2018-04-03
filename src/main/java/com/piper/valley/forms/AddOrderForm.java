@@ -2,12 +2,14 @@ package com.piper.valley.forms;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Component
 public class AddOrderForm {
 
 	@NotNull
+	@Min(1)
 	private Integer quantity = 1;
 
 	@NotEmpty

@@ -1,6 +1,6 @@
 package com.piper.valley.controllers;
-
 import com.piper.valley.auth.CurrentUser;
+import com.piper.valley.forms.AddOrderForm;
 import com.piper.valley.forms.AddStoreForm;
 import com.piper.valley.forms.AddStoreProductForm;
 import com.piper.valley.models.domain.*;
@@ -29,9 +29,9 @@ import java.util.Optional;
 
 @Controller
 public class StoreController {
-    /////////////////////////*  SERVICES, REPOSITORIES AND VALIDATORS SECTION  */////////////////////////////
-    @Autowired
-    private StoreService storeService;
+	/////////////////////////*  SERVICES, REPOSITORIES AND VALIDATORS SECTION  */////////////////////////////
+	@Autowired
+	private StoreService storeService;
 
 	@Autowired
 	private ProductService productService;
@@ -48,48 +48,47 @@ public class StoreController {
 	@Autowired
 	private StoreProductViewModel storeProductViewModel;
 
-    @Autowired
-    private AddStoreProductFormValidator addStoreProductFormValidator;
+	@Autowired
+	private AddStoreProductFormValidator addStoreProductFormValidator;
 
-    @Autowired
-    private StoreOwnerDashboardViewModel storeOwnerDashboardViewModel;
+	@Autowired
+	private StoreOwnerDashboardViewModel storeOwnerDashboardViewModel;
 
-    @Autowired
+	@Autowired
 	private AddOrderViewModel addOrderViewModel;
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////*  VALIDATORS BINDING SECTION  *//////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////*  VALIDATORS BINDING SECTION  *//////////////////////////////////////
 
-    @InitBinder("addStoreProductForm")
-    public void addBrandFormInitBinder(WebDataBinder binder) {
-        binder.addValidators(addStoreProductFormValidator);
-    }
-
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////*  CONTROLLER ACTION  *///////////////////////////////////////////
-
-    @RequestMapping(value = "/store/add", method = RequestMethod.GET)
-    public ModelAndView addStore(@ModelAttribute("addStoreForm") AddStoreForm addStoreForm) {
-        return new ModelAndView("store/add", "addStoreForm", addStoreForm);
-    }
-
-    @RequestMapping(value = "/store/add", method = RequestMethod.POST)
-    public ModelAndView addStore(@Valid @ModelAttribute("addStoreForm")AddStoreForm addStoreForm, BindingResult bindingResult, CurrentUser currentUser, RedirectAttributes redirectAttributes)
-    {
-        if(bindingResult.hasErrors())
-            return new ModelAndView("store/add","AddStoreForm",addStoreForm);
-
-        Store store = storeService.add(addStoreForm, currentUser.getUser());
-
-	    //Add Role to Runtime Session
-        AuthUtil.addRoleAtRuntime(Role.STORE_OWNER);
-
-	    FlashMessages.info(store.getName() + " added to the platform and awaiting Admin approval!", redirectAttributes);
+	@InitBinder("addStoreProductForm")
+	public void addBrandFormInitBinder(WebDataBinder binder) {
+		binder.addValidators(addStoreProductFormValidator);
+	}
 
 
-	    return new ModelAndView("redirect:/store/view/"+store.getId());
-    }
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////*  CONTROLLER ACTION  *///////////////////////////////////////////
+
+	@RequestMapping(value = "/store/add", method = RequestMethod.GET)
+	public ModelAndView addStore(@ModelAttribute("addStoreForm") AddStoreForm addStoreForm) {
+		return new ModelAndView("store/add", "addStoreForm", addStoreForm);
+	}
+
+	@RequestMapping(value = "/store/add", method = RequestMethod.POST)
+	public ModelAndView addStore(@Valid @ModelAttribute("addStoreForm") AddStoreForm addStoreForm, BindingResult bindingResult, CurrentUser currentUser, RedirectAttributes redirectAttributes) {
+		if (bindingResult.hasErrors())
+			return new ModelAndView("store/add", "AddStoreForm", addStoreForm);
+
+		Store store = storeService.add(addStoreForm, currentUser.getUser());
+
+		//Add Role to Runtime Session
+		AuthUtil.addRoleAtRuntime(Role.STORE_OWNER);
+
+		FlashMessages.info(store.getName() + " added to the platform and awaiting Admin approval!", redirectAttributes);
+
+
+		return new ModelAndView("redirect:/store/view/" + store.getId());
+	}
 
 	@RequestMapping(value = "/store/view/{id}", method = RequestMethod.GET)
 	public ModelAndView viewProduct(@PathVariable("id") Long id, CurrentUser currentUser) {
@@ -100,7 +99,7 @@ public class StoreController {
 
 		Store store = storeTmp.get();
 		//TODO use custom authorizor instead of hardcoding it here (lateR)
-		if(store.getStatus() == StoreStatus.ACCEPTED || currentUser.getRole().contains(Role.ADMIN) || store.getStoreOwner().getId() == currentUser.getId())
+		if (store.getStatus() == StoreStatus.ACCEPTED || currentUser.getRole().contains(Role.ADMIN) || store.getStoreOwner().getId() == currentUser.getId())
 			return new ModelAndView("store/view", "store", store);
 		else
 			return new ModelAndView("error/403");
@@ -116,21 +115,21 @@ public class StoreController {
 	@PreAuthorize("hasAuthority('STORE_OWNER')")
 	@RequestMapping(value = "/store/addproduct", method = RequestMethod.POST)
 	public ModelAndView addStoreProduct(@Valid @ModelAttribute("addStoreProductForm") AddStoreProductForm addStoreProductForm, BindingResult bindingResult, CurrentUser currentUser, RedirectAttributes redirectAttributes) {
-		if(bindingResult.hasErrors())
+		if (bindingResult.hasErrors())
 			return new ModelAndView("store/addproduct", addStoreProductViewModel.create(addStoreProductForm, currentUser.getId()));
 
 		StoreProduct storeProduct = storeService.addProductToStore(addStoreProductForm, currentUser.getUser());
 
 		FlashMessages.success("Success! " + storeProduct.getProduct().getName() + " Added to your store!", redirectAttributes);
 
-		return new ModelAndView("redirect:/store/products/"+storeProduct.getId());
+		return new ModelAndView("redirect:/store/products/" + storeProduct.getId());
 	}
 
-    @PreAuthorize("hasAuthority('STORE_OWNER')")
-    @RequestMapping(value = "/store/statistics", method = RequestMethod.GET)
-    public ModelAndView viewStatistics(CurrentUser currentUser) {
-        return new ModelAndView("store/statistics", storeOwnerDashboardViewModel.create(currentUser.getId()));
-    }
+	@PreAuthorize("hasAuthority('STORE_OWNER')")
+	@RequestMapping(value = "/store/statistics", method = RequestMethod.GET)
+	public ModelAndView viewStatistics(CurrentUser currentUser) {
+		return new ModelAndView("store/statistics", storeOwnerDashboardViewModel.create(currentUser.getId()));
+	}
 
 	@RequestMapping(value = "/store/products/{id}", method = RequestMethod.GET)
 	public ModelAndView viewStoreProduct(@PathVariable("id") Long id) {
@@ -141,8 +140,8 @@ public class StoreController {
 
 		StoreProduct storeProduct = product.get();
 
-        storeProductService.incrementViews(storeProduct);
-        productService.incrementViews(storeProduct.getProduct());
+		storeProductService.incrementViews(storeProduct);
+		productService.incrementViews(storeProduct.getProduct());
 
 		return new ModelAndView("store/storeprodcutview", storeProductViewModel.create(storeProduct));
 	}
@@ -150,22 +149,22 @@ public class StoreController {
 	@RequestMapping(value = "/store/products/{id}/buy", method = RequestMethod.GET)
 	public ModelAndView addOrder(@PathVariable("id") Long id, @ModelAttribute("addOrderForm") AddOrderForm addOrderForm) {
 		Optional<StoreProduct> product = storeProductService.getProductById(id);
+
 		if (!product.isPresent())
 			return new ModelAndView("error/404");
-		return new ModelAndView("store/addorder", addOrderViewModel.create(addOrderForm,id));
+
+		return new ModelAndView("store/addorder", addOrderViewModel.create(addOrderForm, product.get()));
 	}
 
 	@RequestMapping(value = "/store/products/{id}/buy", method = RequestMethod.POST)
-	public ModelAndView addOrder(@PathVariable("id") Long id,@Valid @ModelAttribute("addOrderForm")AddOrderForm addOrderForm, BindingResult bindingResult,CurrentUser currentUser,RedirectAttributes redirectAttributes)
-	{
-		if(bindingResult.hasErrors())
-			return new ModelAndView("store/addorder",addOrderViewModel.create(addOrderForm,id));
+	public ModelAndView addOrder(@PathVariable("id") Long id,@Valid @ModelAttribute("addOrderForm") AddOrderForm addOrderForm, BindingResult bindingResult, CurrentUser currentUser, RedirectAttributes redirectAttributes) {
+		if (bindingResult.hasErrors())
+			return new ModelAndView("store/addorder", addOrderViewModel.create(addOrderForm, id));
+
 		Optional<StoreProduct> product = storeProductService.getProductById(id);
-		Order order = orderService.addOrder(currentUser.getUser(),product.get(),addOrderForm);
+		Order order = orderService.addOrder(currentUser.getUser(), product.get(), addOrderForm);
 
-		FlashMessages.info(product.get().getProduct().getName() + " added to the Shopping Cart!", redirectAttributes);
-
-
+		FlashMessages.success(product.get().getProduct().getName() + " added to the Shopping Cart!", redirectAttributes);
 		return new ModelAndView("redirect:/");
 	}
 

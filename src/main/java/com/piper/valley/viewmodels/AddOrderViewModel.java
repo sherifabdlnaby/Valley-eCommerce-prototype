@@ -1,6 +1,7 @@
 package com.piper.valley.viewmodels;
 
 import com.piper.valley.forms.AddOrderForm;
+import com.piper.valley.models.domain.StoreProduct;
 import com.piper.valley.models.service.StoreProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,13 @@ public class AddOrderViewModel {
 		HashMap<String, Object> model = new HashMap<>();
 		model.put("form"        , form);
 		model.put("product"      , storeProductService.getProductById(storeProductId).get());
+		return model;
+	}
+
+	public HashMap<String, Object> create(AddOrderForm form, StoreProduct storeProduct) {
+		HashMap<String, Object> model = new HashMap<>();
+		model.put("form"        , form);
+		model.put("product"      , storeProduct);
 		return model;
 	}
 }
