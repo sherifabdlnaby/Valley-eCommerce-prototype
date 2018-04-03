@@ -4,10 +4,14 @@ import com.piper.valley.auth.CurrentUser;
 import com.piper.valley.forms.AddStoreForm;
 import com.piper.valley.forms.AddStoreProductForm;
 import com.piper.valley.models.domain.*;
-import com.piper.valley.models.service.*;
+import com.piper.valley.models.service.OrderService;
+import com.piper.valley.models.service.ProductService;
+import com.piper.valley.models.service.StoreProductService;
+import com.piper.valley.models.service.StoreService;
 import com.piper.valley.utilities.AuthUtil;
 import com.piper.valley.utilities.FlashMessages;
 import com.piper.valley.validators.AddStoreProductFormValidator;
+import com.piper.valley.viewmodels.AddOrderViewModel;
 import com.piper.valley.viewmodels.AddStoreProductViewModel;
 import com.piper.valley.viewmodels.StoreOwnerDashboardViewModel;
 import com.piper.valley.viewmodels.StoreProductViewModel;
@@ -49,6 +53,9 @@ public class StoreController {
 
     @Autowired
     private StoreOwnerDashboardViewModel storeOwnerDashboardViewModel;
+
+    @Autowired
+	private AddOrderViewModel addOrderViewModel;
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////*  VALIDATORS BINDING SECTION  *//////////////////////////////////////
@@ -140,30 +147,26 @@ public class StoreController {
 		return new ModelAndView("store/storeprodcutview", storeProductViewModel.create(storeProduct));
 	}
 
-//	@RequestMapping(value = "/store/product/{product_id}/buy", method = RequestMethod.GET)
-//	public ModelAndView addToCart(@RequestParam("store_id") Long store_id,
-//	                              @PathVariable("product_id") Long product_id,
-//	                              CurrentUser currentUser) {
-//    	Optional<StoreProduct> product = storeProductService.getProductById(product_id);
-//    	if (!product.isPresent()) {
-//    		return new ModelAndView("error/404");
-//	    }
-//
-//	    return new ModelAndView("product/addToCart", storeProductViewModel.create(product.get()));
-//	}
-
-	@RequestMapping(value = "/store/product/{product_id}/buy", method = RequestMethod.POST)
-	public ModelAndView addToCart(@RequestParam("store_id") Long store_id,
-	                              @PathVariable("product_id") Long product_id,
-	                              CurrentUser currentUser) {
-    	Optional<StoreProduct> product = storeProductService.getProductById(product_id);
-    	if (!product.isPresent()) {
-		    return new ModelAndView("error/404");
-	    }
-
-		System.out.println("buy");
-    	orderService.addOrder(currentUser.getUser(), product.get());
-
-	    return new ModelAndView("redirect:/store/products/" + product_id);
+	@RequestMapping(value = "/store/products/{id}/buy", method = RequestMethod.GET)
+	public ModelAndView addOrder(@PathVariable("id") Long id, @ModelAttribute("addOrderForm") AddOrderForm addOrderForm) {
+		Optional<StoreProduct> product = storeProductService.getProductById(id);
+		if (!product.isPresent())
+			return new ModelAndView("error/404");
+		return new ModelAndView("store/addorder", addOrderViewModel.create(addOrderForm,id));
 	}
+
+	@RequestMapping(value = "/store/products/{id}/buy", method = RequestMethod.POST)
+	public ModelAndView addOrder(@PathVariable("id") Long id,@Valid @ModelAttribute("addOrderForm")AddOrderForm addOrderForm, BindingResult bindingResult,CurrentUser currentUser,RedirectAttributes redirectAttributes)
+	{
+		if(bindingResult.hasErrors())
+			return new ModelAndView("store/addorder",addOrderViewModel.create(addOrderForm,id));
+		Optional<StoreProduct> product = storeProductService.getProductById(id);
+		Order order = orderService.addOrder(currentUser.getUser(),product.get(),addOrderForm);
+
+		FlashMessages.info(product.get().getProduct().getName() + " added to the Shopping Cart!", redirectAttributes);
+
+
+		return new ModelAndView("redirect:/");
+	}
+
 }

@@ -1,5 +1,7 @@
 package com.piper.valley.models.domain;
 
+import com.piper.valley.forms.AddOrderForm;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -20,6 +22,9 @@ public class Order {
 	@Column(name = "quantity", nullable = false)
 	private int quantity = 1;
 
+	@Column(name = "address",nullable = false)
+	private String address;
+
 	//Processed true = bought by the user.
 	@Column(name = "processed", nullable = false)
 	private boolean processed = false;
@@ -27,9 +32,20 @@ public class Order {
 	@ManyToOne
 	private StoreProduct storeProduct;
 
+
+
 	//TODO Index this.
 	@ManyToOne
 	private User user;
+
+	public Order(User user, StoreProduct storeProduct, AddOrderForm addOrderForm) {
+				this.storeProduct = storeProduct;
+				this.quantity = addOrderForm.getQuantity();
+				this.user = user;
+				this.addedDate = new Date();
+				this.address=addOrderForm.getAddress();
+				this.processedDate = new Date();
+	}
 
 	public StoreProduct getStoreProduct() {
 		return storeProduct;
@@ -59,6 +75,14 @@ public class Order {
 		return addedDate;
 	}
 
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
 	public void setAddedDate(Date addedDate) {
 		this.addedDate = addedDate;
 	}
@@ -86,12 +110,5 @@ public class Order {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
-	}
-
-	public Order(User user, StoreProduct storeProduct, int quantity) {
-		this.storeProduct = storeProduct;
-		this.quantity = quantity;
-		this.user = user;
-		this.addedDate = new Date();
 	}
 }

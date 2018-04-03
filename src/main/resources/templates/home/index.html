@@ -38,9 +38,10 @@
                 <img class="card-img-top" th:src="@{https://ahdc.vet.cornell.edu/Sects/duck/images/phbig2_000.jpg}" alt="Card image cap"/>
 
                 <div class="card-body">
-                    <h5 class="card-title"><span th:text="${product.name}"></span></h5>
-
-                    <a th:href="@{/product/view/{id}(id = ${product.id})}" class="btn btn-primary">More Details</a>
+                    <h5 class="card-title"><a th:href="@{/store/products/{id}(id = ${product.getId()})}"
+                                              th:text="${product.getProduct().getName()}">-</a></h5>
+                    <p class="card-text" th:text="${product.getPrice()}"></p>
+                    <span class="pull-left"><a class="btn btn-sm btn-primary" th:href="@{/store/products/{id}/buy(id = ${product.id})}"><i class="fas fa-shopping-cart"></i> Buy Product </a></span>
                 </div>
             </div>
         </div>
