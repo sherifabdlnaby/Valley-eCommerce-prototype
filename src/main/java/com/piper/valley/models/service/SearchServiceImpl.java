@@ -1,6 +1,7 @@
 package com.piper.valley.models.service;
 
 import com.piper.valley.models.common.SearchResult;
+import com.piper.valley.models.domain.Product;
 import com.piper.valley.models.domain.StoreProduct;
 import org.apache.lucene.search.Query;
 import org.hibernate.search.jpa.FullTextEntityManager;
@@ -22,40 +23,80 @@ public class SearchServiceImpl implements SearchService {
     private EntityManager entityManager;
 
     @Override
-    public List<SearchResult>   generalSearch(String queryString) {
-        FullTextEntityManager fullTextEntityManager = getFullTextEntityManager(entityManager);
-
-
-        QueryBuilder queryBuilder =
-                fullTextEntityManager.getSearchFactory()
-                        .buildQueryBuilder().forEntity(StoreProduct.class).get();
-
-        // query by keywords
-        Query query =
-                queryBuilder
-                        .keyword()
-		                    .fuzzy()
-		                    //.withThreshold(0.8f) default = 0.5
-		                    .withPrefixLength(1)
-                        .onFields("name", "description", "product.name")
-		                    .boostedTo(5)
-		                .andField("product.brand.name")
-		                .andField("product.company.name")
-		                .andField("store.name")
-                        .matching(queryString)
-                        .createQuery();
-
-        // wrap Lucene query in an Hibernate Query object
-	    FullTextQuery jpaQuery =
-                fullTextEntityManager.createFullTextQuery(query, StoreProduct.class);
-
-        jpaQuery.limitExecutionTimeTo(500, TimeUnit.MILLISECONDS);
-
-        //TODO (Set a limit for number of result per query, setMax isn't included in jpa, search for alternative.)
-
-        // execute search and return results (sorted by relevance as default)
-        List results = jpaQuery.getResultList();
-
-        return results;
+    public SearchResult generalSearch(String queryString) {
+        return new SearchResult(storeProductSearch(queryString), productSearch(queryString));
     }
+
+	@Override
+	public List<StoreProduct> storeProductSearch(String queryString) {
+		FullTextEntityManager fullTextEntityManager = getFullTextEntityManager(entityManager);
+
+		QueryBuilder queryBuilder =
+				fullTextEntityManager.getSearchFactory()
+						.buildQueryBuilder().forEntity(StoreProduct.class).get();
+
+		// query by keywords
+		Query query =
+				queryBuilder
+						.keyword()
+						.fuzzy()
+						//.withThreshold(0.8f) default = 0.5
+						.withPrefixLength(1)
+						.onFields("name", "description", "product.name")
+						.boostedTo(5)   //give above more weight
+						.andField("product.brand.name")
+						.andField("product.company.name")
+						.andField("store.name")
+						.matching(queryString)
+						.createQuery();
+
+		// wrap Lucene query in an Hibernate Query object
+		FullTextQuery jpaQuery =
+				fullTextEntityManager.createFullTextQuery(query, StoreProduct.class);
+
+		jpaQuery.limitExecutionTimeTo(500, TimeUnit.MILLISECONDS);
+
+		//TODO (Set a limit for number of result per query, setMax isn't included in jpa, search for alternative.)
+
+		// execute search and return results (sorted by relevance as default)
+		List results = jpaQuery.getResultList();
+
+		return results;
+	}
+
+	@Override
+	public List<Product> productSearch(String queryString) {
+		FullTextEntityManager fullTextEntityManager = getFullTextEntityManager(entityManager);
+
+		QueryBuilder queryBuilder =
+				fullTextEntityManager.getSearchFactory()
+						.buildQueryBuilder().forEntity(Product.class).get();
+
+		// query by keywords
+		Query query =
+				queryBuilder
+						.keyword()
+						.fuzzy()
+						//.withThreshold(0.8f) default = 0.5
+						.withPrefixLength(1)
+						.onFields("name")
+						.boostedTo(5)       //give above more weight
+						.andField("brand.name")
+						.andField("company.name")
+						.matching(queryString)
+						.createQuery();
+
+		// wrap Lucene query in an Hibernate Query object
+		FullTextQuery jpaQuery =
+				fullTextEntityManager.createFullTextQuery(query, Product.class);
+
+		jpaQuery.limitExecutionTimeTo(500, TimeUnit.MILLISECONDS);
+
+		//TODO (Set a limit for number of result per query, setMax isn't included in jpa, search for alternative.)
+
+		// execute search and return results (sorted by relevance as default)
+		List results = jpaQuery.getResultList();
+
+		return results;
+	}
 }
