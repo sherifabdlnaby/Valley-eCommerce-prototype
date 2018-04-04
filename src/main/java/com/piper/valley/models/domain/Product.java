@@ -1,5 +1,6 @@
 package com.piper.valley.models.domain;
 import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.List;
 @Entity
 @Table(name = "product")
 @Inheritance( strategy = InheritanceType.JOINED )
+@Indexed
 public abstract class Product {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
