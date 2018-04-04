@@ -1,6 +1,7 @@
 package com.piper.valley.models.domain;
 
 import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 
 import javax.persistence.*;
 import java.util.ArrayList;

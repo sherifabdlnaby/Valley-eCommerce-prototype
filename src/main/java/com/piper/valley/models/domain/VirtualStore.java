@@ -1,5 +1,7 @@
 package com.piper.valley.models.domain;
 
+import org.hibernate.search.annotations.Indexed;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -8,6 +10,7 @@ import java.util.List;
 
 
 @Entity
+@Indexed
 @DiscriminatorValue(value = "virtual")
 public class VirtualStore extends Store {
 

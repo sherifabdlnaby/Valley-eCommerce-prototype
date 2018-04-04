@@ -1,12 +1,10 @@
 package com.piper.valley.models.service;
-
 import com.piper.valley.models.common.SearchResult;
-import com.piper.valley.models.domain.Product;
+import com.piper.valley.models.domain.Store;
 import com.piper.valley.models.domain.StoreProduct;
 import org.apache.lucene.search.Query;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
-import org.hibernate.search.jpa.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
@@ -24,7 +22,7 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public SearchResult generalSearch(String queryString) {
-        return new SearchResult(storeProductSearch(queryString), productSearch(queryString));
+        return new SearchResult(queryString, storeProductSearch(queryString), storeSearch(queryString));
     }
 
 	@Override
@@ -65,12 +63,12 @@ public class SearchServiceImpl implements SearchService {
 	}
 
 	@Override
-	public List<Product> productSearch(String queryString) {
+	public List<Store> storeSearch(String queryString) {
 		FullTextEntityManager fullTextEntityManager = getFullTextEntityManager(entityManager);
 
 		QueryBuilder queryBuilder =
 				fullTextEntityManager.getSearchFactory()
-						.buildQueryBuilder().forEntity(Product.class).get();
+						.buildQueryBuilder().forEntity(Store.class).get();
 
 		// query by keywords
 		Query query =
@@ -80,15 +78,12 @@ public class SearchServiceImpl implements SearchService {
 						//.withThreshold(0.8f) default = 0.5
 						.withPrefixLength(1)
 						.onFields("name")
-						.boostedTo(5)       //give above more weight
-						.andField("brand.name")
-						.andField("company.name")
 						.matching(queryString)
 						.createQuery();
 
 		// wrap Lucene query in an Hibernate Query object
 		FullTextQuery jpaQuery =
-				fullTextEntityManager.createFullTextQuery(query, Product.class);
+				fullTextEntityManager.createFullTextQuery(query, Store.class);
 
 		jpaQuery.limitExecutionTimeTo(500, TimeUnit.MILLISECONDS);
 
