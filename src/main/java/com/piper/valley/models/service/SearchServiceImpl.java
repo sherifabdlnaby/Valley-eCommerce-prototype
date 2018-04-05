@@ -38,8 +38,8 @@ public class SearchServiceImpl implements SearchService {
 				queryBuilder
 						.keyword()
 						.fuzzy()
-						//.withThreshold(0.8f) default = 0.5
-						.withPrefixLength(1)
+						.withThreshold(0.4f) //default = 0.5
+						.withPrefixLength(1) //At least first one to be correct.
 						.onFields("name", "description", "product.name")
 						.boostedTo(5)   //give above more weight
 						.andField("product.brand.name")

@@ -3,6 +3,7 @@ package com.piper.valley.models.service;
 import com.piper.valley.models.domain.StoreProduct;
 import com.piper.valley.models.repository.StoreProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -25,7 +26,7 @@ public class StoreProductServiceImpl implements StoreProductService {
 	}
 
 	@Override
-	public Collection<StoreProduct> getAll() {
-		return storeProductRepository.findAll();
+	public Collection<StoreProduct> getTop30() {
+		return storeProductRepository.findAllTop30ByOrderByIdDesc();
 	}
 }

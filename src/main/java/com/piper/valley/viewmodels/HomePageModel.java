@@ -16,7 +16,7 @@ public class HomePageModel {
     //Getting all products
     public HashMap<String, Object> create() {
         HashMap<String, Object> model = new HashMap<>();
-        Collection<StoreProduct> products=storeProductService.getAll();
+        Collection<StoreProduct> products=storeProductService.getTop30();
         model.put("products",products);
         return model;
     }

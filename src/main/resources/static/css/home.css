@@ -56,8 +56,20 @@ h1 {
     border-radius: 30px 0px 0px 30px;
     /*border-radius:Top-left, Top-right, Bottom-right, Bottom-left;*/
 }
-/*to cange only one form and not all give unique class name like  class="search-form" */
+/*to change only one form and not all give unique class name like  class="search-form" */
 .search-btn {
     border-radius: 0px 30px 30px 0px;
     cursor:pointer;
 }
+
+.nopadding {
+    padding: 8px !important;
+}
+
+.buttonpad {
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+}
+
+
+

@@ -9,7 +9,6 @@ import java.util.Optional;
 public interface StoreProductService {
 
 	Optional<StoreProduct>getProductById(Long id);
-	Collection<StoreProduct>getAll();
 	void incrementViews(StoreProduct storeProduct);
-
+	Collection<StoreProduct> getTop30();
 }
