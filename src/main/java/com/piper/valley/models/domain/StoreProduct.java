@@ -1,5 +1,9 @@
 package com.piper.valley.models.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
@@ -25,14 +29,18 @@ public class StoreProduct {
 
 	@ManyToOne
 	@IndexedEmbedded
+	@JsonBackReference
 	private Product product;
 
 	@ManyToOne
 	@IndexedEmbedded
+	@JsonBackReference
 	private Store store;
 
+	@JsonBackReference
 	@OneToMany(mappedBy = "storeProduct", cascade = CascadeType.ALL)
 	private List<Order> orders;
+
 
 	@Column(name = "views", nullable = false, unique = false)
 	private int storeViews;

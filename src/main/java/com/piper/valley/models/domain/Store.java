@@ -1,5 +1,6 @@
 package com.piper.valley.models.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 
@@ -26,9 +27,11 @@ public abstract class Store {
 	protected StoreStatus status;
 
 	@ManyToOne(optional = false)
+	@JsonBackReference
 	protected StoreOwner storeOwner;
 
 	@OneToMany(cascade = CascadeType.PERSIST, mappedBy = "store", orphanRemoval = true)
+	@JsonBackReference
 	protected List<StoreProduct> storeProducts;
 
 	public List<StoreProduct> getStoreProducts() {

@@ -4,6 +4,7 @@ import com.piper.valley.models.common.SearchResult;
 import com.piper.valley.models.domain.Store;
 import com.piper.valley.models.domain.StoreProduct;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.Sort;
 import org.hibernate.search.errors.EmptyQueryException;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -26,11 +28,19 @@ public class SearchServiceImpl implements SearchService {
 
 	@Override
 	public SearchResult generalSearch(String queryString) {
-		return new SearchResult(queryString, storeProductSearch(queryString), storeSearch(queryString));
+		return new SearchResult(queryString, storeProductSearch(queryString, 500), storeSearch(queryString, 300));
 	}
 
 	@Override
-	public List<StoreProduct> storeProductSearch(String queryString) {
+	public SearchResult autoCompleteSearch(String queryString) {
+		return new SearchResult(queryString,
+				storeProductSearch(queryString, 150),
+				storeSearch(queryString, 80)
+		);
+	}
+
+	@Override
+	public List<StoreProduct> storeProductSearch(String queryString, Integer maxTimeLimit) {
 		FullTextEntityManager fullTextEntityManager = getFullTextEntityManager(entityManager);
 
 		QueryBuilder queryBuilder =
@@ -65,7 +75,7 @@ public class SearchServiceImpl implements SearchService {
 		FullTextQuery jpaQuery =
 				fullTextEntityManager.createFullTextQuery(query, StoreProduct.class);
 
-		jpaQuery.limitExecutionTimeTo(500, TimeUnit.MILLISECONDS);
+		jpaQuery.limitExecutionTimeTo(maxTimeLimit, TimeUnit.MILLISECONDS);
 
 		//TODO (Set a limit for number of result per query, setMax isn't included in jpa, search for alternative.)
 
@@ -76,7 +86,7 @@ public class SearchServiceImpl implements SearchService {
 	}
 
 	@Override
-	public List<Store> storeSearch(String queryString) {
+	public List<Store> storeSearch(String queryString, Integer maxTimeLimit) {
 		FullTextEntityManager fullTextEntityManager = getFullTextEntityManager(entityManager);
 
 		QueryBuilder queryBuilder =
@@ -106,7 +116,9 @@ public class SearchServiceImpl implements SearchService {
 		FullTextQuery jpaQuery =
 				fullTextEntityManager.createFullTextQuery(query, Store.class);
 
-		jpaQuery.limitExecutionTimeTo(500, TimeUnit.MILLISECONDS);
+		jpaQuery.limitExecutionTimeTo(maxTimeLimit, TimeUnit.MILLISECONDS);
+
+		//TODO Filter unaccepted stores.
 
 		//TODO (Set a limit for number of result per query, setMax isn't included in jpa, search for alternative.)
 

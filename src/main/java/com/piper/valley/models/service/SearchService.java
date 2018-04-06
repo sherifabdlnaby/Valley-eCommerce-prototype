@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface SearchService {
     SearchResult generalSearch(String queryString);
-    List<StoreProduct> storeProductSearch(String queryString);
-    List<Store> storeSearch(String queryString);
+    SearchResult autoCompleteSearch(String queryString);
+    List<StoreProduct> storeProductSearch(String queryString, Integer maxTimeLimit);
+    List<Store> storeSearch(String queryString, Integer maxTimeLimit);
 }
