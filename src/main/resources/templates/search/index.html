@@ -9,6 +9,7 @@
         <!--El Custom Styles le el 7eta deh-->
         <link rel="stylesheet" th:href="@{/css/home.css}"/>
         <link rel="stylesheet" th:href="@{/css/containers.css}"/>
+        <link rel="stylesheet" th:href="@{/css/autocomplete.css}"/>
     </th:block>
 </head>
 <!--/*@thymesVar id="currentUser" type="com.piper.valley.auth.CurrentUser"*/-->
@@ -25,9 +26,13 @@
                         <p class="lead"><i class="fas fa-search footer-social"></i> Search for products, stores, brands, companies, and a lot more! </p>
                         <form id="search-form" class="form-inline" role="form" method="get" action="/search">
                             <div class="col-lg-12">
-                                <div class="input-group">
-                                    <input type="text" name="q" class="form-control search-form" placeholder="Search" value=""  autofocus="autofocus"  />
-                                    <span class="input-group-btn"><button type="submit" class="btn btn-primary search-btn" data-target="#search-form" ><i class="fa fa-search"></i></button></span>
+                                <div class="input-group" id="remote">
+                                    <input type="text" name="q" class="typeahead form-control search-form" placeholder="Search" value="" autofocus="autofocus"/>
+                                    <span  class="input-group-btn">
+                            <button style="position:  absolute;" type="submit" class="btn btn-primary search-btn" data-target="#search-form">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
                                 </div>
                             </div>
                         </form>
@@ -42,7 +47,7 @@
 
 <!--El Custom Scripts le el 7eta deh-->
 <th:block layout:fragment="customScripts">
-
+    <script type="text/javascript" th:src="@{/js/autocomplete.js}"></script>
 </th:block>
 </body>
 </html>

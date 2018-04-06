@@ -10,10 +10,11 @@
         <link rel="stylesheet" th:href="@{/css/home.css}"/>
         <link rel="stylesheet" th:href="@{/css/home.css}"/>
         <link rel="stylesheet" th:href="@{/css/containers.css}"/>
+        <link rel="stylesheet" th:href="@{/css/autocomplete.css}"/>
     </th:block>
 </head>
 <!--/*@thymesVar id="currentUser" type="com.piper.valley.auth.CurrentUser"*/-->
-<body layout:fragment="content">
+<th:block layout:fragment="content">
 
 <div class="container-full">
     <div class="row">
@@ -21,11 +22,15 @@
             <h2> Valley </h2>
             <h3>Buy Products Online</h3>
             <p class="lead"><i class="fas fa-search footer-social"></i> Search for products, stores, brands, companies, and a lot more! </p>
-            <form id="search-form" class="form-inline" role="form" method="get" action="/search">
+            <form id="search-form" class="form-inline" role="form" method="get" action="http://localhost:8080/search">
                 <div class="col-lg-8 container">
-                    <div class="input-group">
-                        <input type="text" name="q" class="form-control search-form" placeholder="Search" value=""  autofocus="autofocus"  />
-                        <span class="input-group-btn"><button type="submit" class="btn btn-primary search-btn" data-target="#search-form" ><i class="fa fa-search"></i></button></span>
+                    <div class="input-group" id="remote">
+                        <input type="text" name="q" class="typeahead form-control search-form" placeholder="Search" value="" autofocus="autofocus"/>
+                        <span  class="input-group-btn">
+                            <button style="position:  absolute;" type="submit" class="btn btn-primary search-btn" data-target="#search-form">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
                     </div>
                 </div>
             </form>
@@ -71,10 +76,30 @@
     </th:block>
 
 </div>
+</th:block>
 
 <!--El Custom Scripts le el 7eta deh-->
 <th:block layout:fragment="customScripts">
+   <script>
+       $(document).ready(function () {
+           var bestPictures = new Bloodhound({
+               datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+               queryTokenizer: Bloodhound.tokenizers.whitespace,
+               prefetch: 'http://twitter.github.io/typeahead.js/examples/../data/films/post_1960.json',
+               remote: {
+                   url: 'http://twitter.github.io/typeahead.js/examples/../data/films/queries/%QUERY.json',
+                   wildcard: '%QUERY'
+               }
+           });
 
+           $('#remote .typeahead').typeahead(null, {
+               name: 'best-pictures',
+               display: 'value',
+               source: bestPictures
+           });
+       });
+   </script>
 </th:block>
-</body>
+
+
 </html>
