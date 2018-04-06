@@ -18,7 +18,7 @@
     <br/>
     <h1>Add Product To Store</h1>
     <hr/>
-    <form method="post" autocomplete="on" th:object="${addStoreProductForm}" action="/store/addproduct">
+    <form method="post" autocomplete="on" th:object="${addStoreProductForm}" action="/store/addproduct" enctype="multipart/form-data">
         <div class="row">
             <div class="col-lg-6">
                 <br/>
@@ -75,7 +75,10 @@
                 </div>
 
                 <br/>
-                <button type="submit" class="btn btn-primary">Add Product To Store</button>
+
+                    <p><input type="file" name="image"/></p>
+                     <button type="submit" class="btn btn-primary">Add Product To Store</button>
+
             </div>
         </div>
     </form>

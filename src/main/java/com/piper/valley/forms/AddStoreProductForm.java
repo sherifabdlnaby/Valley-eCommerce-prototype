@@ -2,6 +2,7 @@ package com.piper.valley.forms;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -25,6 +26,16 @@ public class AddStoreProductForm {
 	@NotNull
 	@Min(0)
 	private Float price;
+
+	private MultipartFile image;
+
+	public MultipartFile getImage() {
+		return image;
+	}
+
+	public void setImage(MultipartFile image) {
+		this.image = image;
+	}
 
 	public AddStoreProductForm() {
 	}

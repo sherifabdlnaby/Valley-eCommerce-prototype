@@ -37,6 +37,17 @@ public class StoreProduct {
 	@Column(name = "views", nullable = false, unique = false)
 	private int storeViews;
 
+	@Column(name = "image")
+	String image;
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
 	public StoreProduct() {
 		storeViews=0;
 	}

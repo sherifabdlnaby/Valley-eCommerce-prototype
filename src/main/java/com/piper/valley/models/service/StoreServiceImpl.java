@@ -8,6 +8,7 @@ import com.piper.valley.models.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -21,6 +22,9 @@ public class StoreServiceImpl implements StoreService {
 
 	@Autowired
 	private ProductService productService;
+
+	@Autowired
+	private ImageService imageService;
 
 
 	@Override
@@ -102,7 +106,7 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public StoreProduct addProductToStore(AddStoreProductForm form, User user) {
+	public StoreProduct addProductToStore(AddStoreProductForm form, User user) throws IOException {
 		Optional<Product> productOptional = productService.getProductById(form.getProductId());
 		Optional<Store>   storeOptional   = this.getStoreById(form.getStoreId());
 
@@ -117,6 +121,9 @@ public class StoreServiceImpl implements StoreService {
 		storeProduct.setProduct(product);
 		storeProduct.setStore(store);
 		store.addStoreProduct(storeProduct);
+		imageService.createImage(form.getImage());
+		if(form.getImage()!=null)
+			storeProduct.setImage(form.getImage().getOriginalFilename());
 
 		//Hibernate Bugs ? :"D
 		Store save = storeRepository.save(store);

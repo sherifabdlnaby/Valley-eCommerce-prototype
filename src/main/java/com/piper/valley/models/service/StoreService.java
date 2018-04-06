@@ -6,6 +6,7 @@ import com.piper.valley.models.domain.Store;
 import com.piper.valley.models.domain.StoreProduct;
 import com.piper.valley.models.domain.User;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -27,5 +28,5 @@ public interface StoreService {
 
 	Store add(AddStoreForm form, User user);
 
-	StoreProduct addProductToStore(AddStoreProductForm form, User user);
+	StoreProduct addProductToStore(AddStoreProductForm form, User user) throws IOException;
 }
