@@ -8,40 +8,72 @@
 		<title th:text="${product.name}"></title>
 		<!--El Custom Styles le el 7eta deh-->
 		<link rel="stylesheet" th:href="@{/css/home.css}"/>
+		<link rel="stylesheet" th:href="@{/css/storeprroductview.css}"/>
 	</th:block>
 </head>
 
 <!-- Body !-->
 <body layout:fragment="content">
 <!--Content Goes Here!-->
-<div class="col-lg-12">
-	<div class="col-lg-4">
-		<br/>
-		<br/>
-		<ul class="list-group">
-			<li class="list-group-item text-muted">Product's Info</li>
-			<li class="list-group-item text-left"><span><strong>Name: </strong></span><span th:text="${product.name}"></span></li>
-			<li class="list-group-item text-left"><span><strong>Description: </strong></span><span th:text="${product.description}"></span></li>
-			<li class="list-group-item text-left"><span><strong>Brand: </strong></span><span th:text="${product.getProduct().brand.name}"></span></li>
-			<li class="list-group-item text-left"><span><strong>Company: </strong></span><span th:text="${product.getProduct().company.name}"></span></li>
-			<div th:if="${physicalproduct!=null}">
-				<li class="list-group-item text-left"><span><strong>Length: </strong></span><span th:text="${physicalproduct.getLength()}"></span></li>
-				<li class="list-group-item text-left"><span><strong>Width: </strong></span><span th:text="${physicalproduct.getWidth()}"></span></li>
-				<li class="list-group-item text-left"><span><strong>Height: </strong></span><span th:text="${physicalproduct.getHeight()}"></span></li>
-				<li class="list-group-item text-left"><span><strong>Weight: </strong></span><span th:text="${physicalproduct.getWeight()}"></span></li>
+<br/>
+<br/>
+<div class="container">
+	<div class="card">
+		<div class="container-fluid">
+			<div class="wrapper row">
+				<div class="nopadding text-center col-md-5">
+                    <br/>
+                    <img th:src="@{http://placehold.it/400x400}" class="img-fluid rounded img-thumbnail"/>
+				</div>
+				<div class="col-md-7">
+					<br/>
+					<h3 class="product-title text-capitalize" th:text="${product.name}"> </h3>
+					<p class="product-description" th:text="${product.description}"> </p>
+					<hr/>
+                    <h5>Info:</h5>
+					<h6> <span class="text-muted">General Product: </span> <a th:href="@{/product/view/{id}(id = ${product.product.id})}" th:text="${product.product.name}"> </a> </h6>
+					<h6> <span class="text-muted">Brand:  </span>  <span  th:text="${product.product.brand.name}"> </span></h6>
+					<h6> <span class="text-muted">Company:</span> <span th:text="${product.product.company.name}"> </span> </h6>
+					<h6> <span class="text-muted">Store:</span>  <a th:href="@{/store/{id}(id = ${product.store.id})}" th:text="${product.store.name}"> </a> </h6>
+					<hr/>
+					<div th:if="${physicalproduct!=null}">
+                        <h5>Products Dimensions</h5>
+						<h6><small> <span class="text-muted"><strong>Length: </strong></span><span th:text="${physicalproduct.getLength()}"></span> </small></h6>
+						<h6><small> <span class="text-muted"><strong>Width: </strong></span><span th:text="${physicalproduct.getWidth()}"></span></small></h6>
+						<h6><small> <span class="text-muted"><strong>Height: </strong></span><span th:text="${physicalproduct.getHeight()}"></span></small></h6>
+						<h6><small> <span class="text-muted"><strong>Weight: </strong></span><span th:text="${physicalproduct.getWeight()}"></span></small></h6>
+					</div>
+                    <hr/>
+					<h5 class="price">Price: <i class="fas fa-dollar-sign"></i><span th:text="${product.price}"></span></h5>
+                    <div class="action">
+						<a class="btn btn-primary" th:href="@{/store/{id}(id = ${product.store.id})}"><i class="fas fa-list"></i> View Store </a>
+						<a class="btn btn-success" th:href="@{/store/products/{id}/buy(id = ${product.id})}"><i class="fas fa-shopping-cart"></i> Add to Shopping Cart </a>
+					</div>
+                    <br/>
+                    <br/>
+				</div>
 			</div>
-			<li class="list-group-item text-left"><span><strong>Parent Product: </strong></span><a th:href="@{/product/view/{id}(id = ${product.product.id})}"
-																								   th:text="${product.product.name}">-</a></li>
-			<li class="list-group-item text-left"><span><strong>Price: </strong></span><span th:text="${product.getPrice()}"></span></li>
-			<div class="col-lg-12 buttonpad">
-				<a class="col-lg-4 btn btn-primary float-left" th:href="@{/store/products/{id}(id = ${product.id})}"><i class="fas fa-list"></i> View </a>
-				<a class="col-lg-4 btn btn-success float-right" th:href="@{/store/products/{id}/buy(id = ${product.id})}"><i class="fas fa-shopping-cart"></i> Buy </a>
-			</div>
-		</ul>
+		</div>
 	</div>
 </div>
 <!--El Custom Scripts le el 7eta deh-->
 <th:block layout:fragment="customScripts">
+
+	<!--<ul class="list-group">
+		<li class="list-group-item text-muted">Product's Info</li>
+		<li class="list-group-item text-left"><span><strong>Name: </strong></span><span th:text="${product.name}"></span></li>
+		<li class="list-group-item text-left"><span><strong>Description: </strong></span><span th:text="${product.description}"></span></li>
+		<li class="list-group-item text-left"><span><strong>Brand: </strong></span><span th:text="${product.getProduct().brand.name}"></span></li>
+		<li class="list-group-item text-left"><span><strong>Company: </strong></span><span th:text="${product.getProduct().company.name}"></span></li>
+
+		<li class="list-group-item text-left"><span><strong>Parent Product: </strong></span><a th:href="@{/product/view/{id}(id = ${product.product.id})}"
+																							   th:text="${product.product.name}">-</a></li>
+		<li class="list-group-item text-left"><span><strong>Price: </strong></span><span th:text="${product.getPrice()}"></span></li>
+		<div class="col-lg-12 buttonpad">
+			<a class="col-lg-4 btn btn-primary float-left" th:href="@{/store/{id}(id = ${product.store.id})}"><i class="fas fa-list"></i> View Store </a>
+			<a class="col-lg-4 btn btn-success float-right" th:href="@{/store/products/{id}/buy(id = ${product.id})}"><i class="fas fa-shopping-cart"></i> Buy </a>
+		</div>
+	</ul>-->
 
 </th:block>
 </body>
