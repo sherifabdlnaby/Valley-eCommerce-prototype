@@ -4,10 +4,10 @@
       layout:decorator="layouts/default">
 <head>
 	<meta charset="utf-8"/>
+    <title th:text="${store.getName()}"></title>
 	<th:block layout:fragment="customStyle">
-		<title th:text="${store.getName()}"></title>
 		<!--El Custom Styles le el 7eta deh-->
-		<!-- <link rel="stylesheet" th:href="@{/css/home.css}"> -->
+		<link rel="stylesheet" th:href="@{/css/home.css}"/>
 	</th:block>
 </head>
 
@@ -15,40 +15,43 @@
 <body layout:fragment="content">
 <!--Content Goes Here!-->
 <div class="container">
-	<div class="col-lg-4">
+    <br/>
+    <br/>
+    <blockquote class="blockquote">
+        <h1 class="display-2"> <th:block th:text="${store.name}"> Store Name </th:block>  </h1>
+        <footer class="blockquote-footer" th:text="'Managed by: ' + ${store.storeOwner.user.name}"></footer>
+    </blockquote>
+	<th:block th:if="${not #lists.isEmpty(store.storeProducts)}">
 		<br/>
-		<br/>
-		<ul class="list-group">
-			<li class="list-group-item text-muted">Store's Info</li>
-			<li class="list-group-item text-left"><span class="pull-right"><strong>Name: </strong></span><span th:text="${store.name}"></span></li>
-			<li class="list-group-item text-left"><span class="pull-right"><strong>Store Owner: </strong></span><span th:text="${store.storeOwner.user.name}"></span></li>
-		</ul>
-	</div>
-	<br/>
-	<br/>
-	<div class="col-sm-12 table-responsive-md" th:if="${not #lists.isEmpty(store.getStoreProducts())}">
-		<h3> Store's Products</h3>
-		<table class="table table-striped table-hover">
-			<thead>
-			<tr>
-				<th>#</th>
-				<th>Name</th>
-				<th>Price</th>
-				<th></th>
-			</tr>
-			</thead>
-			<tbody id="items">
-			<tr th:each="product,i : ${store.getStoreProducts()}">
-				<td class="align-middle" th:text="${i.index+1}">#</td>
-				<td class="align-middle"><a th:href="@{/store/products/{id}(id = ${product.getId()})}"
-											th:text="${product.getProduct().getName()}">-</a></td>
-				<td class="align-middle" th:text="${product.getPrice()}"></td>
-				<td></td>
-			</tr>
-			</tbody>
-		</table>
+		<h3>Products List</h3>
+		<h6> <i class="fas fa-list"></i> <th:block th:text="${store.storeProducts.size()} + ' products.' "> </th:block> </h6>
 		<hr/>
-	</div>
+		<div class="row">
+			<div class="col-md-3 nopadding" th:each="product,i :${store.storeProducts}">
+				<div class="card">
+					<img class="card-img-top" th:src="@{http://placehold.it/200x200}"
+						 alt="Card image cap"/>
+					<div class="col-lg-12">
+						<br/>
+						<h5 class="card-title"><a th:text="${product.name}">-</a></h5>
+						<h6 class="card-subtitle mb-2 text-muted"  th:text="${#strings.abbreviate(product.description,100)}">Description</h6>
+						<h6 class="text-muted float-left">
+							<small>Brand: <th:block th:text="${product.product.brand.name}"></th:block> </small>
+							<br/>
+							<small>Company: <th:block th:text="${product.product.company.name}"></th:block> </small>
+						</h6>
+					</div>
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item "><i class="fas fa-dollar-sign"></i> <th:block th:text="${product.price}"></th:block></li>
+					</ul>
+					<div class="col-lg-12 buttonpad">
+						<a class="col-lg-4 btn btn-primary float-left" th:href="@{/store/products/{id}(id = ${product.id})}"><i class="fas fa-list"></i> View </a>
+						<a class="col-lg-4 btn btn-success float-right" th:href="@{/store/products/{id}/buy(id = ${product.id})}"><i class="fas fa-shopping-cart"></i> Buy </a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
 </div>
 <!--El Custom Scripts le el 7eta deh-->
 <th:block layout:fragment="customScripts">

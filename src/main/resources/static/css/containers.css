@@ -1,0 +1,14 @@
+
+html, body {
+    height: 100%;
+}
+
+h1 {
+    font-family: Arial, sans-serif;
+    font-size: 80px;
+    color: #B9CAC4;
+}
+
+.lead {
+    color: #50b497;
+}

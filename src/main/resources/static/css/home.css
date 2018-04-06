@@ -2,20 +2,6 @@
     This should contain all the css used in the homepage
  */
 
-html, body {
-    height: 100%;
-}
-
-h1 {
-    font-family: Arial, sans-serif;
-    font-size: 80px;
-    color: #B9CAC4;
-}
-
-.lead {
-    color: #50b497;
-}
-
 /* Custom container */
 .container-full {
     margin: 0 auto;
