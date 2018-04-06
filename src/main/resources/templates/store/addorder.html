@@ -17,13 +17,13 @@
     <div class="col-lg-8">
         <br/>
         <br/>
-        <h1>Add to Shopping Cart</h1>
+        <h1><i class="fas fa-shopping-cart"></i> Add to Shopping Cart</h1>
         <hr/>
         <form method="post" autocomplete="on" th:object="${addOrderForm}" th:action="@{/store/products/}+${product.getId()}+@{/buy}">
             <div class="row">
                 <div class="col-lg-6">
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                    <span class="pull-right"><strong>Name: </strong></span><span th:text="${product.getProduct().getName()}"></span>
+                    <span class="pull-right"><strong>Name: </strong></span><span th:text="${product.getName()}"></span>
                     <br/>
                     <span class="pull-right"><strong>Price: </strong></span><span th:text="${product.getPrice()}"></span>
                     <div class="form-group">
@@ -34,7 +34,7 @@
                             Unspecified
                             Error
                         </div>
-                        <label class="col-form-label">Address</label>
+                        <label class="col-form-label">Shipping Address</label>
                         <input type="text" class="form-control" placeholder="Address"
                                th:field="*{address}" th:errorclass="is-invalid"/>
                         <div class="invalid-feedback" th:if="*{#fields.hasErrors('address')}" th:errors="*{address}">
@@ -47,7 +47,7 @@
 
                 <br/>
                 <div class="col-lg-12">
-                    <button type="submit" class="btn btn-primary">Add Order to cart</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-shopping-cart"></i> Add Order to cart</button>
                 </div>
             </div>
         </form>

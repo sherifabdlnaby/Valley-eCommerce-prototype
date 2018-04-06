@@ -32,7 +32,7 @@
     <br/>
     <h3><i class="fas fa-table"></i> Detailed Per Store Views.</h3>
     <hr/>
-    <div class="col-lg-10">
+    <div class="col-lg-12">
     <div class="col-sm-12 table-responsive-md" th:if="${not #lists.isEmpty(accepted)}">
         <div th:each="store,i : ${accepted}">
         <h2>
@@ -63,7 +63,7 @@
                                             th:text="${product.name}">-</a></td>
                 <td class="align-middle" th:text="${#strings.abbreviate(product.description,30)}"></td>
                 <td class="align-middle" th:text="${product.getStoreViews()}"></td>
-                <td class="align-middle"><a th:href="@{/products/view/{id}(id = ${product.product.id})}"
+                <td class="align-middle"><a th:href="@{/product/view/{id}(id = ${product.product.id})}"
                                             th:text="${product.product.name}">-</a></td>
                 <td class="align-middle" th:text="${product.product.view}"></td>
             </tr>
