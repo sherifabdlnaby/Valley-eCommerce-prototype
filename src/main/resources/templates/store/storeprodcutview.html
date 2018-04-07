@@ -8,15 +8,13 @@
 		<title th:text="${product.name}"></title>
 		<!--El Custom Styles le el 7eta deh-->
 		<link rel="stylesheet" th:href="@{/css/home.css}"/>
-		<link rel="stylesheet" th:href="@{/css/storeprroductview.css}"/>
+		<link rel="stylesheet" th:href="@{/css/storeproductview.css}"/>
 	</th:block>
 </head>
 
 <!-- Body !-->
 <body layout:fragment="content">
 <!--Content Goes Here!-->
-<br/>
-<br/>
 <div class="container">
 	<div class="card">
 		<div class="container-fluid">
@@ -28,7 +26,7 @@
 				<div class="col-md-7">
 					<br/>
 					<br/>
-					<h3 class="product-title text-capitalize" th:text="${product.name}"> </h3>
+					<h3 class="product-title text-capitalize noheaderpad" th:text="${product.name}"> </h3>
 					<p class="product-description" th:text="${product.description}"> </p>
 					<hr/>
                     <h5>Info:</h5>
@@ -47,7 +45,7 @@
 					</div>
 					<h5 class="price">Price: <i class="fas fa-dollar-sign"></i><span th:text="${product.price}"></span></h5>
                     <div class="action">
-						<a class="btn btn-primary" th:href="@{/store/{id}(id = ${product.store.id})}"><i class="fas fa-list"></i> View Store </a>
+						<a class="btn btn-primary" th:href="@{/store/view/{id}(id = ${product.store.id})}"><i class="fas fa-list"></i> View Store </a>
 						<a class="btn btn-success" th:href="@{/store/products/{id}/buy(id = ${product.id})}"><i class="fas fa-shopping-cart"></i> Add to Shopping Cart </a>
 					</div>
                     <br/>

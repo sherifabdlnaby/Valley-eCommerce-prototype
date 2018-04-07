@@ -24,7 +24,7 @@ public class AutoCompleteController {
 	}
 
 	@RequestMapping(value = "api/autocomplete/store/{queryString}")
-	public List<Store> storeList(@PathVariable(value = "q") String queryString) {
+	public List<Store> storeList(@PathVariable(value = "queryString") String queryString) {
 		if(queryString == null || queryString.isEmpty())
 			return null;
 		return searchService.storeSearch(queryString, 100);
