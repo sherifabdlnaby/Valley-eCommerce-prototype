@@ -25,6 +25,7 @@ public class StoreProduct {
 	private String name;
 
 	@Field
+	@Column(length = 1000)
 	private String description;
 
 	@ManyToOne

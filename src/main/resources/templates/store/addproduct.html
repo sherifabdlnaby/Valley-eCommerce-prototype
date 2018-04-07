@@ -58,8 +58,8 @@
 
                 <div class="form-group">
                     <label class="col-form-label">Description</label>
-                    <input type="text" th:errorclass="is-invalid" class="form-control" placeholder="Description"
-                           th:field="*{description}"/>
+                    <textarea type="text" th:errorclass="is-invalid" class="form-control" placeholder="Description"
+                              th:field="*{description}"></textarea>
                     <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}"
                          th:errors="*{description}">Unspecified Error
                     </div>

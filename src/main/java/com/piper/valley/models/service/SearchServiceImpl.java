@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static java.lang.Math.min;
 import static org.hibernate.search.jpa.Search.getFullTextEntityManager;
 
 @Service
@@ -29,9 +30,14 @@ public class SearchServiceImpl implements SearchService {
 
 	@Override
 	public SearchResult autoCompleteSearch(String queryString) {
+
+			List<StoreProduct> storeProducts = storeProductSearch(queryString, 150);
+			List<Store> stores = storeSearch(queryString, 150);
+
+			//T(again this is a  temp fix for prototyping, TODO actual limit shouldn't get the data from the DB. (Fix this when query limiting TODO is done)
 			return new SearchResult(queryString,
-				storeProductSearch(queryString, 150),
-				storeSearch(queryString, 80)
+				storeProducts.subList(0, min(10, storeProducts.size())),
+				stores.subList(0, min(10, stores.size()))
 		);
 	}
 
@@ -78,7 +84,8 @@ public class SearchServiceImpl implements SearchService {
 		// execute search and return results (sorted by relevance as default)
 		List<StoreProduct> results = jpaQuery.getResultList();
 
-		return results;
+		//TODO This doesn't solve the above TODO, it is just for the prototyping, (actual limit shouldn't get the data from the DB)
+		return results.subList(0, min(results.size(),50));
 	}
 
 	@Override
@@ -121,6 +128,6 @@ public class SearchServiceImpl implements SearchService {
 		// execute search and return results (sorted by relevance as default)
 		List results = jpaQuery.getResultList();
 
-		return results;
-	}
+		//TODO This doesn't solve the above TODO, it is just for the prototyping, (actual limit shouldn't get the data from the DB)
+		return results.subList(0, min(results.size(),50));	}
 }
