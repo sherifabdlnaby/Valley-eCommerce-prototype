@@ -16,6 +16,7 @@ public class CurrentUserDetailsService implements UserDetailsService {
 	public CurrentUser loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = userService.getUserByUsername(username)
 				.orElseThrow(() -> new UsernameNotFoundException(String.format("User with username=%s was not found", username)));
-		return new CurrentUser(user);
+										//because orders count is lazy loaded.
+		return new CurrentUser(user, userService.getUserOrdersCount(user.getId()));
 	}
 }

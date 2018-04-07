@@ -11,5 +11,5 @@ import java.util.Optional;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
     Optional<Order> findOneById(Long id);
-
+    Integer countOrdersByUser_IdAndProcessed(Long id, Boolean isProcessed);
 }

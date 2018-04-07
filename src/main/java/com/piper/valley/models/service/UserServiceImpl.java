@@ -3,6 +3,7 @@ package com.piper.valley.models.service;
 import com.piper.valley.forms.UserCreateForm;
 import com.piper.valley.models.domain.Role;
 import com.piper.valley.models.domain.User;
+import com.piper.valley.models.repository.OrderRepository;
 import com.piper.valley.models.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -19,6 +20,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private OrderRepository orderRepository;
+
 	@Override
 	public Optional<User> getUserById(Long id) {
 		return Optional.ofNullable(userRepository.findOne(id));
@@ -32,6 +36,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Optional<User> getUserByUsername(String email) {
 		return userRepository.findOneByUsername(email);
+	}
+
+	@Override
+	public Integer getUserOrdersCount(Long Id) {
+		return orderRepository.countOrdersByUser_IdAndProcessed(Id, false);
 	}
 
 	@Override

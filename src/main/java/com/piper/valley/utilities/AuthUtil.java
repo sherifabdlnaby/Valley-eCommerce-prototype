@@ -39,4 +39,16 @@ public class AuthUtil {
 		Authentication newAuth = new PreAuthenticatedAuthenticationToken(updatedUser, auth.getCredentials(), updatedAuthorities);
 		SecurityContextHolder.getContext().setAuthentication(newAuth);
 	}
+
+	public static void updateOrders(Integer newCount){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		//Add it in Session User
+		CurrentUser updatedUser = getCurrentUser();
+		updatedUser.setOrdersCount(newCount);
+
+		//Update da kolo ba2a
+		Authentication newAuth = new PreAuthenticatedAuthenticationToken(updatedUser, auth.getCredentials(), auth.getAuthorities());
+		SecurityContextHolder.getContext().setAuthentication(newAuth);
+	}
 }

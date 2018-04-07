@@ -164,6 +164,9 @@ public class StoreController {
 		Optional<StoreProduct> product = storeProductService.getProductById(id);
 		Order order = orderService.addOrder(currentUser.getUser(), product.get(), addOrderForm);
 
+		//Update session
+		AuthUtil.updateOrders(currentUser.getOrdersCount() + 1);
+
 		FlashMessages.success(product.get().getProduct().getName() + " added to the Shopping Cart!", redirectAttributes);
 		return new ModelAndView("redirect:/");
 	}

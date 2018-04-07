@@ -74,13 +74,11 @@
                         </form>
                     </div>
                 </li>
-
                 <li class="nav-item">
                         <a class="nav-link" th:href="@{/user/view/{username}(username = ${currentUser.username})}">
-                            <i class="fas fa-shopping-cart"></i> Cart <span class="badge badge-secondary badge-pill"> 14 </span>
+                            <i class="fas fa-shopping-cart"></i> Cart <span th:text="${currentUser.ordersCount}" class="badge badge-secondary badge-pill">  </span>
                         </a>
                 </li>
-
             </ul>
         </div>
     </div>

@@ -14,6 +14,8 @@ public interface UserService {
 
 	Optional<User> getUserByUsername(String email);
 
+	Integer getUserOrdersCount(Long Id);
+
 	Collection<User> getAllUsers();
 
 	User register(UserCreateForm form);
