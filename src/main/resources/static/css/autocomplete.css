@@ -1,6 +1,14 @@
 
 .twitter-typeahead, .tt-hint, .tt-input, .tt-menu { width: 100% !important; }
 
+div.suggestion-header h1,
+div.suggestion-header h2,
+div.suggestion-header h3,
+div.suggestion-header h4,
+div.suggestion-header h5,
+div.suggestion-header h6 {
+    margin: 0;
+}
 
 label{
   display:block;

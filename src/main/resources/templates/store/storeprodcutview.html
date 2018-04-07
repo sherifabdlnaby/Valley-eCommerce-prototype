@@ -27,6 +27,7 @@
 				</div>
 				<div class="col-md-7">
 					<br/>
+					<br/>
 					<h3 class="product-title text-capitalize" th:text="${product.name}"> </h3>
 					<p class="product-description" th:text="${product.description}"> </p>
 					<hr/>
@@ -42,8 +43,8 @@
 						<h6><small> <span class="text-muted"><strong>Width: </strong></span><span th:text="${physicalproduct.getWidth()}"></span></small></h6>
 						<h6><small> <span class="text-muted"><strong>Height: </strong></span><span th:text="${physicalproduct.getHeight()}"></span></small></h6>
 						<h6><small> <span class="text-muted"><strong>Weight: </strong></span><span th:text="${physicalproduct.getWeight()}"></span></small></h6>
+						<hr/>
 					</div>
-                    <hr/>
 					<h5 class="price">Price: <i class="fas fa-dollar-sign"></i><span th:text="${product.price}"></span></h5>
                     <div class="action">
 						<a class="btn btn-primary" th:href="@{/store/{id}(id = ${product.store.id})}"><i class="fas fa-list"></i> View Store </a>

@@ -1,17 +1,43 @@
 $(document).ready(function () {
-    var bestPictures = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+    var storeProducts = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
-        prefetch: 'http://twitter.github.io/typeahead.js/examples/../data/films/post_1960.json',
         remote: {
-            url: 'http://twitter.github.io/typeahead.js/examples/../data/films/queries/%QUERY.json',
+            url: '/api/autocomplete/storeproduct/%QUERY',
             wildcard: '%QUERY'
         }
     });
 
-    $('#remote .typeahead').typeahead(null, {
-        name: 'best-pictures',
-        display: 'value',
-        source: bestPictures
+    /*Description trimming helper function 3shan t7ot ... law el desc tawel */
+    Handlebars.registerHelper('desc', function(passedString, startstring, endstring) {
+        if(passedString){
+            if(!startstring) startstring=0;
+            if(!endstring) endstring=30;
+            var theString = passedString.substring( startstring, endstring );
+            if(theString.length >= endstring)
+                theString +='...';
+            return new Handlebars.SafeString(theString);
+        }
     });
+
+    $('#remote .typeahead').typeahead(
+        {
+            minLenght: 1,
+            source: storeProducts,
+            highlight: true
+        }, {
+            name: 'storeproducts',
+            display: 'name',
+            source: storeProducts,
+            templates: {
+                suggestion: Handlebars.compile('<div class="container-fluid"><div class="wrapper row"><div class="nopadding text-center col-md-1"><img src="http://placehold.it/50x50" alt="..." class="rounded img-fluid"/></div> <div class="col-lg-11 suggestion-header"><h6>{{name}}</h6><h6 class="text-muted">{{desc description 0 100}}</h6><h6 class="text-muted"><small><i class="fas fa-dollar-sign"></i>{{price}}</small></h6></div></div></div>')
+            }
+        }
+    );
+
+    $('.typeahead').bind('typeahead:select', function(ev, suggestion) {
+        window.location.href = '/store/products/' + suggestion.id;
+        console.log('Selection: ' + suggestion);
+    });
+
 });

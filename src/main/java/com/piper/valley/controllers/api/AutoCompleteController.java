@@ -1,13 +1,12 @@
 package com.piper.valley.controllers.api;
 
 import com.piper.valley.models.common.SearchResult;
+import com.piper.valley.models.domain.Store;
+import com.piper.valley.models.domain.StoreProduct;
 import com.piper.valley.models.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -17,13 +16,17 @@ import java.util.List;
 public class AutoCompleteController {
 	@Autowired
 	private SearchService searchService;
-	@RequestMapping(value = "api/search", method = RequestMethod.GET)
-	public SearchResult index(@RequestParam(value = "q", required = false) String queryString) {
+	@RequestMapping(value = "api/autocomplete/storeproduct/{queryString}")
+	public List<StoreProduct> storeProductList(@PathVariable("queryString") String queryString) {
 		if(queryString == null || queryString.isEmpty())
 			 return null;
+		return searchService.storeProductSearch(queryString, 200);
+	}
 
-		SearchResult searchResult = searchService.autoCompleteSearch(queryString);
-
-		return searchResult;
+	@RequestMapping(value = "api/autocomplete/store/{queryString}")
+	public List<Store> storeList(@PathVariable(value = "q") String queryString) {
+		if(queryString == null || queryString.isEmpty())
+			return null;
+		return searchService.storeSearch(queryString, 100);
 	}
 }

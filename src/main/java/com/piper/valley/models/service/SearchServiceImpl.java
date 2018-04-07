@@ -1,20 +1,16 @@
 package com.piper.valley.models.service;
-
 import com.piper.valley.models.common.SearchResult;
 import com.piper.valley.models.domain.Store;
 import com.piper.valley.models.domain.StoreProduct;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.search.Sort;
 import org.hibernate.search.errors.EmptyQueryException;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.stereotype.Service;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -33,7 +29,7 @@ public class SearchServiceImpl implements SearchService {
 
 	@Override
 	public SearchResult autoCompleteSearch(String queryString) {
-		return new SearchResult(queryString,
+			return new SearchResult(queryString,
 				storeProductSearch(queryString, 150),
 				storeSearch(queryString, 80)
 		);
