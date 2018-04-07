@@ -33,7 +33,7 @@
 					<h6> <span class="text-muted">General Product: </span> <a th:href="@{/product/view/{id}(id = ${product.product.id})}" th:text="${product.product.name}"> </a> </h6>
 					<h6> <span class="text-muted">Brand:  </span>  <span  th:text="${product.product.brand.name}"> </span></h6>
 					<h6> <span class="text-muted">Company:</span> <span th:text="${product.product.company.name}"> </span> </h6>
-					<h6> <span class="text-muted">Store:</span>  <a th:href="@{/store/{id}(id = ${product.store.id})}" th:text="${product.store.name}"> </a> </h6>
+					<h6> <span class="text-muted">Store:</span>  <a th:href="@{/store/view/{id}(id = ${product.store.id})}" th:text="${product.store.name}"> </a> </h6>
 					<hr/>
 					<div th:if="${physicalproduct!=null}">
                         <h5>Products Dimensions</h5>

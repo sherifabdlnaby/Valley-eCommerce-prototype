@@ -39,7 +39,7 @@ $(document).ready(function () {
             display: 'name',
             source: storeProducts,
             templates: {
-                header: '<div class="container-fluid"><h6>Products</h6><hr style="margin: 0" /></div>',
+                header: '<div class="container-fluid"><h6>Products</h6><hr style="margin-top: 0; margin-bottom: 5px;" /></div>',
                 suggestion: Handlebars.compile('<div class="container-fluid"><div class="wrapper row"><div class="nopadding text-center col-md-1"><img src="http://placehold.it/50x50" alt="..." class="rounded img-fluid"/></div> <div class="col-lg-11 suggestion-header"><h6>{{name}}</h6><h6 class="text-muted">{{desc description 0 100}}</h6><h6 class="text-muted"><small><i class="fas fa-dollar-sign"></i>{{price}}</small></h6></div></div></div>')
             }
         }, {
@@ -47,7 +47,7 @@ $(document).ready(function () {
             display: 'name',
             source: stores,
             templates: {
-                header: '<div class="container-fluid"><h6>Stores</h6> <hr style="margin: 0" /> </div> ',
+                header: '<div class="container-fluid"><h6>Stores</h6> <hr style="margin-top: 0; margin-bottom: 5px;" /> </div> ',
                 suggestion: Handlebars.compile('<div class="container-fluid"><h6>{{name}}</h6></div>')
             }
         }
