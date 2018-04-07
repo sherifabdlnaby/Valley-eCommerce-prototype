@@ -1,4 +1,8 @@
 package com.piper.valley.models.domain;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -13,12 +17,15 @@ public abstract class Product {
     private Long id;
 
     @Column(name = "name", nullable = false, updatable = true)
+    @Field
     private String name;
 
 	@ManyToOne
+	@IndexedEmbedded
 	private Brand brand; //Obj suffix temp.
 
 	@ManyToOne
+	@IndexedEmbedded
 	private Company company; //Obj suffix temp.
 
     @Column(name = "averagePrice", nullable = false, unique = false)

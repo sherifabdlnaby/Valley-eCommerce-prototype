@@ -1,5 +1,9 @@
 package com.piper.valley.models.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +19,7 @@ public abstract class Store {
 	protected Long id;
 
 	@Column(name = "name", nullable = false, unique = true)
+	@Field
 	protected String name;
 
 	@Column(name = "status", nullable = false)
@@ -22,9 +27,11 @@ public abstract class Store {
 	protected StoreStatus status;
 
 	@ManyToOne(optional = false)
+	@JsonBackReference
 	protected StoreOwner storeOwner;
 
 	@OneToMany(cascade = CascadeType.PERSIST, mappedBy = "store", orphanRemoval = true)
+	@JsonBackReference
 	protected List<StoreProduct> storeProducts;
 
 	public List<StoreProduct> getStoreProducts() {

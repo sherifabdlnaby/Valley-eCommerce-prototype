@@ -2,20 +2,6 @@
     This should contain all the css used in the homepage
  */
 
-html, body {
-    height: 100%;
-}
-
-h1 {
-    font-family: Arial, sans-serif;
-    font-size: 80px;
-    color: #B9CAC4;
-}
-
-.lead {
-    color: #50b497;
-}
-
 /* Custom container */
 .container-full {
     margin: 0 auto;
@@ -24,7 +10,6 @@ h1 {
     max-height: 70%;
     background-color: #0C2032;
     color: #eee;
-    overflow: hidden;
 }
 
 .container-full a {
@@ -32,6 +17,48 @@ h1 {
     text-decoration: none;
 }
 
+
+.container-mid {
+    width: 100%;
+    min-height: 20%;
+    background-color: #0C2032;
+    color: #eee;
+    padding: 4%
+}
+
+.container-mid a {
+    color: #efefef;
+    text-decoration: none;
+}
+
 .v-center {
     margin-top: 7%;
 }
+
+/*SEARCH FORM*/
+.search-form {
+    border-radius: 30px 0px 0px 30px;
+    /*border-radius:Top-left, Top-right, Bottom-right, Bottom-left;*/
+}
+/*to change only one form and not all give unique class name like  class="search-form" */
+.search-btn {
+    border-radius: 0px 30px 30px 0px;
+    cursor:pointer;
+}
+
+.nopadding {
+    padding: 8px !important;
+}
+
+.buttonpad {
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+}
+
+
+.noheaderpad {
+    margin: 0 !important;
+}
+
+
+

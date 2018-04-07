@@ -1,6 +1,7 @@
 package com.piper.valley.controllers;
 
 import com.piper.valley.models.repository.UserRepository;
+import com.piper.valley.models.service.SearchService;
 import com.piper.valley.viewmodels.HomePageModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class HomeController {
 	@Autowired
 	private UserRepository userRepository;
+
 	@Autowired
 	private HomePageModel homePageModel;
 

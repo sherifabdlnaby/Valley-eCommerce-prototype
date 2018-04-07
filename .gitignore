@@ -1,5 +1,7 @@
 target/
-!.mvn/wrapper/maven-wrapper.jar
+/mvnw.cmd
+/.mvn/
+/mvnw
 
 ### STS ###
 .apt_generated
@@ -96,3 +98,4 @@ $RECYCLE.BIN/
 
 # IntelliJ
 out/
+
