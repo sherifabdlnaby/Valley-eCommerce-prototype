@@ -7,7 +7,6 @@
     <th:block layout:fragment="customStyle">
         <!--El Custom Styles le el 7eta deh-->
         <!-- <link rel="stylesheet" th:href="@{/css/home.css}"> -->
-
     </th:block>
     <title>Shopping Cart</title>
 </head>
@@ -25,26 +24,22 @@
         <div class="card-body">
             <!-- PRODUCT -->
             <div th:each="order : ${orders}">
-            <div class="row">
-                <div class="col-12 col-sm-12 col-md-2 text-center">
-                    <img class="img-responsive" src="http://placehold.it/120x80" alt="preview" width="120" height="80"/>
+            <div class="row container-fluid">
+                <div class="col-md-2 text-center">
+                    <img class="img-responsive img-fluid" src="http://placehold.it/120x120" alt="preview" />
                 </div>
-                <div class="col-12 text-sm-center col-sm-12 text-md-left col-md-6">
+                <div class="text-sm-center text-md-left col-md-7">
                     <h4 class="product-name"><a th:href="@{/store/products/{id}(id = ${order.getStoreProduct().getId()})}"><strong th:text="${order.getStoreProduct().getName()}">Product Name</strong></a></h4>
                     <h4>
-                        <small th:text="${order.getStoreProduct().getDescription()}">Product description</small>
+                        <small th:text="${#strings.abbreviate(order.storeProduct.description,100)}">Product description</small>
                     </h4>
                 </div>
-                <div class="col-12 col-sm-12 text-sm-center col-md-4 text-md-right row">
-                    <div class="col-3 col-sm-3 col-md-6 text-md-right" style="padding-top: 5px">
-                        <h6><i class="fas fa-dollar-sign"></i><strong th:text="' '+${order.getStoreProduct().getPrice()}">25.00 </strong><strong><span class="text-muted"> x</span></strong></h6>
+                <div class="col-md-3 justify-content-center align-self-center">
+                    <div class="col-lg-12">
+                        <h6><span class="text-muted">Price: </span> <i class="fas fa-dollar-sign"></i><strong th:text="${order.storeProduct.price}">n/a </strong><strong><span class="text-muted"> </span></strong></h6>
+                        <h6><span class="text-muted">Quantity: </span> <strong th:text="${order.quantity}"></strong></h6>
+                        <h6><span class="text-muted">Total Price: </span> <i class="fas fa-dollar-sign"></i><strong th:text="${order.storeProduct.price*order.quantity}">n/a </strong><strong><span class="text-muted"> </span></strong></h6>
                     </div>
-                    <div class="col-4 col-sm-4 col-md-4">
-                        <div>
-                            <h6><strong th:text="${order.getQuantity()}"></strong></h6>
-                        </div>
-                    </div>
-
                 </div>
             </div>
             <hr/>
@@ -54,24 +49,21 @@
 
         </div>
         <div class="card-footer">
-            <div class="coupon col-md-5 col-sm-5 no-padding-left pull-left">
-                <div class="row">
-                    <div class="col-6">
-                        <input type="text" class="form-control" placeholder="coupon code"/>
-                    </div>
-                    <div class="col-6">
-                        <input type="submit" class="btn btn-default" value="Use coupon"/>
-                    </div>
-                </div>
-            </div>
-            <div class="pull-right" style="margin: 10px">
+            <h3>Checkout</h3>
+            <div class="col-lg-12">
+                <hr/>
                 <form method="post" action="/user/shoppingcart">
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                    <button type="submit" class="btn btn-success pull-right">Checkout</button>
+                    <input type="hidden" class="form-control" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    <div class="col-lg-12">
+                    <h5>Total price: <i class="fas fa-dollar-sign"></i><strong th:text="${total}">n/a</strong></h5>
+                    <h6 class="text-muted"><small>Total of <strong th:text="${#lists.size(orders)}"></strong> order. </small></h6>
+                    </div>
+                    <div class="col-lg-4">
+                    <label>Coupon Code <small class="text-muted">(optional)</small></label>
+                    <input type="text" class="form-control" placeholder="Coupon Code"/>
+                        <button style="margin-top: 8px" type="submit" class="btn btn-success pull-right">Checkout</button>
+                    </div>
                 </form>
-                <div class="pull-right" style="margin: 5px">
-                    Total price: <strong th:text="${total}">50.00€</strong><i class="fas fa-dollar-sign"></i>
-                </div>
             </div>
         </div>
     </div>
