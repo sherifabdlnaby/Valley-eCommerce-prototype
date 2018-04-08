@@ -1,6 +1,9 @@
 package com.piper.valley.models.domain;
+
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class StoreOwner {
@@ -15,6 +18,9 @@ public class StoreOwner {
 
 	@OneToMany(mappedBy = "storeOwner")
 	private List<Store> stores;
+
+	@ManyToMany(cascade = CascadeType.PERSIST)
+	protected Set<Store> collaboratedStores;
 
 	public List<Store> getStores() {
 		return stores;
@@ -40,5 +46,20 @@ public class StoreOwner {
 		this.user = user;
 	}
 
+	public Set<Store> getCollaboratedStores() {
+		return collaboratedStores;
+	}
+
+	public void setCollaboratedStores(Set<Store> collaboratedStores) {
+		this.collaboratedStores = collaboratedStores;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		StoreOwner that = (StoreOwner) o;
+		return Objects.equals(id, that.id);
+	}
 }
 

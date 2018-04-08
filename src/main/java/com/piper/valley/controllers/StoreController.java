@@ -1,4 +1,5 @@
 package com.piper.valley.controllers;
+import com.piper.valley.auth.AuthService;
 import com.piper.valley.auth.CurrentUser;
 import com.piper.valley.forms.AddOrderForm;
 import com.piper.valley.forms.AddStoreForm;
@@ -41,6 +42,9 @@ public class StoreController {
 
 	@Autowired
 	private OrderService orderService;
+
+	@Autowired
+	private AuthService authService;
 
 	@Autowired
 	private AddStoreProductViewModel addStoreProductViewModel;
@@ -98,8 +102,8 @@ public class StoreController {
 			return new ModelAndView("error/404");
 
 		Store store = storeTmp.get();
-		//TODO use custom authorizor instead of hardcoding it here (lateR)
-		if (store.getStatus() == StoreStatus.ACCEPTED || currentUser.getRole().contains(Role.ADMIN) || store.getStoreOwner().getId() == currentUser.getId())
+
+		if (authService.canViewStore(store, currentUser))
 			return new ModelAndView("store/view", "store", store);
 		else
 			return new ModelAndView("error/403");

@@ -19,6 +19,8 @@ public interface StoreService {
 
 	Collection<Store> getAllAppliedStores();
 
+	Collection<Store> getAllUserAndCollabStores(Long storeOwnerId);
+
 	Collection<Store> getAllAcceptedUserStores(Long storeOwnerId);
 
 	Collection<Store> getAllPendingUserStores(Long storeOwnerId);

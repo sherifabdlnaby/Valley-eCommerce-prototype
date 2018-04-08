@@ -23,7 +23,7 @@ public class AddStoreProductViewModel {
 	public HashMap<String, Object> create(AddStoreProductForm form, Long StoreOwnerId) {
 		HashMap<String, Object> model = new HashMap<>();
 		model.put("form"        , form);
-		model.put("stores"      , storeService.getAllAcceptedUserStores(StoreOwnerId));
+		model.put("stores"      , storeService.getAllUserAndCollabStores(StoreOwnerId));
 		model.put("products"    , productService.getAllProducts());
 		return model;
 	}

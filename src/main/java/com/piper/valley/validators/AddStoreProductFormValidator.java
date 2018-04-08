@@ -1,11 +1,9 @@
 package com.piper.valley.validators;
 
+import com.piper.valley.auth.AuthService;
 import com.piper.valley.auth.CurrentUser;
 import com.piper.valley.forms.AddStoreProductForm;
-import com.piper.valley.models.domain.PhysicalProduct;
-import com.piper.valley.models.domain.Product;
-import com.piper.valley.models.domain.Store;
-import com.piper.valley.models.domain.VirtualStore;
+import com.piper.valley.models.domain.*;
 import com.piper.valley.models.service.ProductService;
 import com.piper.valley.models.service.StoreService;
 import com.piper.valley.utilities.AuthUtil;
@@ -23,6 +21,9 @@ public class AddStoreProductFormValidator implements Validator {
 
 	@Autowired
 	private StoreService storeService;
+
+	@Autowired
+	private AuthService authService;
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -53,8 +54,11 @@ public class AddStoreProductFormValidator implements Validator {
 		Store store = storeOptional.get();
 
 		CurrentUser currentUser = AuthUtil.getCurrentUser();
-		if(currentUser.getId() != store.getStoreOwner().getId())
-			errors.reject("Unauthorized!!!!");
+		if(authService.canAccessStore(store, currentUser))
+			errors.rejectValue("storeId","Unauthorized!!!!");
+
+		if(store.getStatus() != StoreStatus.ACCEPTED)
+			errors.rejectValue("storeId","msg.AcceptedStore");
 
 		//Check Type
 		if(store instanceof VirtualStore && product instanceof PhysicalProduct)

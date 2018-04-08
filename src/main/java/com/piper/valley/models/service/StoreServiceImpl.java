@@ -50,6 +50,11 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
+	public Collection<Store> getAllUserAndCollabStores(Long storeOwnerId) {
+		return storeRepository.findAllByStoreOwner_IdOrCollaborators_User_IdAndStatus(storeOwnerId, storeOwnerId, StoreStatus.ACCEPTED);
+	}
+
+	@Override
 	public 	Collection<Store> getAllAcceptedUserStores(Long storeOwnerId){
 		return storeRepository.findByStoreOwner_IdAndStatus(storeOwnerId, StoreStatus.ACCEPTED);
 	}

@@ -7,6 +7,7 @@ import org.hibernate.search.annotations.Indexed;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "store")
@@ -29,6 +30,10 @@ public abstract class Store {
 	@ManyToOne(optional = false)
 	@JsonBackReference
 	protected StoreOwner storeOwner;
+
+	@JsonBackReference
+	@ManyToMany(cascade = CascadeType.PERSIST, mappedBy = "collaboratedStores")
+	protected Set<StoreOwner> collaborators;
 
 	@OneToMany(cascade = CascadeType.PERSIST, mappedBy = "store", orphanRemoval = true)
 	@JsonBackReference
@@ -79,5 +84,13 @@ public abstract class Store {
 
 	public void setStatus(StoreStatus status) {
 		this.status = status;
+	}
+
+	public Set<StoreOwner> getCollaborators() {
+		return collaborators;
+	}
+
+	public void setCollaborators(Set<StoreOwner> collaborators) {
+		this.collaborators = collaborators;
 	}
 }
