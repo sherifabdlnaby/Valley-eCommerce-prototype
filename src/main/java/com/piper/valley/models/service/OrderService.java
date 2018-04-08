@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface OrderService {
    Optional<Order>getOrderById(Long id);
    Order addOrder(User user, StoreProduct storeProduct, AddOrderForm addOrderForm);
+   Collection <Order> getOrders(Long id,Boolean processed);
+   Order changeStatus(Long id);
 }

@@ -4,6 +4,7 @@
       layout:decorator="layouts/default">
 <head>
     <meta charset="utf-8"/>
+    <title th:text="${currentUser.getUser().getName()}"></title>
     <th:block layout:fragment="customStyle">
         <!--El Custom Styles le el 7eta deh-->
         <!-- <link rel="stylesheet" th:href="@{/css/home.css}"> -->
@@ -12,12 +13,59 @@
 
 <!-- Body !-->
 <body layout:fragment="content">
+
 <!--Content Goes Here!-->
+<div class="container">
+    <br/>
+    <br/>
+    <h1><i class="fas fa-user"></i> Your Profile</h1>
+    <hr/>
+    <br/>
+    <div class="col-lg-4">
+        <br/>
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title" th:text="${currentUser.getUser().getName()}"></h4>
+                <hr/>
+                <h6> <span class="text-muted">User Name: </span> <span th:text="${currentUser.username}"> </span> </h6>
+                <h6> <span class="text-muted">Email:  </span>  <span  th:text="${currentUser.getUser().getEmail()}"> </span></h6>
 
-<h1 th:text=" 'Name: '+ ${name}"></h1>
-<h2 th:text=" 'Username: '+ ${username}"></h2>
-<h3 th:text=" 'Email: '+ ${email}"></h3>
+            </div>
+        </div>
+    </div>
 
+    <br/>
+    <div class="row align-right">
+        <div class="col-lg-8">
+            <div class="col-sm-12 table-responsive-md" th:if="${not #lists.isEmpty(orders)}">
+                <h3><i class="fas fa-history"></i> Your Order's History</h3>
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Processed Date</th>
+                    </tr>
+                    </thead>
+                    <tbody id="items">
+                    <tr th:each="order,i : ${orders}">
+                        <td class="align-middle" th:text="${i.index+1}">#</td>
+                        <td class="align-middle"><a th:href="@{/store/products/{id}(id = ${order.getStoreProduct().getId()})}"><strong th:text="${order.getStoreProduct().getName()}">Product Name</strong></a></td>
+                        <td class="align-middle" th:text="${order.getStoreProduct().getPrice()}">-</td>
+                        <td class="align-middle" th:text="${order.getQuantity()}">-</td>
+                        <td class="align-middle" th:text="${order.getProcessedDate()}">-</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <hr/>
+        </div>
+
+    </div>
+</div>
 
 <!--El Custom Scripts le el 7eta deh-->
 <th:block layout:fragment="customScripts">
