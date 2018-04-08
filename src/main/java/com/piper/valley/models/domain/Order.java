@@ -32,7 +32,8 @@ public class Order {
 	@ManyToOne
 	private StoreProduct storeProduct;
 
-
+	public Order() {
+	}
 
 	//TODO Index this.
 	@ManyToOne

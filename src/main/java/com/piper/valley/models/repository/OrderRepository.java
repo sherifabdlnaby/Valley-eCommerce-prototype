@@ -12,4 +12,7 @@ import java.util.Optional;
 public interface OrderRepository extends JpaRepository<Order, Long> {
     Optional<Order> findOneById(Long id);
     Integer countOrdersByUser_IdAndProcessed(Long id, Boolean isProcessed);
+    List<Order> findAllByUser_IdAndProcessed(Long id, Boolean isProcessed);
+
+
 }
