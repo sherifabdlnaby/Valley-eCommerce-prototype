@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -39,6 +40,7 @@ public class OrderServiceImpl implements OrderService {
         Optional<Order>order=getOrderById(id);
         Order order1=order.get();
         order1.setProcessed(true);
+        order1.setProcessedDate(new Date());
         return orderRepository.save(order1);
     }
 }

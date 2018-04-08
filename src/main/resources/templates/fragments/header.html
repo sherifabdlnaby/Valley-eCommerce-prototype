@@ -59,7 +59,7 @@
                        aria-expanded="false" th:text="${currentUser.username}"><i class="fas fa-user"></i></a>
                     <div class="dropdown-menu">
                         <h6 class="dropdown-header">Profile Actions</h6>
-                        <a class="dropdown-item" th:href="@{/user/view/{username}(username = ${currentUser.username})}"><i class="fas fa-fw fa-user"> </i> View Profile</a>
+                        <a class="dropdown-item" href="/user/profile"><i class="fas fa-fw fa-user"> </i> View Profile</a>
                         <th:block sec:authorize="hasAnyRole('ADMIN', 'STORE_OWNER')">
                         <div class="dropdown-divider"></div>
                         <h6 class="dropdown-header">Administrative Actions</h6>

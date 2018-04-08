@@ -123,5 +123,10 @@ public class UserController {
 		return new ModelAndView("redirect:/");
 	}
 
+	@RequestMapping(value = "/user/profile", method = RequestMethod.GET)
+	public ModelAndView profile(CurrentUser currentUser) {
+		return new ModelAndView("user/profile","orders",orderService.getOrders(currentUser.getId(),true));
+	}
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
