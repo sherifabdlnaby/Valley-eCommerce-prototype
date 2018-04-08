@@ -5,6 +5,7 @@ import com.piper.valley.forms.UserCreateForm;
 import com.piper.valley.models.domain.Order;
 import com.piper.valley.models.service.OrderService;
 import com.piper.valley.models.service.UserService;
+import com.piper.valley.utilities.AuthUtil;
 import com.piper.valley.utilities.FlashMessages;
 import com.piper.valley.validators.UserCreateFormValidator;
 import com.piper.valley.viewmodels.ShoppingCartModel;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.Optional;
 
 @Controller
@@ -38,6 +40,9 @@ public class UserController {
 
 	@Autowired
 	private ShoppingCartModel shoppingCartModel;
+
+	@Autowired
+	private OrderService orderService;
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,6 +102,25 @@ public class UserController {
 	@RequestMapping(value = "/user/shoppingcart", method = RequestMethod.GET)
 	public ModelAndView shoppingCart(CurrentUser currentUser) {
 		return new ModelAndView("user/shoppingcart",shoppingCartModel.create(currentUser.getId()));
+	}
+
+	@RequestMapping(value = "/user/shoppingcart", method = RequestMethod.POST)
+	public ModelAndView shoppingCart(CurrentUser currentUser,RedirectAttributes redirectAttributes) {
+		Collection<Order>orders=orderService.getOrders(currentUser.getId(),false);
+		if(!orders.isEmpty())
+		{
+			for(Order order:orders)
+			{
+				orderService.changeStatus(order.getId());
+			}
+			FlashMessages.success("Successfully CheckedOut "+orders.size()+" Orders", redirectAttributes);
+			AuthUtil.updateOrders(0);
+		}
+		else
+		{
+			FlashMessages.warning("There is no Orders to CheckOut", redirectAttributes);
+		}
+		return new ModelAndView("redirect:/");
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
