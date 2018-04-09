@@ -10,6 +10,7 @@ import org.hibernate.search.annotations.IndexedEmbedded;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Indexed
@@ -113,4 +114,12 @@ public class StoreProduct {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	@Override
+		public boolean equals(Object o) {
+				if (this == o) return true;
+				if (o == null || getClass() != o.getClass()) return false;
+				StoreProduct that = (StoreProduct) o;
+				return Objects.equals(id, that.id);
+			}
 }

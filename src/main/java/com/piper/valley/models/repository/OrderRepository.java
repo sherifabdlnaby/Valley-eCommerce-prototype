@@ -14,6 +14,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     Integer countOrdersByUser_IdAndProcessed(Long id, Boolean isProcessed);
     List<Order> findAllByUser_IdAndProcessed(Long id, Boolean isProcessed);
     List<Order> findAllByUser_IdAndProcessedOrderByProcessedDateDesc(Long id, Boolean isProcessed);
-
+    List<Order> findAllByProcessed(Boolean isProcessed);
 
 }
