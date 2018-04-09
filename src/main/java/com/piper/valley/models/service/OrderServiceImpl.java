@@ -50,7 +50,7 @@ public class OrderServiceImpl implements OrderService {
     public Collection<Order> getAllProcessedByStore(Long id) {
         Collection<StoreProduct>products=storeProductRepository.findAllByStoreId(id);
         Collection<Order>allOrders=orderRepository.findAllByProcessed(true);
-        Collection<Order>orders=orderRepository.findAllByUser_IdAndProcessed((long)-1,false);
+        Collection<Order>orders=new ArrayList<>();
         for(Order order:allOrders) {
             if (products.contains(order.getStoreProduct()))
             {
