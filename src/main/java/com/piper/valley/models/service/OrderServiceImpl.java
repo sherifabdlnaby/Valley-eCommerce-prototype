@@ -32,12 +32,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Collection<Order> getOrders(Long id, Boolean processed) {
-        return orderRepository.findAllByUser_IdAndProcessed(id,processed);
+        return orderRepository.findAllByUser_IdAndProcessedOrderByProcessedDateDesc(id,processed);
     }
 
     @Override
     public Order changeStatus(Long id) {
-        Optional<Order>order=getOrderById(id);
+        Optional<Order> order = getOrderById(id);
         Order order1=order.get();
         order1.setProcessed(true);
         order1.setProcessedDate(new Date());

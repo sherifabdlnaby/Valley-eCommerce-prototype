@@ -16,29 +16,33 @@
 
 <!--Content Goes Here!-->
 <div class="container">
-    <br/>
-    <br/>
-    <h1><i class="fas fa-user"></i> Your Profile</h1>
+    <div class="col-lg-12">
+        <br/>
+        <br/>
+        <h1><i class="fas fa-user"></i> Your Profile </h1>
+        <hr/>
+    </div>
     <hr/>
-    <br/>
-    <div class="col-lg-4">
+    <div class="col-lg-12">
+        <div class="col-lg-5">
         <br/>
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title" th:text="${currentUser.getUser().getName()}"></h4>
                 <hr/>
-                <h6> <span class="text-muted">User Name: </span> <span th:text="${currentUser.username}"> </span> </h6>
+                <h6> <span class="text-muted">Username: </span> <span th:text="${currentUser.username}"> </span> </h6>
                 <h6> <span class="text-muted">Email:  </span>  <span  th:text="${currentUser.getUser().getEmail()}"> </span></h6>
-
             </div>
         </div>
+        </div>
     </div>
-
     <br/>
-    <div class="row align-right">
-        <div class="col-lg-8">
+    <hr/>
+    <div class="row container">
+        <div class="col-lg-12">
+            <br/>
+            <h3><i class="fas fa-history"></i> Your Order's History</h3>
             <div class="col-sm-12 table-responsive-md" th:if="${not #lists.isEmpty(orders)}">
-                <h3><i class="fas fa-history"></i> Your Order's History</h3>
                 <table class="table table-striped table-hover">
                     <thead>
                     <tr>
@@ -55,15 +59,15 @@
                         <td class="align-middle"><a th:href="@{/store/products/{id}(id = ${order.getStoreProduct().getId()})}"><strong th:text="${order.getStoreProduct().getName()}">Product Name</strong></a></td>
                         <td class="align-middle" th:text="${order.getStoreProduct().getPrice()}">-</td>
                         <td class="align-middle" th:text="${order.getQuantity()}">-</td>
-                        <td class="align-middle" th:text="${order.getProcessedDate()}">-</td>
+                        <td class="align-middle" th:text="${#dates.format(order.getProcessedDate(), 'dd-MMM-yyyy HH:mm')}">-</td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-
-            <hr/>
+            <div class="col-sm-12 table-responsive-md" th:if="${#lists.isEmpty(orders)}">
+                <h6 class="text-muted">you don't have any orders. go shopping! </h6>
+            </div>
         </div>
-
     </div>
 </div>
 

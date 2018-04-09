@@ -2,6 +2,11 @@
 ### SWE-2 Course Project using Java Spring/Spring Boot
 ----------------------------------------
 
+### Building
+
+[![CircleCI](https://circleci.com/gh/SherifAbdlNaby/SWE-2-spring-boot-web-app.svg?style=svg)](https://circleci.com/gh/SherifAbdlNaby/SWE-2-spring-boot-web-app)
+
+
 ## Screenshots
 
 ![chrome_2018-03-14_02-01-45](https://user-images.githubusercontent.com/16992394/37376205-f42da13c-272b-11e8-9b5b-f5d17e15cb46.png)
