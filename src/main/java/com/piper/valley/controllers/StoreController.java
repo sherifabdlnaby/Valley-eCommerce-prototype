@@ -12,10 +12,7 @@ import com.piper.valley.models.service.StoreService;
 import com.piper.valley.utilities.AuthUtil;
 import com.piper.valley.utilities.FlashMessages;
 import com.piper.valley.validators.AddStoreProductFormValidator;
-import com.piper.valley.viewmodels.AddOrderViewModel;
-import com.piper.valley.viewmodels.AddStoreProductViewModel;
-import com.piper.valley.viewmodels.StoreOwnerDashboardViewModel;
-import com.piper.valley.viewmodels.StoreProductViewModel;
+import com.piper.valley.viewmodels.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -60,6 +57,9 @@ public class StoreController {
 
 	@Autowired
 	private AddOrderViewModel addOrderViewModel;
+
+	@Autowired
+    private StoreOrdersViewModel storeOrdersViewModel;
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////*  VALIDATORS BINDING SECTION  *//////////////////////////////////////
@@ -133,6 +133,12 @@ public class StoreController {
 	@RequestMapping(value = "/store/statistics", method = RequestMethod.GET)
 	public ModelAndView viewStatistics(CurrentUser currentUser) {
 		return new ModelAndView("store/statistics", storeOwnerDashboardViewModel.create(currentUser.getId()));
+	}
+
+	@PreAuthorize("hasAuthority('STORE_OWNER')")
+	@RequestMapping(value = "/store/orders", method = RequestMethod.GET)
+	public ModelAndView viewOrders(CurrentUser currentUser) {
+		return new ModelAndView("store/orders", storeOrdersViewModel.create(currentUser.getId()));
 	}
 
 	@RequestMapping(value = "/store/products/{id}", method = RequestMethod.GET)

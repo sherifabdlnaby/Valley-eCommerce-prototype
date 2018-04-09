@@ -6,18 +6,20 @@ import com.piper.valley.models.domain.Order;
 import com.piper.valley.models.domain.StoreProduct;
 import com.piper.valley.models.domain.User;
 import com.piper.valley.models.repository.OrderRepository;
+import com.piper.valley.models.repository.StoreProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
     OrderRepository orderRepository;
+
+    @Autowired
+    StoreProductRepository storeProductRepository;
 
     @Override
     public Optional<Order> getOrderById(Long id) {
@@ -42,5 +44,19 @@ public class OrderServiceImpl implements OrderService {
         order1.setProcessed(true);
         order1.setProcessedDate(new Date());
         return orderRepository.save(order1);
+    }
+
+    @Override
+    public Collection<Order> getAllProcessedByStore(Long id) {
+        Collection<StoreProduct>products=storeProductRepository.findAllByStoreId(id);
+        Collection<Order>allOrders=orderRepository.findAllByProcessed(true);
+        Collection<Order>orders=new ArrayList<>();
+        for(Order order:allOrders) {
+            if (products.contains(order.getStoreProduct()))
+            {
+                orders.add(order);
+            }
+        }
+        return orders;
     }
 }

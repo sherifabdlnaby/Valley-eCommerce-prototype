@@ -12,5 +12,6 @@ public interface OrderService {
    Optional<Order>getOrderById(Long id);
    Order addOrder(User user, StoreProduct storeProduct, AddOrderForm addOrderForm);
    Collection <Order> getOrders(Long id,Boolean processed);
+   Collection <Order> getAllProcessedByStore(Long id);
    Order changeStatus(Long id);
 }
