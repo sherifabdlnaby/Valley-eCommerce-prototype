@@ -131,6 +131,12 @@ public class StoreController {
 		return new ModelAndView("store/statistics", storeOwnerDashboardViewModel.create(currentUser.getId()));
 	}
 
+	@PreAuthorize("hasAuthority('STORE_OWNER')")
+	@RequestMapping(value = "/store/orders", method = RequestMethod.GET)
+	public ModelAndView viewOrders(CurrentUser currentUser) {
+		return new ModelAndView("store/orders");
+	}
+
 	@RequestMapping(value = "/store/products/{id}", method = RequestMethod.GET)
 	public ModelAndView viewStoreProduct(@PathVariable("id") Long id) {
 

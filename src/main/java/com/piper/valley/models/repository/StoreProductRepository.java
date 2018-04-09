@@ -20,4 +20,6 @@ public interface StoreProductRepository extends JpaRepository<StoreProduct, Long
 	List<StoreProduct> findAllTop30ByOrderByIdDesc();
 
 	List<StoreProduct> findAllTop30ByStore_StatusOrderByIdDesc(StoreStatus storeStatus);
+
+	List<StoreProduct> findAllByStoreId(Long id);
 }
