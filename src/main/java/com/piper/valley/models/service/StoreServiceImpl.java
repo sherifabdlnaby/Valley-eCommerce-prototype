@@ -1,5 +1,6 @@
 package com.piper.valley.models.service;
 
+import com.piper.valley.forms.AddStoreCollaboratorForm;
 import com.piper.valley.forms.AddStoreForm;
 import com.piper.valley.forms.AddStoreProductForm;
 import com.piper.valley.models.domain.*;
@@ -22,6 +23,8 @@ public class StoreServiceImpl implements StoreService {
 	@Autowired
 	private ProductService productService;
 
+	@Autowired
+	private UserService userService;
 
 	@Override
 	public Optional<Store> getStoreById(Long id) {
@@ -127,6 +130,29 @@ public class StoreServiceImpl implements StoreService {
 		Store save = storeRepository.save(store);
 
 		return storeProduct;
+	}
+	@Override
+	public StoreOwner addCollaboratorToStore(AddStoreCollaboratorForm form){
+
+		Optional<Store>   storeOptional   = this.getStoreById(form.getStoreId());
+		Optional<User> userOptional	= userService.getUserByUsername(form.getUsername());
+		Store store = storeOptional.get();
+		User collaborator = userOptional.get();
+		//Add New Role to User (We query as session user can be outdated)
+		if(!collaborator.getRole().contains(Role.STORE_OWNER))
+			collaborator.addRole(Role.STORE_OWNER);
+
+		//First Time StoreOwner (create storeowner row in table)
+		if(collaborator.getStoreOwner() == null){
+			collaborator.setStoreOwner(new StoreOwner());
+			collaborator.getStoreOwner().setUser(collaborator);
+		}
+		collaborator.getStoreOwner().addStCollaberatedStore(store);
+		store.addCollaborator(collaborator.getStoreOwner());
+		//save user
+		collaborator = userRepository.save(collaborator);
+		storeRepository.save(store);
+		return collaborator.getStoreOwner();
 	}
 }
 

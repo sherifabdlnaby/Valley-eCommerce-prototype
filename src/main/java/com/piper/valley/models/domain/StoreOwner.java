@@ -1,9 +1,7 @@
 package com.piper.valley.models.domain;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class StoreOwner {
@@ -53,7 +51,11 @@ public class StoreOwner {
 	public void setCollaboratedStores(Set<Store> collaboratedStores) {
 		this.collaboratedStores = collaboratedStores;
 	}
-
+	public boolean addStCollaberatedStore(Store store) {
+		if(collaboratedStores == null)
+			collaboratedStores = new HashSet<>();
+		return collaboratedStores.add(store);
+	}
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;

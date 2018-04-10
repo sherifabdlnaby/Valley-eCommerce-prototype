@@ -2,6 +2,7 @@ package com.piper.valley.controllers;
 import com.piper.valley.auth.AuthService;
 import com.piper.valley.auth.CurrentUser;
 import com.piper.valley.forms.AddOrderForm;
+import com.piper.valley.forms.AddStoreCollaboratorForm;
 import com.piper.valley.forms.AddStoreForm;
 import com.piper.valley.forms.AddStoreProductForm;
 import com.piper.valley.models.domain.*;
@@ -12,10 +13,7 @@ import com.piper.valley.models.service.StoreService;
 import com.piper.valley.utilities.AuthUtil;
 import com.piper.valley.utilities.FlashMessages;
 import com.piper.valley.validators.AddStoreProductFormValidator;
-import com.piper.valley.viewmodels.AddOrderViewModel;
-import com.piper.valley.viewmodels.AddStoreProductViewModel;
-import com.piper.valley.viewmodels.StoreOwnerDashboardViewModel;
-import com.piper.valley.viewmodels.StoreProductViewModel;
+import com.piper.valley.viewmodels.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -48,6 +46,9 @@ public class StoreController {
 
 	@Autowired
 	private AddStoreProductViewModel addStoreProductViewModel;
+
+	@Autowired
+	private AddStoreCollaboratorViewModel addStoreCollaboratorViewModel;
 
 	@Autowired
 	private StoreProductViewModel storeProductViewModel;
@@ -127,6 +128,26 @@ public class StoreController {
 		FlashMessages.success("Success! " + storeProduct.getProduct().getName() + " Added to your store!", redirectAttributes);
 
 		return new ModelAndView("redirect:/store/products/" + storeProduct.getId());
+	}
+
+	@PreAuthorize("hasAuthority('STORE_OWNER')")
+	@RequestMapping(value = "/store/addcollaborator", method = RequestMethod.GET)
+	public ModelAndView addCollaborator(@ModelAttribute("addStoreCollaboratorForm") AddStoreCollaboratorForm addStoreCollaboratorForm, CurrentUser currentUser) {
+		return new ModelAndView("store/addcollaborator", addStoreCollaboratorViewModel.create(addStoreCollaboratorForm, currentUser.getId()));
+	}
+
+
+	@PreAuthorize("hasAuthority('STORE_OWNER')")
+	@RequestMapping(value = "/store/addcollaborator", method = RequestMethod.POST)
+	public ModelAndView addCollaborator(@Valid @ModelAttribute("addStoreCollaboratorForm") AddStoreCollaboratorForm addStoreCollaboratorForm, BindingResult bindingResult, CurrentUser currentUser, RedirectAttributes redirectAttributes) {
+		if (bindingResult.hasErrors())
+			return new ModelAndView("store/addcollaborator", addStoreCollaboratorViewModel.create(addStoreCollaboratorForm, currentUser.getId()));
+
+		StoreOwner collaborator = storeService.addCollaboratorToStore(addStoreCollaboratorForm);
+
+		FlashMessages.success("Success! " + collaborator.getUser().getName() + " Added to your store!", redirectAttributes);
+
+		return new ModelAndView("redirect:/store/collaborator" );
 	}
 
 	@PreAuthorize("hasAuthority('STORE_OWNER')")
