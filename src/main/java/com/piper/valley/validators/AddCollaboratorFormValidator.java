@@ -3,12 +3,11 @@ package com.piper.valley.validators;
 import com.piper.valley.auth.AuthService;
 import com.piper.valley.auth.CurrentUser;
 import com.piper.valley.forms.AddStoreCollaboratorForm;
-import com.piper.valley.forms.AddStoreProductForm;
 import com.piper.valley.models.domain.*;
-import com.piper.valley.models.service.ProductService;
 import com.piper.valley.models.service.StoreService;
 import com.piper.valley.models.service.UserService;
 import com.piper.valley.utilities.AuthUtil;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -23,6 +22,9 @@ public class AddCollaboratorFormValidator implements Validator {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AuthService authService;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -49,10 +51,18 @@ public class AddCollaboratorFormValidator implements Validator {
             return;
         }
 
-        /*User user = userOptional.get();
+        User user = userOptional.get();
         Store store = storeOptional.get();
 
-*/
+        CurrentUser currentUser = AuthUtil.getCurrentUser();
+        if(!authService.canAccessStore(store, currentUser))
+            errors.rejectValue("storeId","Unauthorized!!!!");
+        Hibernate.initialize(user.getStoreOwner().getCollaboratedStores());
+        if(user.getStoreOwner().getCollaboratedStores().contains(store))
+            errors.rejectValue("username","msg.DuplicateCollaborator");
+        Hibernate.initialize(currentUser.getUser().getStoreOwner().getStores());
+        if(currentUser.getUser().getStoreOwner().getStores().contains(store))
+            errors.rejectValue("username", "msg.DuplicateCollaborator");
 
     }
 }
