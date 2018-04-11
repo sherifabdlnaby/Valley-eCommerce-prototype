@@ -2,7 +2,6 @@ package com.piper.valley.models.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -38,6 +37,10 @@ public abstract class Store {
 	@OneToMany(cascade = CascadeType.PERSIST, mappedBy = "store", orphanRemoval = true)
 	@JsonBackReference
 	protected List<StoreProduct> storeProducts;
+
+	@OneToMany(cascade = CascadeType.PERSIST, mappedBy = "store", orphanRemoval = true)
+	protected List<StoreHistory> history;
+
 
 	public List<StoreProduct> getStoreProducts() {
 		return storeProducts;
