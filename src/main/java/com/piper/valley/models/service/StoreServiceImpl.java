@@ -3,7 +3,6 @@ package com.piper.valley.models.service;
 import com.piper.valley.forms.AddStoreForm;
 import com.piper.valley.forms.AddStoreProductForm;
 import com.piper.valley.models.domain.*;
-import com.piper.valley.models.repository.StoreHistoryRepository;
 import com.piper.valley.models.repository.StoreRepository;
 import com.piper.valley.models.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +24,9 @@ public class StoreServiceImpl implements StoreService {
 	private ProductService productService;
 
     @Autowired
-    private StoreHistoryRepository storeHistoryRepository;
-	@Override
+    private StoreHistoryService storeHistoryService;
+
+    @Override
 	public Optional<Store> getStoreById(Long id) {
 		return Optional.ofNullable(storeRepository.findOne(id));
 	}
@@ -129,13 +129,14 @@ public class StoreServiceImpl implements StoreService {
 
         StoreProductHistory storeProductHistory=new StoreProductHistory(form.getDescription(),form.getPrice(),product.getName(),product.getId());
         storeProductHistory.setType(StoreHistoryType.ADD);
-        storeProductHistory.setMessage(product.getName()+" was added by "+ user.getName()+"."); //Change this message letter.
+        storeProductHistory.setUser(user);
+        storeProductHistory.setMessage(product.getName()+" was added."); //Change this message letter.
         storeProductHistory.setDateTime(new Date());
         storeProductHistory.setStore(store);
 
 
 
-        storeHistoryRepository.save(storeProductHistory);
+        storeHistoryService.add(storeProductHistory);
 		//Hibernate Bugs ? :"D
 		Store save = storeRepository.save(store);
 

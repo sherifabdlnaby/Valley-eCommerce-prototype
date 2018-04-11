@@ -32,6 +32,10 @@ public class StoreProductHistory extends StoreHistory {
     @Column(name = "storeProductID", nullable = false, updatable = false)
     private long storeProductID;
 
+    public StoreProductHistory()
+    {
+
+    }
     public long getStoreProductID() {
         return storeProductID;
     }

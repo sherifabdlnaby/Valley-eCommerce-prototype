@@ -1,10 +1,14 @@
 package com.piper.valley.controllers;
+
 import com.piper.valley.auth.AuthService;
 import com.piper.valley.auth.CurrentUser;
 import com.piper.valley.forms.AddOrderForm;
 import com.piper.valley.forms.AddStoreForm;
 import com.piper.valley.forms.AddStoreProductForm;
-import com.piper.valley.models.domain.*;
+import com.piper.valley.models.domain.Order;
+import com.piper.valley.models.domain.Role;
+import com.piper.valley.models.domain.Store;
+import com.piper.valley.models.domain.StoreProduct;
 import com.piper.valley.models.service.OrderService;
 import com.piper.valley.models.service.ProductService;
 import com.piper.valley.models.service.StoreProductService;
@@ -60,6 +64,9 @@ public class StoreController {
 
 	@Autowired
     private StoreOrdersViewModel storeOrdersViewModel;
+
+	@Autowired
+	private StoreHistoryViewModel storeHistoryViewModel;
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////*  VALIDATORS BINDING SECTION  *//////////////////////////////////////
@@ -140,7 +147,12 @@ public class StoreController {
 	public ModelAndView viewOrders(CurrentUser currentUser) {
 		return new ModelAndView("store/orders", storeOrdersViewModel.create(currentUser.getId()));
 	}
-
+	@PreAuthorize("hasAuthority('STORE_OWNER')")
+	@RequestMapping(value="/store/history",method = RequestMethod.GET)
+	public ModelAndView viewHistory(CurrentUser currentUser)
+	{
+		return new ModelAndView("store/history",storeHistoryViewModel.create(currentUser.getId()));
+	}
 	@RequestMapping(value = "/store/products/{id}", method = RequestMethod.GET)
 	public ModelAndView viewStoreProduct(@PathVariable("id") Long id) {
 

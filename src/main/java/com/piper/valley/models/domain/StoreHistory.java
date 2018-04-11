@@ -16,6 +16,16 @@ public class StoreHistory {
     @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
+    @ManyToOne
+    @IndexedEmbedded
+    private User user;
+
+
+    @ManyToOne
+    @IndexedEmbedded
+    private Store store;
+
+
     @Column(name = "message", nullable = false, updatable = true)
     @Field
     private String message;
@@ -30,14 +40,12 @@ public class StoreHistory {
         return store;
     }
 
+    public StoreHistory() {
+
+    }
     public void setStore(Store store) {
         this.store = store;
     }
-
-    @ManyToOne
-    @IndexedEmbedded
-    private Store store;
-
 
     public Long getId() {
         return id;
@@ -70,5 +78,13 @@ public class StoreHistory {
     public void setType(StoreHistoryType type) {
         this.type = type;
     }
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
 
 }

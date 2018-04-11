@@ -25,7 +25,11 @@ public class User {
 	@Column(name = "name", nullable = false, unique = false)
 	private String name;
 
-	@ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "store", orphanRemoval = true) //Setting that to true means upon deleting a user, his history is deleted.
+    protected List<StoreHistory> history;                                               //Facebook wouldn't be proud.
+
+
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
 	@JoinTable(name = "userRoles", joinColumns = @JoinColumn(name = "id"))
 	@Column(name = "roles", nullable = false)
 	@Enumerated(EnumType.STRING)
