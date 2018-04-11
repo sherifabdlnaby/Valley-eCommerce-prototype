@@ -13,6 +13,7 @@ import com.piper.valley.models.service.StoreService;
 import com.piper.valley.utilities.AuthUtil;
 import com.piper.valley.utilities.FlashMessages;
 import com.piper.valley.validators.AddStoreProductFormValidator;
+import com.piper.valley.validators.AddCollaboratorFormValidator;
 import com.piper.valley.viewmodels.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -54,6 +55,9 @@ public class StoreController {
 	private StoreProductViewModel storeProductViewModel;
 
 	@Autowired
+	private AddCollaboratorFormValidator addCollaboratorFormValidator;
+
+	@Autowired
 	private AddStoreProductFormValidator addStoreProductFormValidator;
 
 	@Autowired
@@ -70,7 +74,10 @@ public class StoreController {
 		binder.addValidators(addStoreProductFormValidator);
 	}
 
-
+	@InitBinder("addStoreCollaboratorForm")
+	public void addCollaboratorFormInitBinder(WebDataBinder binder) {
+		binder.addValidators(addCollaboratorFormValidator);
+	}
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////*  CONTROLLER ACTION  *///////////////////////////////////////////
 

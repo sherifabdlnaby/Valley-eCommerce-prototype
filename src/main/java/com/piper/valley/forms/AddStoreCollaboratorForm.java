@@ -11,9 +11,6 @@ public class AddStoreCollaboratorForm {
     @NotNull
     private Long storeId;
 
-    @NotNull
-    private Long collaboratorId;
-
     @NotEmpty
     @Length(min = 3, max = 150)
     private String username;
@@ -28,14 +25,6 @@ public class AddStoreCollaboratorForm {
 
     public void setStoreId(Long storeId) {
         this.storeId = storeId;
-    }
-
-    public Long getCollaboratorId() {
-        return collaboratorId;
-    }
-
-    public void setCollaboratorId(Long collaboratorId) {
-        this.collaboratorId = collaboratorId;
     }
 
     public String getUsername() {

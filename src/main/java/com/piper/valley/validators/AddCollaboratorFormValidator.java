@@ -26,7 +26,7 @@ public class AddCollaboratorFormValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return clazz.equals(AddStoreProductForm.class);
+        return clazz.equals(AddStoreCollaboratorForm.class);
     }
 
     @Override
@@ -37,9 +37,9 @@ public class AddCollaboratorFormValidator implements Validator {
         if(errors.hasErrors())
             return;
 
-        Optional<User> userOptional = userService.getUserById(form.getCollaboratorId());
+        Optional<User> userOptional = userService.getUserByUsername(form.getUsername());
         if(!userOptional.isPresent()) {
-            errors.rejectValue("userId", "NotValid");
+            errors.rejectValue("username", "NotValid");
             return;
         }
 
@@ -49,10 +49,10 @@ public class AddCollaboratorFormValidator implements Validator {
             return;
         }
 
-        User user = userOptional.get();
+        /*User user = userOptional.get();
         Store store = storeOptional.get();
 
-
+*/
 
     }
 }

@@ -134,7 +134,7 @@ public class StoreServiceImpl implements StoreService {
 	@Override
 	public StoreOwner addCollaboratorToStore(AddStoreCollaboratorForm form){
 
-		Optional<Store>   storeOptional   = this.getStoreById(form.getStoreId());
+		Optional<Store> storeOptional   = this.getStoreById(form.getStoreId());
 		Optional<User> userOptional	= userService.getUserByUsername(form.getUsername());
 		Store store = storeOptional.get();
 		User collaborator = userOptional.get();
@@ -148,10 +148,11 @@ public class StoreServiceImpl implements StoreService {
 			collaborator.getStoreOwner().setUser(collaborator);
 		}
 		collaborator.getStoreOwner().addStCollaberatedStore(store);
+		collaborator = userRepository.save(collaborator);
 		store.addCollaborator(collaborator.getStoreOwner());
 		//save user
-		collaborator = userRepository.save(collaborator);
-		storeRepository.save(store);
+
+		store =storeRepository.save(store);
 		return collaborator.getStoreOwner();
 	}
 }
