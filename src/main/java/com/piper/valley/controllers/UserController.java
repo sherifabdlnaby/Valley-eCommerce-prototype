@@ -3,11 +3,14 @@ package com.piper.valley.controllers;
 import com.piper.valley.auth.CurrentUser;
 import com.piper.valley.forms.UserCreateForm;
 import com.piper.valley.models.domain.Order;
+import com.piper.valley.models.domain.Role;
+import com.piper.valley.models.domain.User;
 import com.piper.valley.models.service.OrderService;
 import com.piper.valley.models.service.UserService;
 import com.piper.valley.utilities.AuthUtil;
 import com.piper.valley.utilities.FlashMessages;
 import com.piper.valley.validators.UserCreateFormValidator;
+import com.piper.valley.viewmodels.ProfileViewModel;
 import com.piper.valley.viewmodels.ShoppingCartModel;
 import com.piper.valley.viewmodels.StoreOwnerDashboardViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +47,9 @@ public class UserController {
 	@Autowired
 	private OrderService orderService;
 
+	@Autowired
+    private ProfileViewModel profileViewModel;
+
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////*  VALIDATORS BINDING SECTION  *//////////////////////////////////////
@@ -61,7 +67,6 @@ public class UserController {
 	public ModelAndView getLoginPage(@RequestParam Optional<String> error) {
 		return new ModelAndView("user/login", "error", error.isPresent() ? error : null);
 	}
-
 
 	//@PreAuthorize("@currentUserServiceImpl.canAccessUser(principal, #pathVariable)")
 	//@PreAuthorize("hasAuthority('ADMIN')")
@@ -93,10 +98,23 @@ public class UserController {
 		return new ModelAndView("redirect:/");
 	}
 
+
+
 	@PreAuthorize("hasAuthority('STORE_OWNER')")
 	@RequestMapping(value = "/user/storeowner/dashbaord", method = RequestMethod.GET)
 	public ModelAndView addStoreProduct(CurrentUser currentUser) {
 		return new ModelAndView("store/dashboard", storeOwnerDashboardViewModel.create(currentUser.getId()));
+	}
+
+    @RequestMapping(value = "/user/view/{username}", method = RequestMethod.GET)
+    public ModelAndView viewUser(@PathVariable("username") String username ,CurrentUser currentUser) {
+	    Optional<User> targetUser=userService.getUserByUsername(username);
+
+	    if(!targetUser.isPresent())
+            return new ModelAndView("error/404");
+
+	    //Admin view will be handled by thymeleaf.
+        return new ModelAndView("user/viewprofile",profileViewModel.create(targetUser.get()));
 	}
 
 	@RequestMapping(value = "/user/shoppingcart", method = RequestMethod.GET)
@@ -106,26 +124,21 @@ public class UserController {
 
 	@RequestMapping(value = "/user/shoppingcart", method = RequestMethod.POST)
 	public ModelAndView shoppingCart(CurrentUser currentUser,RedirectAttributes redirectAttributes) {
-		Collection<Order>orders=orderService.getOrders(currentUser.getId(),false);
-		if(!orders.isEmpty())
-		{
-			for(Order order:orders)
-			{
-				orderService.changeStatus(order.getId());
-			}
-			FlashMessages.success("Successfully CheckedOut "+orders.size()+" Orders", redirectAttributes);
+		Integer ordersProcessed = orderService.checkout(currentUser.getId());
+		if(ordersProcessed > 0){
+			FlashMessages.success("Successfully Checked'Out "+ ordersProcessed + " Orders", redirectAttributes);
 			AuthUtil.updateOrders(0);
 		}
 		else
-		{
-			FlashMessages.warning("There is no Orders to CheckOut", redirectAttributes);
-		}
-		return new ModelAndView("redirect:/");
+			FlashMessages.warning("There is no orders to checkout", redirectAttributes);
+
+		return new ModelAndView("redirect:/user/shoppingcart");
 	}
 
 	@RequestMapping(value = "/user/profile", method = RequestMethod.GET)
 	public ModelAndView profile(CurrentUser currentUser) {
-		return new ModelAndView("user/profile","orders",orderService.getOrders(currentUser.getId(),true));
+		Optional<User> user = userService.getUserById(currentUser.getId());
+		return new ModelAndView("user/profile",profileViewModel.create(user.get()));
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////

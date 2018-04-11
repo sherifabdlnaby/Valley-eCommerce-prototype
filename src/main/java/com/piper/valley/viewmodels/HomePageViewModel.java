@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.HashMap;
 
 @Component
-public class HomePageModel {
+public class HomePageViewModel {
     @Autowired
     StoreProductService storeProductService;
 

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -22,8 +23,10 @@ public class StoreServiceImpl implements StoreService {
 	@Autowired
 	private ProductService productService;
 
+    @Autowired
+    private StoreHistoryService storeHistoryService;
 
-	@Override
+    @Override
 	public Optional<Store> getStoreById(Long id) {
 		return Optional.ofNullable(storeRepository.findOne(id));
 	}
@@ -128,6 +131,17 @@ public class StoreServiceImpl implements StoreService {
 		storeProduct.setStore(store);
 		store.addStoreProduct(storeProduct);
 
+
+        StoreProductHistory storeProductHistory=new StoreProductHistory(form.getDescription(),form.getPrice(),product.getName(),product.getId());
+        storeProductHistory.setType(StoreHistoryType.ADD);
+        storeProductHistory.setUser(user);
+        storeProductHistory.setMessage(product.getName()+" was added."); //Change this message letter.
+        storeProductHistory.setDateTime(new Date());
+        storeProductHistory.setStore(store);
+
+
+
+        storeHistoryService.add(storeProductHistory);
 		//Hibernate Bugs ? :"D
 		Store save = storeRepository.save(store);
 

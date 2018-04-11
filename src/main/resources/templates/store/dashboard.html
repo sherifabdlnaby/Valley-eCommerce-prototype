@@ -44,8 +44,8 @@
                     </tr>
                     </tbody>
                 </table>
+                <hr/>
             </div>
-            <hr/>
             <div class="col-sm-12 table-responsive-md" th:if="${not #lists.isEmpty(pending)}">
                 <br/>
                 <h3><i class="fas fa-hourglass-half"></i> Pending Stores</h3>
@@ -68,8 +68,8 @@
                     </tr>
                     </tbody>
                 </table>
+                <hr/>
             </div>
-            <hr/>
             <div class="col-sm-12 table-responsive-md" th:if="${not #lists.isEmpty(rejected)}">
                 <br/>
                 <h3><i class="fas fa-times-circle"></i> Rejected Stores</h3>
@@ -92,8 +92,8 @@
                     </tr>
                     </tbody>
                 </table>
+                <hr/>
             </div>
-            <hr/>
         </div>
         <div class="col-lg-4">
             <br/>
@@ -104,10 +104,11 @@
                     <h6 class="card-subtitle mb-2 text-muted">Add Product To Stores, View Orders, View Statistics,
                         etc</h6>
                     <hr/>
-                    <a class="list-group-item list-group-item-action" href="/store/addproduct"><i class="fas fa-plus"></i>  Add product
+                    <a class="list-group-item list-group-item-action" href="/store/addproduct"><i class="fas fa-fw fa-plus"></i>  Add product
                         to store</a>
-                    <a class="list-group-item list-group-item-action" href="/store/statistics"> <i class="fas fa-chart-line"></i>  View Statistics </a>
-                    <a class="list-group-item list-group-item-action" href="/store/orders"> <i class="fas fa-columns"></i>  View Orders </a>
+                    <a class="list-group-item list-group-item-action" href="/store/statistics"> <i class="fas fa-fw fa-chart-line"></i>  View Statistics </a>
+                    <a class="list-group-item list-group-item-action" href="/store/orders"> <i class="fas fa-fw fa-columns"></i>  View Orders </a>
+                    <a class="list-group-item list-group-item-action" href="/store/history"> <i class="fas fa-fw fa-history"></i>  View History </a>
                 </div>
             </div>
         </div>
