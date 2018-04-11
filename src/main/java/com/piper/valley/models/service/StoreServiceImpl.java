@@ -1,12 +1,15 @@
 package com.piper.valley.models.service;
 
+import com.piper.valley.forms.AddStoreCollaboratorForm;
 import com.piper.valley.forms.AddStoreForm;
 import com.piper.valley.forms.AddStoreProductForm;
 import com.piper.valley.models.domain.*;
 import com.piper.valley.models.repository.StoreRepository;
 import com.piper.valley.models.repository.UserRepository;
+import com.piper.valley.utilities.FlashMessages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Collection;
 import java.util.Date;
@@ -22,6 +25,9 @@ public class StoreServiceImpl implements StoreService {
 
 	@Autowired
 	private ProductService productService;
+
+	@Autowired
+	private UserService userService;
 
     @Autowired
     private StoreHistoryService storeHistoryService;
@@ -146,6 +152,32 @@ public class StoreServiceImpl implements StoreService {
 		Store save = storeRepository.save(store);
 
 		return storeProduct;
+	}
+	@Override
+	public StoreOwner addCollaboratorToStore(AddStoreCollaboratorForm form, User user,RedirectAttributes redirectAttributes){
+
+		Optional<Store> storeOptional   = this.getStoreById(form.getStoreId());
+		Optional<User> userOptional	= userService.getUserByUsername(form.getUsername());
+		Store store = storeOptional.get();
+		User collaborator = userOptional.get();
+
+
+		//Add New Role to User (We query as session user can be outdated)
+		if(!collaborator.getRole().contains(Role.STORE_OWNER))
+			collaborator.addRole(Role.STORE_OWNER);
+
+		//First Time StoreOwner (create storeowner row in table)
+		if(collaborator.getStoreOwner() == null){
+			collaborator.setStoreOwner(new StoreOwner());
+			collaborator.getStoreOwner().setUser(collaborator);
+		}
+		collaborator.getStoreOwner().addStCollaberatedStore(store);
+		collaborator = userRepository.save(collaborator);
+		store.addCollaborator(collaborator.getStoreOwner());
+		//save user
+
+		store =storeRepository.save(store);
+		return collaborator.getStoreOwner();
 	}
 }
 

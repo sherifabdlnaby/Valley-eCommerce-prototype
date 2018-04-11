@@ -5,6 +5,7 @@ import org.hibernate.search.annotations.Field;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -49,6 +50,12 @@ public abstract class Store {
 		if(storeProducts == null)
 			storeProducts = new ArrayList<>();
 		return storeProducts.add(storeProduct);
+	}
+
+	public boolean addCollaborator(StoreOwner storeOwner) {
+		if(collaborators == null)
+			collaborators = new HashSet<>();
+		return collaborators.add(storeOwner);
 	}
 
 	public boolean setStoreProducts(List<StoreProduct> storeProducts) {
