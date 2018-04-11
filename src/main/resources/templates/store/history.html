@@ -43,7 +43,7 @@
                             <td class="align-middle" th:text="${eachHistory.getMessage()}"></td>
                             <td class="align-middle" th:text="${#dates.format(eachHistory.getDateTime(), 'dd-MMM-yyyy HH:mm')}">-</td>
                             <td class="align-middle">
-                                <a th:href="@{/user/{username}(username = ${eachHistory.getUser().getUsername()})}"
+                                <a th:href="@{/user/view/{username}(username = ${eachHistory.getUser().getUsername()})}"
                                    th:text="${eachHistory.getUser().getName()}">-
                                 </a>
                             </td>

@@ -3,11 +3,14 @@ package com.piper.valley.controllers;
 import com.piper.valley.auth.CurrentUser;
 import com.piper.valley.forms.UserCreateForm;
 import com.piper.valley.models.domain.Order;
+import com.piper.valley.models.domain.Role;
+import com.piper.valley.models.domain.User;
 import com.piper.valley.models.service.OrderService;
 import com.piper.valley.models.service.UserService;
 import com.piper.valley.utilities.AuthUtil;
 import com.piper.valley.utilities.FlashMessages;
 import com.piper.valley.validators.UserCreateFormValidator;
+import com.piper.valley.viewmodels.ProfileViewModel;
 import com.piper.valley.viewmodels.ShoppingCartModel;
 import com.piper.valley.viewmodels.StoreOwnerDashboardViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +47,9 @@ public class UserController {
 	@Autowired
 	private OrderService orderService;
 
+	@Autowired
+    private ProfileViewModel profileViewModel;
+
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////*  VALIDATORS BINDING SECTION  *//////////////////////////////////////
@@ -61,7 +67,6 @@ public class UserController {
 	public ModelAndView getLoginPage(@RequestParam Optional<String> error) {
 		return new ModelAndView("user/login", "error", error.isPresent() ? error : null);
 	}
-
 
 	//@PreAuthorize("@currentUserServiceImpl.canAccessUser(principal, #pathVariable)")
 	//@PreAuthorize("hasAuthority('ADMIN')")
@@ -93,10 +98,26 @@ public class UserController {
 		return new ModelAndView("redirect:/");
 	}
 
+
+
 	@PreAuthorize("hasAuthority('STORE_OWNER')")
 	@RequestMapping(value = "/user/storeowner/dashbaord", method = RequestMethod.GET)
 	public ModelAndView addStoreProduct(CurrentUser currentUser) {
 		return new ModelAndView("store/dashboard", storeOwnerDashboardViewModel.create(currentUser.getId()));
+	}
+
+    @RequestMapping(value = "/user/view/{username}", method = RequestMethod.GET)
+    public ModelAndView viewUser(@PathVariable("username") String username ,CurrentUser currentUser) {
+	    Optional<User> targetUser=userService.getUserByUsername(username);
+	    if(!targetUser.isPresent())
+            return new ModelAndView("error/404");
+	    if(currentUser.getRole().contains(Role.ADMIN)) {
+            return new ModelAndView("user/profile",profileViewModel.create(targetUser.get().getId())) ;//Account owner view in case of admin.
+        }else
+        {
+            return new ModelAndView("user/viewprofile",profileViewModel.create(targetUser.get().getId())); //Normal preview if normal account.
+
+        }
 	}
 
 	@RequestMapping(value = "/user/shoppingcart", method = RequestMethod.GET)
@@ -125,7 +146,7 @@ public class UserController {
 
 	@RequestMapping(value = "/user/profile", method = RequestMethod.GET)
 	public ModelAndView profile(CurrentUser currentUser) {
-		return new ModelAndView("user/profile","orders",orderService.getOrders(currentUser.getId(),true));
+		return new ModelAndView("user/profile",profileViewModel.create(currentUser.getId()));
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
