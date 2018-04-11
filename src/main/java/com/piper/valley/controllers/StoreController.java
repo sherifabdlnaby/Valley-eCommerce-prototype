@@ -1,4 +1,5 @@
 package com.piper.valley.controllers;
+
 import com.piper.valley.auth.AuthService;
 import com.piper.valley.auth.CurrentUser;
 import com.piper.valley.forms.AddOrderForm;
@@ -12,8 +13,8 @@ import com.piper.valley.models.service.StoreProductService;
 import com.piper.valley.models.service.StoreService;
 import com.piper.valley.utilities.AuthUtil;
 import com.piper.valley.utilities.FlashMessages;
-import com.piper.valley.validators.AddStoreProductFormValidator;
 import com.piper.valley.validators.AddCollaboratorFormValidator;
+import com.piper.valley.validators.AddStoreProductFormValidator;
 import com.piper.valley.viewmodels.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -154,7 +155,7 @@ public class StoreController {
 		if(collaborator!=null)
 			FlashMessages.success("Success! " + collaborator.getUser().getName() + " Added to your store!", redirectAttributes);
 
-		return new ModelAndView("redirect:/store/collaborator" );
+		return new ModelAndView("redirect:store/addcollaborator" );
 	}
 
 	@PreAuthorize("hasAuthority('STORE_OWNER')")
