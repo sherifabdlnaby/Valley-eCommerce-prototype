@@ -11,6 +11,7 @@ import com.piper.valley.models.service.StoreProductService;
 import com.piper.valley.models.service.StoreService;
 import com.piper.valley.utilities.AuthUtil;
 import com.piper.valley.utilities.FlashMessages;
+import com.piper.valley.validators.AddStoreFormValidator;
 import com.piper.valley.validators.AddStoreProductFormValidator;
 import com.piper.valley.viewmodels.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,9 @@ public class StoreController {
 	private StoreOwnerDashboardViewModel storeOwnerDashboardViewModel;
 
 	@Autowired
+	private AddStoreFormValidator addStoreFormValidator;
+
+	@Autowired
 	private AddOrderViewModel addOrderViewModel;
 
 	@Autowired
@@ -67,6 +71,12 @@ public class StoreController {
 	@InitBinder("addStoreProductForm")
 	public void addBrandFormInitBinder(WebDataBinder binder) {
 		binder.addValidators(addStoreProductFormValidator);
+	}
+
+
+	@InitBinder("addStoreForm")
+	public void addStoreFormInitBinder(WebDataBinder binder) {
+		binder.addValidators(addStoreFormValidator);
 	}
 
 

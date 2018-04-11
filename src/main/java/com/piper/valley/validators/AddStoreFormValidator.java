@@ -6,6 +6,7 @@ import com.piper.valley.forms.AddProductForm;
 import com.piper.valley.forms.AddStoreForm;
 import com.piper.valley.models.repository.ProductRepository;
 import com.piper.valley.models.repository.StoreRepository;
+import com.piper.valley.models.service.StoreService;
 import com.piper.valley.utilities.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,7 @@ public class AddStoreFormValidator implements Validator {
 	}
 
 	@Autowired
-	private StoreRepository storeRepository;
+	private StoreService storeService;
 
 	@Override
 	public void validate(Object target, Errors errors) {
@@ -28,24 +29,25 @@ public class AddStoreFormValidator implements Validator {
 		if(form.getPhysical())
 			validatePhysical(errors, form);
 
-		CurrentUser user = AuthUtil.getCurrentUser();
-
-		validateUniqueName(errors, form, user);
+		validateUniqueName(errors, form);
 
 	}
 
 	private void validatePhysical(Errors errors,AddStoreForm form)
 	{
+		if(form.getAddress().isEmpty())
+			errors.rejectValue("address","NotEmpty");
+
 		if(form.getAddress().length() < 2 || form.getAddress().length() > 200)
 			errors.rejectValue("address","msg.AddressSizeRange");
 	}
 
-	private void validateUniqueName(Errors errors,AddStoreForm form, CurrentUser user)
+	private void validateUniqueName(Errors errors,AddStoreForm form)
 	{
 		if(errors.hasFieldErrors("name"))
 			return;
 
-		if(storeRepository.findByStoreOwner_IdAndName(user.getId(), form.getName()).size() > 0){
+		if(storeService.getStoreByName(form.getName()).isPresent()){
 			errors.rejectValue("name","msg.DuplicateStoreNameSameOwner");
 		}
 	}

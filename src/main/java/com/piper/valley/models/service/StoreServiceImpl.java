@@ -28,7 +28,12 @@ public class StoreServiceImpl implements StoreService {
 		return Optional.ofNullable(storeRepository.findOne(id));
 	}
 
-	@Override
+    @Override
+    public Optional<Store> getStoreByName(String name) {
+        return storeRepository.findByName(name);
+    }
+
+    @Override
 	public Store acceptStore(Long storeId) {
 		Optional<Store> store = Optional.ofNullable(storeRepository.findOne(storeId));
 		if(store.isPresent()) {

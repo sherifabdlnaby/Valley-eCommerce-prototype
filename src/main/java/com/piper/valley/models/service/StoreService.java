@@ -13,6 +13,8 @@ import java.util.Optional;
 public interface StoreService {
 	Optional<Store> getStoreById(Long id);
 
+	Optional<Store> getStoreByName(String name);
+
 	Store acceptStore(Long storeId);
 
 	Collection<Store> getAllStores();
