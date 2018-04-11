@@ -67,7 +67,9 @@ public class AddCollaboratorFormValidator implements Validator {
             errors.rejectValue("username", "msg.DuplicateCollaborator");
             return;
         }
-        if(store.getStoreOwner().getUser().getId().equals(currentUser.getUser().getId()))
-            errors.rejectValue("username","msg.DuplicateStoreOwner");
+        if(user.getId()==currentUser.getUser().getId()) {
+            errors.rejectValue("username", "msg.DuplicateStoreOwner");
+            return;
+        }
     }
 }
