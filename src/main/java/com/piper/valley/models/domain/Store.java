@@ -96,4 +96,12 @@ public abstract class Store {
 	public void setCollaborators(Set<StoreOwner> collaborators) {
 		this.collaborators = collaborators;
 	}
+
+	public List<StoreHistory> getHistory() {
+		return history;
+	}
+
+	public void setHistory(List<StoreHistory> history) {
+		this.history = history;
+	}
 }

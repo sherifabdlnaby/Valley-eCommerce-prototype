@@ -19,20 +19,9 @@ public class StoreHistoryViewModel {
     StoreHistoryService storeHistoryService;
     public HashMap<String, Object> create(Long Id) {
         HashMap<String, Object> model = new HashMap<>();
-        Collection<Store> Accepted=storeService.getAllAcceptedUserStores(Id);
-        Collection<Collection<StoreHistory>>history=new ArrayList<>();
-        Collection<Store>stores=new ArrayList<>();
-        for (Store store:Accepted)
-        {
-            Collection<StoreHistory>historiesPerStore=storeHistoryService.getByStoreID(store.getId());
-            if(historiesPerStore.size()>0)
-            {
-                history.add(historiesPerStore);
-                stores.add(store);
-            }
-        }
-        model.put("stores",stores);
-        model.put("history",history);
+        //TODO get collab stores too ? (we follow requirement)
+        Collection<Store> stores =storeService.getAllAcceptedUserStores(Id);
+        model.put("stores", stores);
         return model;
     }
 

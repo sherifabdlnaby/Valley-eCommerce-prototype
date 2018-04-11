@@ -14,49 +14,58 @@
 <!--Content Goes Here!-->
 <div class="container">
     <br/>
-    <h2><i class="fas fa-history"></i> Stores' History </h2>
-    <hr/>
     <br/>
-    <h3><i class="fas fa-table"></i> History for each store.</h3>
+    <h2><i class="fas fa-history"></i> Stores' History Log </h2>
     <hr/>
     <div class="col-lg-12">
-        <div class="col-sm-12 table-responsive-md" th:if="${not #lists.isEmpty(stores)}">
-            <div th:each="store,i : ${stores}">
-                <h2>
-                    <a th:href="@{/store/view/{id}(id = ${store.getId()})}"
-                       th:text="${store.getName()}">-</a>
-                </h2>
-                <div class="col-sm-12 table-responsive-md">
-                    <table class="table table-striped table-hover">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Details</th>
-                            <th>Time</th>
-                            <th>By</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody id="items">
-                        <tr th:each="eachHistory,j : ${history[i.index]}">
-                            <td class="align-middle" th:text="${j.index+1}">#</td>
-                            <td class="align-middle" th:text="${eachHistory.getMessage()}"></td>
-                            <td class="align-middle" th:text="${#dates.format(eachHistory.getDateTime(), 'dd-MMM-yyyy HH:mm')}">-</td>
-                            <td class="align-middle">
-                                <a th:href="@{/user/view/{username}(username = ${eachHistory.getUser().getUsername()})}"
-                                   th:text="${eachHistory.getUser().getName()}">-
-                                </a>
-                            </td>
-                            <td class="align-middle" ><a th:href="@{/}">UNDO</a></td>
-                        </tr>
-                        </tbody>
-                    </table>
-
-                    <hr/>
+        <ul class="nav nav-tabs">
+            <li class="nav-item" th:each="store,i : ${stores}">
+                <a class="nav-link"  data-toggle="tab" th:href="${'#' + store.name}" th:text="${store.name}" th:classappend="${i.index == 0} ? 'active show' : ' '">Store</a>
+            </li>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+            <th:block th:each="store,i : ${stores}">
+                <div class="tab-pane fade" th:classappend="${i.index == 0} ? 'active show' : ' '" th:id="${store.name}">
+                    <br/>
+                    <h2>
+                        <a th:href="@{/store/view/{id}(id = ${store.getId()})}"
+                           th:text="${store.getName()}">-</a>
+                    </h2>
+                    <div th:if="${#lists.isEmpty(store.history)}">
+                        <h3 class="text-muted"> This store has no history. </h3>
+                    </div>
+                    <div th:if="${not #lists.isEmpty(store.history)}" class="col-sm-12 table-responsive-md">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th></th>
+                                <th>Details</th>
+                                <th>Time</th>
+                                <th>By</th>
+                                <th>Undo</th>
+                            </tr>
+                            </thead>
+                            <tbody id="items">
+                            <tr th:each="eachHistory,j : ${store.history}">
+                                <td class="align-middle" th:text="${j.index+1}">#</td>
+                                <td class="align-middle text-success" th:if="${eachHistory.type.name() == 'ADD'}" ><i class="fas fa-plus-square"></i></td>
+                                <td class="align-middle text-info" th:if="${eachHistory.type.name() == 'EDIT'}"><i class="fas fa-pen-square"></i></td>
+                                <td class="align-middle text-danger" th:if="${eachHistory.type.name() == 'DELETE'}"><i class="fas fa-minus-square"></i></td>
+                                <td class="align-middle" th:text="${eachHistory.getMessage()}"></td>
+                                <td class="align-middle" th:text="${#dates.format(eachHistory.getDateTime(), 'dd-MMM-yyyy HH:mm')}">-</td>
+                                <td class="align-middle">
+                                    <a th:href="@{/user/view/{username}(username = ${eachHistory.getUser().getUsername()})}"
+                                       th:text="${eachHistory.getUser().getName()}">-
+                                    </a>
+                                </td>
+                                <td class="align-middle" ><a th:href="@{/}"><i class="fas fa-undo"></i> UNDO</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <hr/>
-                <br/>
-            </div>
+            </th:block>
         </div>
     </div>
 </div>

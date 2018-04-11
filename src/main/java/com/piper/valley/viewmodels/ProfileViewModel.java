@@ -10,6 +10,7 @@ import com.piper.valley.models.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -21,17 +22,12 @@ public class ProfileViewModel {
     UserService userService;
     @Autowired
     StoreService storeService;
-    public HashMap<String,Object> create(Long userID)
+    public HashMap<String,Object> create(User user)
     {
         HashMap<String, Object> model = new HashMap<>();
-        Collection<Order> orders= orderService.getOrders(userID,true);
-        User otherUser=userService.getUserById(userID).get(); //We don't have to check if it exists, we have already done this.
-        Collection<Store> stores = null;
-        if(otherUser.getRole().contains(Role.STORE_OWNER))
-            stores=storeService.getAllAcceptedUserStores(otherUser.getStoreOwner().getId());
-        model.put("orders",orders);
-        model.put("otherUser",otherUser);
-        model.put("stores",stores);
+        model.put("orders",user.getOrders());
+        model.put("user",user);
+        model.put("stores", user.getStoreOwner() != null ? user.getStoreOwner().getStores() : new ArrayList<>());
         return model;
     }
 }
