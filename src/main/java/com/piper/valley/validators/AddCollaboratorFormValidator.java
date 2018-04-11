@@ -7,12 +7,16 @@ import com.piper.valley.models.domain.*;
 import com.piper.valley.models.service.StoreService;
 import com.piper.valley.models.service.UserService;
 import com.piper.valley.utilities.AuthUtil;
+import com.piper.valley.utilities.FlashMessages;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 @Component
@@ -41,13 +45,14 @@ public class AddCollaboratorFormValidator implements Validator {
 
         Optional<User> userOptional = userService.getUserByUsername(form.getUsername());
         if(!userOptional.isPresent()) {
-            errors.rejectValue("username", "NotValid");
+            System.out.println("heeeeeeeeey");
+            errors.rejectValue("username", "msg.NotValide");
             return;
         }
 
         Optional<Store> storeOptional = storeService.getStoreById(form.getStoreId());
         if(!storeOptional.isPresent()) {
-            errors.rejectValue("storeId", "NotValid");
+            errors.rejectValue("storeId", "msg.NotValide");
             return;
         }
 
@@ -55,14 +60,15 @@ public class AddCollaboratorFormValidator implements Validator {
         Store store = storeOptional.get();
 
         CurrentUser currentUser = AuthUtil.getCurrentUser();
-        if(!authService.canAccessStore(store, currentUser))
-            errors.rejectValue("storeId","Unauthorized!!!!");
-        Hibernate.initialize(user.getStoreOwner().getCollaboratedStores());
-        if(user.getStoreOwner().getCollaboratedStores().contains(store))
-            errors.rejectValue("username","msg.DuplicateCollaborator");
-        Hibernate.initialize(currentUser.getUser().getStoreOwner().getStores());
-        if(currentUser.getUser().getStoreOwner().getStores().contains(store))
+        if(!authService.canAccessStore(store, currentUser)) {
+            errors.rejectValue("storeId", "Unauthorized!!!!");
+            return;
+        }
+        if(store.getCollaborators().contains(user)) {
             errors.rejectValue("username", "msg.DuplicateCollaborator");
-
+            return;
+        }
+        if(store.getStoreOwner().getId().equals(currentUser.getUser().getId()))
+            errors.rejectValue("username","msg.DuplicateCollaborator");
     }
 }

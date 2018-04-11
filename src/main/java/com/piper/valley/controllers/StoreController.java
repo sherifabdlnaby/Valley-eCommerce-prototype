@@ -150,9 +150,9 @@ public class StoreController {
 		if (bindingResult.hasErrors())
 			return new ModelAndView("store/addcollaborator", addStoreCollaboratorViewModel.create(addStoreCollaboratorForm, currentUser.getId()));
 
-		StoreOwner collaborator = storeService.addCollaboratorToStore(addStoreCollaboratorForm);
-
-		FlashMessages.success("Success! " + collaborator.getUser().getName() + " Added to your store!", redirectAttributes);
+		StoreOwner collaborator = storeService.addCollaboratorToStore(addStoreCollaboratorForm,currentUser.getUser(),redirectAttributes);
+		if(collaborator!=null)
+			FlashMessages.success("Success! " + collaborator.getUser().getName() + " Added to your store!", redirectAttributes);
 
 		return new ModelAndView("redirect:/store/collaborator" );
 	}

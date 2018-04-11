@@ -6,8 +6,10 @@ import com.piper.valley.forms.AddStoreProductForm;
 import com.piper.valley.models.domain.*;
 import com.piper.valley.models.repository.StoreRepository;
 import com.piper.valley.models.repository.UserRepository;
+import com.piper.valley.utilities.FlashMessages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -132,12 +134,14 @@ public class StoreServiceImpl implements StoreService {
 		return storeProduct;
 	}
 	@Override
-	public StoreOwner addCollaboratorToStore(AddStoreCollaboratorForm form){
+	public StoreOwner addCollaboratorToStore(AddStoreCollaboratorForm form, User user,RedirectAttributes redirectAttributes){
 
 		Optional<Store> storeOptional   = this.getStoreById(form.getStoreId());
 		Optional<User> userOptional	= userService.getUserByUsername(form.getUsername());
 		Store store = storeOptional.get();
 		User collaborator = userOptional.get();
+
+
 		//Add New Role to User (We query as session user can be outdated)
 		if(!collaborator.getRole().contains(Role.STORE_OWNER))
 			collaborator.addRole(Role.STORE_OWNER);

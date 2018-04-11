@@ -7,6 +7,7 @@ import com.piper.valley.models.domain.Store;
 import com.piper.valley.models.domain.StoreOwner;
 import com.piper.valley.models.domain.StoreProduct;
 import com.piper.valley.models.domain.User;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -33,5 +34,5 @@ public interface StoreService {
 
 	StoreProduct addProductToStore(AddStoreProductForm form, User user);
 
-	StoreOwner addCollaboratorToStore(AddStoreCollaboratorForm form);
+	StoreOwner addCollaboratorToStore(AddStoreCollaboratorForm form, User user,RedirectAttributes redirectAttributes);
 }
