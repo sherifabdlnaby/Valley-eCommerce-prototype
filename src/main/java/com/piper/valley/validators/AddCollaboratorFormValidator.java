@@ -45,7 +45,6 @@ public class AddCollaboratorFormValidator implements Validator {
 
         Optional<User> userOptional = userService.getUserByUsername(form.getUsername());
         if(!userOptional.isPresent()) {
-            System.out.println("heeeeeeeeey");
             errors.rejectValue("username", "msg.NotValide");
             return;
         }
@@ -64,11 +63,11 @@ public class AddCollaboratorFormValidator implements Validator {
             errors.rejectValue("storeId", "Unauthorized!!!!");
             return;
         }
-        if(store.getCollaborators().contains(user)) {
+        if(store.getCollaborators().contains(user.getStoreOwner())) {
             errors.rejectValue("username", "msg.DuplicateCollaborator");
             return;
         }
-        if(store.getStoreOwner().getId().equals(currentUser.getUser().getId()))
-            errors.rejectValue("username","msg.DuplicateCollaborator");
+        if(store.getStoreOwner().getUser().getId().equals(currentUser.getUser().getId()))
+            errors.rejectValue("username","msg.DuplicateStoreOwner");
     }
 }
