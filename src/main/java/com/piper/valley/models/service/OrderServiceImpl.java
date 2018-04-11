@@ -3,6 +3,7 @@ package com.piper.valley.models.service;
 
 import com.piper.valley.forms.AddOrderForm;
 import com.piper.valley.models.domain.Order;
+import com.piper.valley.models.domain.OrderStatus;
 import com.piper.valley.models.domain.StoreProduct;
 import com.piper.valley.models.domain.User;
 import com.piper.valley.models.repository.OrderRepository;
@@ -33,22 +34,22 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Collection<Order> getOrders(Long id, Boolean processed) {
-        return orderRepository.findAllByUser_IdAndProcessedOrderByProcessedDateDesc(id,processed);
+    public Collection<Order> getOrders(Long id, OrderStatus orderStatus) {
+        return orderRepository.findAllByUser_IdAndOrderStatusOrderByProcessedDateDesc(id,orderStatus);
     }
 
     @Override
     public Order changeStatus(Long id) {
         Optional<Order> order = getOrderById(id);
         Order order1=order.get();
-        order1.setProcessed(true);
+        order1.setOrderStatus(OrderStatus.PROCESSED);
         order1.setProcessedDate(new Date());
         return orderRepository.save(order1);
     }
 
     public List<Order> changeStatus(Collection<Order> orders) {
         for(Order order1 : orders){
-            order1.setProcessed(true);
+            order1.setOrderStatus(OrderStatus.PROCESSED);
             order1.setProcessedDate(new Date());
         }
         return orderRepository.save(orders);
@@ -56,7 +57,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public Integer checkout(Long userId) {
-        Collection<Order> orders = getOrders(userId,false);
+        Collection<Order> orders = getOrders(userId,OrderStatus.UNPROCESSED);
 
         if(orders.isEmpty())
             return 0;
@@ -65,9 +66,21 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-    public Collection<Order> getAllProcessedByStore(Long id) {
+	public Order finishOrder(Long orderId) {
+        Optional<Order> order = Optional.ofNullable(orderRepository.findOne(orderId));
+        if(order.isPresent()) {
+            Order order1 = order.get();
+            order1.setOrderStatus(OrderStatus.DELIVERED);
+            order1.setDeliveredDate(new Date());
+            return orderRepository.save(order1);
+        }
+        return null;
+	}
+
+	@Override
+    public Collection<Order> getAllProcessedByStore(Long id, OrderStatus orderStatus) {
         Collection<StoreProduct>products=storeProductRepository.findAllByStoreId(id);
-        Collection<Order>allOrders=orderRepository.findAllByProcessed(true);
+        Collection<Order>allOrders=orderRepository.findAllByOrderStatus(orderStatus);
         Collection<Order>orders=new ArrayList<>();
         for(Order order:allOrders) {
             if (products.contains(order.getStoreProduct()))

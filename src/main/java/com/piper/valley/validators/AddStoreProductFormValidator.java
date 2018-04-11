@@ -55,7 +55,7 @@ public class AddStoreProductFormValidator implements Validator {
 
 		CurrentUser currentUser = AuthUtil.getCurrentUser();
 		if(!authService.canAccessStore(store, currentUser))
-			errors.rejectValue("storeId","Unauthorized!!!!");
+			errors.rejectValue("storeId","msg.NotAuthorized");
 
 		if(store.getStatus() != StoreStatus.ACCEPTED)
 			errors.rejectValue("storeId","msg.AcceptedStore");

@@ -41,7 +41,6 @@ public abstract class Store {
 	@OneToMany(cascade = CascadeType.PERSIST, mappedBy = "store", orphanRemoval = true)
 	protected List<StoreHistory> history;
 
-
 	public List<StoreProduct> getStoreProducts() {
 		return storeProducts;
 	}

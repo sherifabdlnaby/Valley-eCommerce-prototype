@@ -19,6 +19,9 @@ public class Order {
 	@Column(name = "processedDate")
 	private Date processedDate;
 
+	@Column(name = "deliveredDate")
+	private Date deliveredDate;
+
 	@Column(name = "quantity", nullable = false)
 	private int quantity = 1;
 
@@ -26,8 +29,13 @@ public class Order {
 	private String address;
 
 	//Processed true = bought by the user.
+	//Let's keep this here for backward compatibility (I don't wanna drop the dp soz)
 	@Column(name = "processed", nullable = false)
 	private boolean processed = false;
+
+	@Column(name = "status", nullable = false)
+	@Enumerated(EnumType.STRING)
+	private OrderStatus orderStatus  = OrderStatus.UNPROCESSED;
 
 	@ManyToOne
 	private StoreProduct storeProduct;
@@ -111,5 +119,21 @@ public class Order {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+
+	public OrderStatus getOrderStatus() {
+		return orderStatus;
+	}
+
+	public void setOrderStatus(OrderStatus orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+
+	public Date getDeliveredDate() {
+		return deliveredDate;
+	}
+
+	public void setDeliveredDate(Date deliveredDate) {
+		this.deliveredDate = deliveredDate;
 	}
 }

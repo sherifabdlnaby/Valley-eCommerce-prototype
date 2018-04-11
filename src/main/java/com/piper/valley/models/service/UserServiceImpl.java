@@ -1,6 +1,7 @@
 package com.piper.valley.models.service;
 
 import com.piper.valley.forms.UserCreateForm;
+import com.piper.valley.models.domain.OrderStatus;
 import com.piper.valley.models.domain.Role;
 import com.piper.valley.models.domain.User;
 import com.piper.valley.models.repository.OrderRepository;
@@ -40,7 +41,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Integer getUserOrdersCount(Long Id) {
-		return orderRepository.countOrdersByUser_IdAndProcessed(Id, false);
+		return orderRepository.countOrdersByUser_IdAndOrderStatus(Id, OrderStatus.UNPROCESSED);
 	}
 
 	@Override
