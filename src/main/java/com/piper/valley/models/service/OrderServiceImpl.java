@@ -46,7 +46,25 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.save(order1);
     }
 
-    @Override
+    public List<Order> changeStatus(Collection<Order> orders) {
+        for(Order order1 : orders){
+            order1.setProcessed(true);
+            order1.setProcessedDate(new Date());
+        }
+        return orderRepository.save(orders);
+    }
+
+	@Override
+	public Integer checkout(Long userId) {
+        Collection<Order> orders = getOrders(userId,false);
+
+        if(orders.isEmpty())
+            return 0;
+
+        return changeStatus(orders).size();
+	}
+
+	@Override
     public Collection<Order> getAllProcessedByStore(Long id) {
         Collection<StoreProduct>products=storeProductRepository.findAllByStoreId(id);
         Collection<Order>allOrders=orderRepository.findAllByProcessed(true);

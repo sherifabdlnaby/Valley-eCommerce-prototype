@@ -14,4 +14,5 @@ public interface OrderService {
    Collection <Order> getOrders(Long id,Boolean processed);
    Collection <Order> getAllProcessedByStore(Long id);
    Order changeStatus(Long id);
+   Integer checkout(Long userId);
 }

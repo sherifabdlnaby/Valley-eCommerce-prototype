@@ -19,7 +19,7 @@
     <br/>
     <blockquote class="blockquote">
         <h1 class="display-2"> <th:block th:text="${store.name}"> Store Name </th:block>  </h1>
-        <footer class="blockquote-footer" th:text="'Managed by: ' + ${store.storeOwner.user.name}"></footer>
+		<footer class="blockquote-footer" >Managed by: <a th:href="@{/user/view/{username} (username = ${store.storeOwner.user.username})}" th:text="${store.storeOwner.user.name}"> </a></footer>
     </blockquote>
 	<th:block th:if="${not #lists.isEmpty(store.storeProducts)}">
 		<br/>

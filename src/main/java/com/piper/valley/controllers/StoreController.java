@@ -149,8 +149,7 @@ public class StoreController {
 	}
 	@PreAuthorize("hasAuthority('STORE_OWNER')")
 	@RequestMapping(value="/store/history",method = RequestMethod.GET)
-	public ModelAndView viewHistory(CurrentUser currentUser)
-	{
+	public ModelAndView viewHistory(CurrentUser currentUser){
 		return new ModelAndView("store/history",storeHistoryViewModel.create(currentUser.getId()));
 	}
 	@RequestMapping(value = "/store/products/{id}", method = RequestMethod.GET)

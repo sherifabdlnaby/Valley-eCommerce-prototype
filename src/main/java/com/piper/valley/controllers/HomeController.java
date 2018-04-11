@@ -1,8 +1,7 @@
 package com.piper.valley.controllers;
 
 import com.piper.valley.models.repository.UserRepository;
-import com.piper.valley.models.service.SearchService;
-import com.piper.valley.viewmodels.HomePageModel;
+import com.piper.valley.viewmodels.HomePageViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +15,7 @@ public class HomeController {
 	private UserRepository userRepository;
 
 	@Autowired
-	private HomePageModel homePageModel;
+	private HomePageViewModel homePageModel;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView index() {

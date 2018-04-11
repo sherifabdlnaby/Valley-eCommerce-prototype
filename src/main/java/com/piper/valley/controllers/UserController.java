@@ -109,15 +109,12 @@ public class UserController {
     @RequestMapping(value = "/user/view/{username}", method = RequestMethod.GET)
     public ModelAndView viewUser(@PathVariable("username") String username ,CurrentUser currentUser) {
 	    Optional<User> targetUser=userService.getUserByUsername(username);
+
 	    if(!targetUser.isPresent())
             return new ModelAndView("error/404");
-	    if(currentUser.getRole().contains(Role.ADMIN)) {
-            return new ModelAndView("user/profile",profileViewModel.create(targetUser.get().getId())) ;//Account owner view in case of admin.
-        }else
-        {
-            return new ModelAndView("user/viewprofile",profileViewModel.create(targetUser.get().getId())); //Normal preview if normal account.
 
-        }
+	    //Admin view will be handled by thymeleaf.
+        return new ModelAndView("user/viewprofile",profileViewModel.create(targetUser.get()));
 	}
 
 	@RequestMapping(value = "/user/shoppingcart", method = RequestMethod.GET)
@@ -127,26 +124,21 @@ public class UserController {
 
 	@RequestMapping(value = "/user/shoppingcart", method = RequestMethod.POST)
 	public ModelAndView shoppingCart(CurrentUser currentUser,RedirectAttributes redirectAttributes) {
-		Collection<Order>orders=orderService.getOrders(currentUser.getId(),false);
-		if(!orders.isEmpty())
-		{
-			for(Order order:orders)
-			{
-				orderService.changeStatus(order.getId());
-			}
-			FlashMessages.success("Successfully CheckedOut "+orders.size()+" Orders", redirectAttributes);
+		Integer ordersProcessed = orderService.checkout(currentUser.getId());
+		if(ordersProcessed > 0){
+			FlashMessages.success("Successfully Checked'Out "+ ordersProcessed + " Orders", redirectAttributes);
 			AuthUtil.updateOrders(0);
 		}
 		else
-		{
-			FlashMessages.warning("There is no Orders to CheckOut", redirectAttributes);
-		}
-		return new ModelAndView("redirect:/");
+			FlashMessages.warning("There is no orders to checkout", redirectAttributes);
+
+		return new ModelAndView("redirect:/user/shoppingcart");
 	}
 
 	@RequestMapping(value = "/user/profile", method = RequestMethod.GET)
 	public ModelAndView profile(CurrentUser currentUser) {
-		return new ModelAndView("user/profile",profileViewModel.create(currentUser.getId()));
+		Optional<User> user = userService.getUserById(currentUser.getId());
+		return new ModelAndView("user/profile",profileViewModel.create(user.get()));
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
