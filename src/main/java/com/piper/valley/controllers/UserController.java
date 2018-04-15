@@ -108,7 +108,7 @@ public class UserController {
 
     @RequestMapping(value = "/user/view/{username}", method = RequestMethod.GET)
     public ModelAndView viewUser(@PathVariable("username") String username ,CurrentUser currentUser) {
-	    Optional<User> targetUser=userService.getUserByUsername(username);
+	    Optional<User> targetUser = userService.getUserByUsername(username);
 
 	    if(!targetUser.isPresent())
             return new ModelAndView("error/404");
