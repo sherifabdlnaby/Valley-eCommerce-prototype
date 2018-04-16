@@ -86,21 +86,17 @@ public class User {
 		this.passwordHash = passwordHash;
 	}
 
-	public Set<Role> getRole() {
-		return roles;
-	}
-
-	public void setRole(Set<Role> roles) {
-		this.roles = roles;
-	}
-
 	public void addRole(Role role) {
-
 		if(roles == null)
 			roles = new HashSet<>();
 
 		roles.add(role);
 	}
+
+	public void removeRole(Role role) {
+		roles.remove(role);
+	}
+
 	public User(Long Id, String username, String email, String passwordHash, String name, Set<Role> roles) {
 		this.id = Id;
 		this.username = username;

@@ -1,6 +1,9 @@
 package com.piper.valley.models.service;
 
+import com.piper.valley.forms.DemoteAdminForm;
+import com.piper.valley.forms.PromoteAdminForm;
 import com.piper.valley.forms.UserCreateForm;
+import com.piper.valley.models.domain.Admin;
 import com.piper.valley.models.domain.OrderStatus;
 import com.piper.valley.models.domain.Role;
 import com.piper.valley.models.domain.User;
@@ -11,10 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -40,6 +40,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public List<User> getAllActiveSubordinates(Long id) {
+		return userRepository.findAllByRolesInAndAdmin_Superior_Id(Collections.singletonList(Role.ADMIN), id);
+	}
+
+	@Override
 	public Integer getUserOrdersCount(Long Id) {
 		return orderRepository.countOrdersByUser_IdAndOrderStatus(Id, OrderStatus.UNPROCESSED);
 	}
@@ -62,9 +67,54 @@ public class UserServiceImpl implements UserService {
 		roles.add(Role.USER);
 
 		//Add Roles List to User
-		user.setRole(roles);
+		user.setRoles(roles);
 
 		//Save da kolo
+		return userRepository.save(user);
+	}
+
+	@Override
+	public User promoteAdmin(PromoteAdminForm form, User superior) {
+		//.get directly as form is validated.
+		User user = getUserByUsername(form.getUsername()).get();
+
+		if (!user.getRoles().contains(Role.ADMIN))
+			user.addRole(Role.ADMIN);
+
+		//TODO to be removed.
+		//corner case for database created admins //TODO remove this when initial admin will be added automatically.
+		if(superior.getAdmin() == null) {
+			superior.setAdmin(new Admin());
+			superior.getAdmin().setUser(superior);
+			superior.getAdmin().setSuperior(superior.getAdmin());
+			superior = userRepository.save(superior);
+		}
+		///////////////////////////////////////////////////////
+
+		//First Time Admin (create Admin row in table)
+		if (user.getAdmin() == null) {
+			user.setAdmin(new Admin());
+			user.getAdmin().setUser(user);
+			user.getAdmin().setSuperior(superior.getAdmin());
+		}
+
+		//save user
+		return userRepository.save(user);
+	}
+
+	@Override
+	public User demoteAdmin(DemoteAdminForm form, User superior) {
+		//.get directly as form is validated.
+		User user = getUserByUsername(form.getUsername()).get();
+
+
+		if (user.getRoles().contains(Role.ADMIN))
+			user.removeRole(Role.ADMIN);
+
+
+		//We won't remove relation to preserve the chain. (we can make this better later (agile baby))
+
+		//save user
 		return userRepository.save(user);
 	}
 }

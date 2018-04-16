@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/default">
+<head>
+    <meta charset="utf-8"/>
+    <title>Demote User</title>
+    <th:block layout:fragment="customStyle">
+        <!--El Custom Styles le el 7eta deh-->
+        <!-- <link rel="stylesheet" th:href="@{/css/home.css}"> -->
+    </th:block>
+</head>
+
+<!-- Body !-->
+<body layout:fragment="content">
+<!--Content Goes Here!-->
+<div class="container">
+    <br/>
+    <h1 class="nopadding">Demote User</h1>
+    <h6 class="text-warning"> <i class="fas fa-exclamation-triangle"></i> Users entered will no longer be an Admin. !</h6>
+    <hr/>
+    <form method="post" autocomplete="on" th:object="${demoteAdminForm}" action="/admin/demote">
+        <div class="row">
+            <div class="col-lg-6">
+                <br/>
+                <br/>
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+                <div class="form-group">
+                    <label class="col-form-label">Admins you promoted.</label>
+                    <select th:field="*{username}" th:errorclass="is-invalid" class="form-control custom-select">
+                        <option th:each="admin : ${admins}" th:value="${admin.username}"
+                                th:text="${admin.username}"></option>
+                    </select>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">
+                        Unspecified Error
+                    </div>
+                </div>
+
+                <br/>
+                <button type="submit" class="btn btn-danger">Demote User!</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--El Custom Scripts le el 7eta deh-->
+<th:block layout:fragment="customScripts">
+
+</th:block>
+</body>
+</html>

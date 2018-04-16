@@ -6,7 +6,6 @@ import com.piper.valley.forms.AddStoreProductForm;
 import com.piper.valley.models.domain.*;
 import com.piper.valley.models.repository.StoreRepository;
 import com.piper.valley.models.repository.UserRepository;
-import com.piper.valley.utilities.FlashMessages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -56,7 +55,7 @@ public class StoreServiceImpl implements StoreService {
 	@Override
 	public Collection<Store> getAllStores() {
 		return storeRepository.findAll();
-	}
+ 	}
 
 	@Override
 	public Collection<Store> getAllAppliedStores() {
@@ -102,7 +101,7 @@ public class StoreServiceImpl implements StoreService {
 		//Add New Role to User (We query as session user can be outdated)
 		User user = userRepository.findOne(sessionUser.getId());
 
-		if(!user.getRole().contains(Role.STORE_OWNER))
+		if(!user.getRoles().contains(Role.STORE_OWNER))
 			user.addRole(Role.STORE_OWNER);
 
 		//First Time StoreOwner (create storeowner row in table)
@@ -163,7 +162,7 @@ public class StoreServiceImpl implements StoreService {
 
 
 		//Add New Role to User (We query as session user can be outdated)
-		if(!collaborator.getRole().contains(Role.STORE_OWNER))
+		if(!collaborator.getRoles().contains(Role.STORE_OWNER))
 			collaborator.addRole(Role.STORE_OWNER);
 
 		//First Time StoreOwner (create storeowner row in table)
@@ -171,12 +170,13 @@ public class StoreServiceImpl implements StoreService {
 			collaborator.setStoreOwner(new StoreOwner());
 			collaborator.getStoreOwner().setUser(collaborator);
 		}
+
 		collaborator.getStoreOwner().addStCollaberatedStore(store);
 		collaborator = userRepository.save(collaborator);
 		store.addCollaborator(collaborator.getStoreOwner());
 		//save user
 
-		store =storeRepository.save(store);
+		store = storeRepository.save(store);
 		return collaborator.getStoreOwner();
 	}
 }
