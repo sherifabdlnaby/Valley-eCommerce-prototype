@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/default">
+<head>
+    <meta charset="utf-8"/>
+    <title>Stores Dashboard</title>
+    <th:block layout:fragment="customStyle">
+        <!--El Custom Styles le el 7eta deh-->
+        <!-- <link rel="stylesheet" th:href="@{/css/home.css}"> -->
+    </th:block>
+</head>
+
+<!-- Body !-->
+<body layout:fragment="content">
+
+<!--Content Goes Here!-->
+<div class="container">
+    <br/>
+    <br/>
+    <div class="col-lg-12">
+    <h1><i class="fas fa-tachometer-alt"></i> Admin Dashboard</h1>
+    <hr/>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Administrative Actions</h4>
+                    <a class="list-group-item list-group-item-action" href="/admin/acceptstores"><i class="fas fa-plus"> </i> Accept Stores</a>
+                    <a class="list-group-item list-group-item-action" href="/admin/promote"><i class="fas fa-user-plus"> </i> Promote Admin </a>
+                    <a class="list-group-item list-group-item-action" href="/admin/demote"><i class="fas fa-user-times"> </i> Demote Admin </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Add to Platform</h4>
+                    <a class="list-group-item list-group-item-action"  href="/admin/addcompany"><i class="fas fa-plus"> </i> Add Company</a>
+                    <a class="list-group-item list-group-item-action" href="/admin/addbrand"><i class="fas fa-plus"> </i> Add Brand</a>
+                    <a class="list-group-item list-group-item-action" href="/admin/addproduct"><i class="fas fa-plus"> </i> Add Product</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--El Custom Scripts le el 7eta deh-->
+<th:block layout:fragment="customScripts">
+
+</th:block>
+</body>
+</html>

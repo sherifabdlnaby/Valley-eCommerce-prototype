@@ -232,4 +232,10 @@ public class AdminController {
 		return new ModelAndView("redirect:/admin/demote" );
 	}
 
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(value = "/admin/dashbaord", method = RequestMethod.GET)
+	public ModelAndView dashboard() {
+		return new ModelAndView("admin/dashboard");
+	}
+
 }
