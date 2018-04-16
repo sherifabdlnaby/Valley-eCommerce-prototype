@@ -1,21 +1,12 @@
 package com.piper.valley.controllers;
-
-import com.piper.valley.forms.AddBrandForm;
-import com.piper.valley.forms.AddCompanyForm;
-import com.piper.valley.forms.AddProductForm;
-import com.piper.valley.models.domain.Brand;
-import com.piper.valley.models.domain.Company;
-import com.piper.valley.models.domain.Product;
-import com.piper.valley.models.domain.Store;
-import com.piper.valley.models.service.BrandService;
-import com.piper.valley.models.service.CompanyService;
-import com.piper.valley.models.service.ProductService;
-import com.piper.valley.models.service.StoreService;
+import com.piper.valley.auth.CurrentUser;
+import com.piper.valley.forms.*;
+import com.piper.valley.models.domain.*;
+import com.piper.valley.models.service.*;
 import com.piper.valley.utilities.FlashMessages;
-import com.piper.valley.validators.AddBrandFormValidator;
-import com.piper.valley.validators.AddCompanyFormValidator;
-import com.piper.valley.validators.AddProductFormValidator;
+import com.piper.valley.validators.*;
 import com.piper.valley.viewmodels.AddProductViewModel;
+import com.piper.valley.viewmodels.DemoteAdminViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -42,6 +33,9 @@ public class AdminController {
 	private StoreService storeService;
 
 	@Autowired
+	private UserService userService;
+
+	@Autowired
 	private CompanyService companyService;
 
     @Autowired
@@ -54,7 +48,16 @@ public class AdminController {
 	private AddCompanyFormValidator addCompanyFormValidator;
 
 	@Autowired
+	private PromoteAdminFormValidator promoteAdminFormValidator;
+
+	@Autowired
+	private DemoteAdminFormValidator demoteAdminFormValidator;
+
+	@Autowired
 	private AddProductViewModel addProductViewModel;
+
+	@Autowired
+	private DemoteAdminViewModel demoteAdminViewModel;
 
 	//	@Autowired
 //	private AddStoreFormValidator addStoreFormValidator;
@@ -77,8 +80,18 @@ public class AdminController {
 		binder.addValidators(addCompanyFormValidator);
 	}
 
+	@InitBinder("promoteAdminForm")
+	public void promoteAdminFormInitBinder(WebDataBinder binder){
+		binder.addValidators(promoteAdminFormValidator);
+	}
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+	@InitBinder("demoteAdminForm")
+	public void demoteAdminFormInitBinder(WebDataBinder binder){
+		binder.addValidators(demoteAdminFormValidator);
+	}
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////*  CONTROLLER ACTION  *///////////////////////////////////////////
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -171,5 +184,58 @@ public class AdminController {
 
         return new ModelAndView("redirect:/admin/acceptstores");
     }
+
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(value = "/admin/promote", method = RequestMethod.GET)
+	public ModelAndView promoteAdmin(@ModelAttribute("promoteAdminForm") PromoteAdminForm promoteAdminForm, CurrentUser currentUser) {
+		return new ModelAndView("admin/promote");
+	}
+
+
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(value = "/admin/promote", method = RequestMethod.POST)
+	public ModelAndView promoteAdmin(@Valid @ModelAttribute("promoteAdminForm") PromoteAdminForm promoteAdminForm, BindingResult bindingResult, CurrentUser currentUser, RedirectAttributes redirectAttributes) {
+		if (bindingResult.hasErrors())
+			return new ModelAndView("admin/promote");
+
+		User user = userService.promoteAdmin(promoteAdminForm,currentUser.getUser());
+
+		if(user != null) {
+			FlashMessages.success("Success! " + user.getName() + " is now an Admin!", redirectAttributes);
+
+		}
+
+		return new ModelAndView("redirect:/admin/promote" );
+	}
+
+
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(value = "/admin/demote", method = RequestMethod.GET)
+	public ModelAndView demoteAdmin(@ModelAttribute("demoteAdminForm") DemoteAdminForm demoteAdminForm, CurrentUser currentUser) {
+		return new ModelAndView("admin/demote", demoteAdminViewModel.create(demoteAdminForm, currentUser.getId()));
+	}
+
+
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(value = "/admin/demote", method = RequestMethod.POST)
+	public ModelAndView demoteAdmin(@Valid @ModelAttribute("demoteAdminForm") DemoteAdminForm demoteAdminForm, BindingResult bindingResult, CurrentUser currentUser, RedirectAttributes redirectAttributes) {
+		if (bindingResult.hasErrors())
+			return new ModelAndView("admin/demote", demoteAdminViewModel.create(demoteAdminForm, currentUser.getId()));
+
+		User user = userService.demoteAdmin(demoteAdminForm,currentUser.getUser());
+
+		if(user != null)
+			FlashMessages.success("Success! " + user.getName() + " is no longer an admin!", redirectAttributes);
+
+		//TODO SESSION REFRESH
+
+		return new ModelAndView("redirect:/admin/demote" );
+	}
+
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(value = "/admin/dashbaord", method = RequestMethod.GET)
+	public ModelAndView dashboard() {
+		return new ModelAndView("admin/dashboard");
+	}
 
 }

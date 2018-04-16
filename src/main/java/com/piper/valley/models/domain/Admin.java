@@ -1,5 +1,6 @@
 package com.piper.valley.models.domain;
 import javax.persistence.*;
+import java.util.List;
 
 
 @Entity
@@ -11,6 +12,12 @@ public class Admin {
 	@OneToOne
 	@PrimaryKeyJoinColumn
 	private User user;
+
+	@ManyToOne
+	private Admin superior;
+
+	@OneToMany(mappedBy = "superior")
+	private List<Admin> subordinates;
 
 	public Long getId() {
 		return id;
@@ -26,6 +33,22 @@ public class Admin {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public Admin getSuperior() {
+		return superior;
+	}
+
+	public void setSuperior(Admin superior) {
+		this.superior = superior;
+	}
+
+	public List<Admin> getSubordinates() {
+		return subordinates;
+	}
+
+	public void setSubordinates(List<Admin> subordinates) {
+		this.subordinates = subordinates;
 	}
 }
 

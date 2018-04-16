@@ -3,20 +3,16 @@ package com.piper.valley.validators;
 import com.piper.valley.auth.AuthService;
 import com.piper.valley.auth.CurrentUser;
 import com.piper.valley.forms.AddStoreCollaboratorForm;
-import com.piper.valley.models.domain.*;
+import com.piper.valley.models.domain.Store;
+import com.piper.valley.models.domain.User;
 import com.piper.valley.models.service.StoreService;
 import com.piper.valley.models.service.UserService;
 import com.piper.valley.utilities.AuthUtil;
-import com.piper.valley.utilities.FlashMessages;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 @Component
@@ -45,13 +41,13 @@ public class AddCollaboratorFormValidator implements Validator {
 
         Optional<User> userOptional = userService.getUserByUsername(form.getUsername());
         if(!userOptional.isPresent()) {
-            errors.rejectValue("username", "msg.NotValide");
+            errors.rejectValue("username", "msg.NotValid");
             return;
         }
 
         Optional<Store> storeOptional = storeService.getStoreById(form.getStoreId());
         if(!storeOptional.isPresent()) {
-            errors.rejectValue("storeId", "msg.NotValide");
+            errors.rejectValue("storeId", "msg.NotValid");
             return;
         }
 
@@ -60,7 +56,7 @@ public class AddCollaboratorFormValidator implements Validator {
 
         CurrentUser currentUser = AuthUtil.getCurrentUser();
         if(!authService.canAccessStore(store, currentUser)) {
-            errors.rejectValue("storeId", "Unauthorized!!!!");
+            errors.rejectValue("storeId", "msg.NotAuthorized");
             return;
         }
         if(store.getCollaborators().contains(user.getStoreOwner())) {
