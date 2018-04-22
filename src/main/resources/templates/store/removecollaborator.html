@@ -16,15 +16,11 @@
 <div class="container">
     <br/>
     <br/>
-    <h1>Remove Collaborator From Store</h1>
-    <hr/>
+    <h2> <i class="fas fa-user-times"></i> Remove Collaborator From Store</h2>
     <form method="post" autocomplete="on" th:object="${removeStoreCollaboratorForm}" action="/store/removecollaborator">
         <div class="row">
             <div class="col-lg-6">
-                <br/>
-                <br/>
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-
                 <div class="form-group">
                     <label class="col-form-label">Store</label>
                     <select th:field="*{storeId}" th:errorclass="is-invalid" class="form-control custom-select">
@@ -50,7 +46,7 @@
             </div>
         </div>
     </form>
-</div>
+    </div>
 
 <!--El Custom Scripts le el 7eta deh-->
 <th:block layout:fragment="customScripts">

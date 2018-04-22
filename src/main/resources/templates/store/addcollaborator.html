@@ -16,13 +16,10 @@
 <div class="container">
     <br/>
     <br/>
-    <h1>Add Collaborator To Store</h1>
-    <hr/>
+    <h2><i class="fas fa-user-plus"></i>Add Collaborator To Store</h2>
     <form method="post" autocomplete="on" th:object="${addStoreCollaboratorForm}" action="/store/addcollaborator">
         <div class="row">
             <div class="col-lg-6">
-                <br/>
-                <br/>
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
                 <div class="form-group">

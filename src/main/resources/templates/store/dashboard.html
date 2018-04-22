@@ -45,8 +45,32 @@
                     </tbody>
                 </table>
             </div>
-            <hr/>
+            <div class="col-sm-12 table-responsive-md" th:if="${not #lists.isEmpty(collaborated)}">
+                <hr/>
+                <br/>
+                <h3><i class="fas fa-users"></i> Collaborated Stores</h3>
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr class="table" >
+                        <th>#</th>
+                        <th>Name</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody id="collaborated">
+                    <tr th:each="store,i : ${collaborated}">
+                        <td class="align-middle" th:text="${i.index+1}">#</td>
+                        <td class="align-middle"><a th:href="@{/store/view/{id}(id = ${store.id})}"
+                                                    th:text="${store.name}">-</a></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
             <div class="col-sm-12 table-responsive-md" th:if="${not #lists.isEmpty(pending)}">
+                <hr/>
                 <br/>
                 <h3><i class="fas fa-hourglass-half"></i> Pending Stores</h3>
                 <table class="table table-striped table-hover">
@@ -69,8 +93,8 @@
                     </tbody>
                 </table>
             </div>
-            <hr/>
             <div class="col-sm-12 table-responsive-md" th:if="${not #lists.isEmpty(rejected)}">
+                <hr/>
                 <br/>
                 <h3><i class="fas fa-times-circle"></i> Rejected Stores</h3>
                 <table class="table table-striped table-hover">
@@ -94,32 +118,9 @@
                 </table>
             </div>
             <hr/>
-            <div class="col-sm-12 table-responsive-md" th:if="${not #lists.isEmpty(collaborated)}">
-                <br/>
-                <h3><i class="fas fa-users"></i> Collaborated Stores</h3>
-                <table class="table table-striped table-hover">
-                    <thead>
-                    <tr class="table-warning" >
-                        <th>#</th>
-                        <th>Name</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody id="collaborated">
-                    <tr th:each="store,i : ${collaborated}">
-                        <td class="align-middle" th:text="${i.index+1}">#</td>
-                        <td class="align-middle"><a th:href="@{/store/view/{id}(id = ${store.id})}"
-                                                    th:text="${store.name}">-</a></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <hr/>
         </div>
         <div class="col-lg-4">
+        <div class="col-lg-12">
             <br/>
             <br/>
             <div class="card">
@@ -130,16 +131,24 @@
                     <hr/>
                     <a class="list-group-item list-group-item-action" href="/store/addproduct"><i class="fas fa-fw fa-plus"></i>  Add product
                         to store</a>
-                    <a class="list-group-item list-group-item-action" href="/store/addcollaborator"><i class="fas fa-user-plus"></i>  Add collaborator
-                        to store</a>
-                    <a class="list-group-item list-group-item-action" href="/store/removecollaborator"><i class="fas fa-user-times"></i>  Remove collaborator
-                    From store</a>
                     <a class="list-group-item list-group-item-action" href="/store/statistics"> <i class="fas fa-fw fa-chart-line"></i>  View Statistics </a>
                     <a class="list-group-item list-group-item-action" href="/store/orders"> <i class="fas fa-fw fa-columns"></i>  View Orders </a>
                     <a class="list-group-item list-group-item-action" href="/store/history"> <i class="fas fa-fw fa-history"></i>  View History </a>
-                    <a class="list-group-item list-group-item-action" href="/store/statistics"> <i class="fas fa-fw fa-chart-line"></i>  View Statistics </a>
                 </div>
             </div>
+        </div>
+        <div class="col-lg-12">
+            <br/>
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Administrative Actions</h4>
+                    <h6 class="card-subtitle mb-2 text-muted">Add or Remove Collaborator</h6>
+                    <hr/>
+                    <a class="list-group-item list-group-item-action" href="/store/addcollaborator"><i class="fas fa-user-plus"></i>  Add Collaborator </a>
+                    <a class="list-group-item list-group-item-action" href="/store/removecollaborator"><i class="fas fa-user-times"></i>  Remove Collaborator </a>
+                </div>
+            </div>
+        </div>
         </div>
     </div>
 </div>
