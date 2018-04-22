@@ -8,7 +8,6 @@ import com.piper.valley.models.repository.StoreRepository;
 import com.piper.valley.models.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Collection;
 import java.util.Date;
@@ -152,11 +151,12 @@ public class StoreServiceImpl implements StoreService {
 
 		return storeProduct;
 	}
-	@Override
-	public StoreOwner addCollaboratorToStore(AddStoreCollaboratorForm form, User user,RedirectAttributes redirectAttributes){
 
+	@Override
+	public StoreOwner addCollaboratorToStore(AddStoreCollaboratorForm form, Long userId){
 		Optional<Store> storeOptional   = this.getStoreById(form.getStoreId());
 		Optional<User> userOptional	= userService.getUserByUsername(form.getUsername());
+
 		Store store = storeOptional.get();
 		User collaborator = userOptional.get();
 
@@ -174,9 +174,21 @@ public class StoreServiceImpl implements StoreService {
 		collaborator.getStoreOwner().addStCollaberatedStore(store);
 		collaborator = userRepository.save(collaborator);
 		store.addCollaborator(collaborator.getStoreOwner());
-		//save user
 
+		//save user
 		store = storeRepository.save(store);
+
+		//save history
+		StoreCollabHistory storeCollabHistory = new StoreCollabHistory(
+				new User(userId),
+				store,
+				"Collaborator: " + collaborator.getName() + " added to the store!",
+				new Date(),
+				StoreHistoryType.ADD,
+				collaborator
+		);
+		storeHistoryService.add(storeCollabHistory);
+
 		return collaborator.getStoreOwner();
 	}
 }

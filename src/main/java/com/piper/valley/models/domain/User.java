@@ -109,6 +109,10 @@ public class User {
 	public User() {
 	}
 
+	public User(Long Id) {
+		this.id = Id;
+	}
+
 	public Set<Role> getRoles() {
 		return roles;
 	}

@@ -36,5 +36,5 @@ public interface StoreService {
 
 	StoreProduct addProductToStore(AddStoreProductForm form, User user);
 
-	StoreOwner addCollaboratorToStore(AddStoreCollaboratorForm form, User user,RedirectAttributes redirectAttributes);
+	StoreOwner addCollaboratorToStore(AddStoreCollaboratorForm form, Long userId);
 }
