@@ -198,8 +198,9 @@ public class StoreController {
 		if (bindingResult.hasErrors())
 			return new ModelAndView("store/removecollaborator", addStoreCollaboratorViewModel.create(addStoreCollaboratorForm, currentUser.getId()));
 
-		storeService.removeCollaboratorToStore(addStoreCollaboratorForm);
-		FlashMessages.success("Success! " + addStoreCollaboratorForm.getUsername() + " Removed as a collaborator from your store!", redirectAttributes);
+		storeService.removeCollaboratorToStore(addStoreCollaboratorForm, currentUser.getId());
+
+		FlashMessages.success("Success! " + addStoreCollaboratorForm.getUsername() + " Removed from store's collaborators!", redirectAttributes);
 
 		return new ModelAndView("redirect:/store/removecollaborator" );
 	}

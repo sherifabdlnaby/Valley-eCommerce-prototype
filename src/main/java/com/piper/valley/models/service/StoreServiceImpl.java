@@ -208,24 +208,36 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public void removeCollaboratorToStore(AddStoreCollaboratorForm form){
-
+	public void removeCollaboratorToStore(AddStoreCollaboratorForm form, Long userId){
 		Optional<Store> storeOptional   = this.getStoreById(form.getStoreId());
 		Optional<User> userOptional	= userService.getUserByUsername(form.getUsername());
 		Store store = storeOptional.get();
 		User collaborator = userOptional.get();
 		collaborator.getStoreOwner().removeStCollaberatedStore(store);
+
 		//Add New Role to User (We query as session user can be outdated)
 		if(collaborator.getStoreOwner().getCollaboratedStores().isEmpty()&&collaborator.getStoreOwner().getStores().isEmpty())
 			collaborator.removeRole(Role.STORE_OWNER);
 
 		store.removeCollaborator(collaborator.getStoreOwner());
-		//First Time StoreOwner (create storeowner row in table)
+
 		if(collaborator.getStoreOwner() != null)
 			collaborator.setStoreOwner(null);
 
 		collaborator = userRepository.save(collaborator);
-		store =storeRepository.save(store);
+		store = storeRepository.save(store);
+
+		//save history
+		StoreCollabHistory storeCollabHistory = new StoreCollabHistory(
+				new User(userId),
+				store,
+				"Collaborator: " + collaborator.getName() + " removed from the store!",
+				new Date(),
+				StoreHistoryType.DELETE,
+				collaborator
+		);
+		storeHistoryService.add(storeCollabHistory);
+
 	}
 }
 
