@@ -43,6 +43,15 @@ public class StoreHistory {
     public StoreHistory() {
 
     }
+
+    public StoreHistory(User user, Store store, String message, Date dateTime, StoreHistoryType type) {
+        this.user = user;
+        this.store = store;
+        this.message = message;
+        this.dateTime = dateTime;
+        this.type = type;
+    }
+
     public void setStore(Store store) {
         this.store = store;
     }

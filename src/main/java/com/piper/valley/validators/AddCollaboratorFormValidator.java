@@ -41,7 +41,7 @@ public class AddCollaboratorFormValidator implements Validator {
 
         Optional<User> userOptional = userService.getUserByUsername(form.getUsername());
         if(!userOptional.isPresent()) {
-            errors.rejectValue("username", "msg.NotValid");
+            errors.rejectValue("username", "msg.UsernameNotFound");
             return;
         }
 

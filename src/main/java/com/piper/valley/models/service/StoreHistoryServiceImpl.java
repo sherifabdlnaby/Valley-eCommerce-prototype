@@ -11,7 +11,7 @@ public class StoreHistoryServiceImpl implements  StoreHistoryService{
     @Autowired
     StoreHistoryRepository storeHistoryRepository;
     @Override
-    public void  add(StoreHistory storeHistory)
+    public void add(StoreHistory storeHistory)
     {
         storeHistoryRepository.save(storeHistory);
     }

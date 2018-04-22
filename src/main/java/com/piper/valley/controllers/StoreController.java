@@ -168,11 +168,12 @@ public class StoreController {
 		if (bindingResult.hasErrors())
 			return new ModelAndView("store/addcollaborator", addStoreCollaboratorViewModel.create(addStoreCollaboratorForm, currentUser.getId()));
 
-		StoreOwner collaborator = storeService.addCollaboratorToStore(addStoreCollaboratorForm,currentUser.getUser(),redirectAttributes);
+		StoreOwner collaborator = storeService.addCollaboratorToStore(addStoreCollaboratorForm,currentUser.getId());
+
 		if(collaborator!=null)
 			FlashMessages.success("Success! " + collaborator.getUser().getName() + " Added to your store!", redirectAttributes);
 
-		return new ModelAndView("redirect:store/addcollaborator" );
+		return new ModelAndView("redirect:/store/addcollaborator" );
 	}
 
 	@PreAuthorize("hasAuthority('STORE_OWNER')")
@@ -186,14 +187,15 @@ public class StoreController {
 	public ModelAndView viewOrders(CurrentUser currentUser) {
 		return new ModelAndView("store/orders", storeOrdersViewModel.create(currentUser.getId()));
 	}
+
 	@PreAuthorize("hasAuthority('STORE_OWNER')")
 	@RequestMapping(value="/store/history",method = RequestMethod.GET)
 	public ModelAndView viewHistory(CurrentUser currentUser){
 		return new ModelAndView("store/history",storeHistoryViewModel.create(currentUser.getId()));
 	}
+
 	@RequestMapping(value = "/store/products/{id}", method = RequestMethod.GET)
 	public ModelAndView viewStoreProduct(@PathVariable("id") Long id) {
-
 		Optional<StoreProduct> product = storeProductService.getProductById(id);
 		if (!product.isPresent())
 			return new ModelAndView("error/404");
