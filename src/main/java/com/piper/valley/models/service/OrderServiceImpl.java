@@ -90,4 +90,9 @@ public class OrderServiceImpl implements OrderService {
         }
         return orders;
     }
+
+	@Override
+	public Collection<Order> getAllByUser(Long id, OrderStatus orderStatus) {
+		return orderRepository.findAllByUser_IdAndOrderStatus(id,orderStatus) ;
+	}
 }
