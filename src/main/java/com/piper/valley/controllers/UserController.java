@@ -40,7 +40,6 @@ public class UserController {
 	@Autowired
 	private StoreOwnerDashboardViewModel storeOwnerDashboardViewModel;
 
-
 	@Autowired
 	private ShoppingCartModel shoppingCartModel;
 

@@ -1,5 +1,4 @@
 package com.piper.valley.models.service;
-
 import com.piper.valley.forms.DemoteAdminForm;
 import com.piper.valley.forms.PromoteAdminForm;
 import com.piper.valley.forms.UserCreateForm;

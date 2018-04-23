@@ -52,6 +52,17 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
+	public Store rejectStore(Long storeId) {
+		Optional<Store> store = Optional.ofNullable(storeRepository.findOne(storeId));
+		if(store.isPresent()) {
+			Store store1 = store.get();
+			store1.setStatus(StoreStatus.REJECTED);
+			return storeRepository.save(store1);
+		}
+		return null;
+	}
+
+	@Override
 	public Collection<Store> getAllStores() {
 		return storeRepository.findAll();
  	}
@@ -79,6 +90,11 @@ public class StoreServiceImpl implements StoreService {
 	@Override
 	public 	Collection<Store> getAllNotAcceptedUserStores(Long storeOwnerId){
 		return storeRepository.findByStoreOwner_IdAndStatus(storeOwnerId, StoreStatus.REJECTED);
+	}
+
+	@Override
+	public 	Collection<Store> getAllCollaboratedUserStores(Long storeOwnerId){
+		return userRepository.findOne(storeOwnerId).getStoreOwner().getCollaboratedStores();
 	}
 
 	@Override
@@ -156,7 +172,6 @@ public class StoreServiceImpl implements StoreService {
 	public StoreOwner addCollaboratorToStore(AddStoreCollaboratorForm form, Long userId){
 		Optional<Store> storeOptional   = this.getStoreById(form.getStoreId());
 		Optional<User> userOptional	= userService.getUserByUsername(form.getUsername());
-
 		Store store = storeOptional.get();
 		User collaborator = userOptional.get();
 
@@ -190,6 +205,27 @@ public class StoreServiceImpl implements StoreService {
 		storeHistoryService.add(storeCollabHistory);
 
 		return collaborator.getStoreOwner();
+	}
+
+	@Override
+	public void removeCollaboratorToStore(AddStoreCollaboratorForm form){
+
+		Optional<Store> storeOptional   = this.getStoreById(form.getStoreId());
+		Optional<User> userOptional	= userService.getUserByUsername(form.getUsername());
+		Store store = storeOptional.get();
+		User collaborator = userOptional.get();
+		collaborator.getStoreOwner().removeStCollaberatedStore(store);
+		//Add New Role to User (We query as session user can be outdated)
+		if(collaborator.getStoreOwner().getCollaboratedStores().isEmpty()&&collaborator.getStoreOwner().getStores().isEmpty())
+			collaborator.removeRole(Role.STORE_OWNER);
+
+		store.removeCollaborator(collaborator.getStoreOwner());
+		//First Time StoreOwner (create storeowner row in table)
+		if(collaborator.getStoreOwner() != null)
+			collaborator.setStoreOwner(null);
+
+		collaborator = userRepository.save(collaborator);
+		store =storeRepository.save(store);
 	}
 }
 

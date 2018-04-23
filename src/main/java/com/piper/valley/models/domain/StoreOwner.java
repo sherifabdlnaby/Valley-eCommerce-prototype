@@ -56,6 +56,9 @@ public class StoreOwner {
 			collaboratedStores = new HashSet<>();
 		return collaboratedStores.add(store);
 	}
+	public boolean removeStCollaberatedStore(Store store) {
+		return collaboratedStores.remove(store);
+	}
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;

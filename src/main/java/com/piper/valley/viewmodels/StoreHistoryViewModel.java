@@ -1,13 +1,13 @@
 package com.piper.valley.viewmodels;
-
 import com.piper.valley.models.domain.Store;
 import com.piper.valley.models.domain.StoreHistory;
 import com.piper.valley.models.service.StoreHistoryService;
 import com.piper.valley.models.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import java.util.ArrayList;
+import java.util.Collection;
 import org.thymeleaf.expression.Lists;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;

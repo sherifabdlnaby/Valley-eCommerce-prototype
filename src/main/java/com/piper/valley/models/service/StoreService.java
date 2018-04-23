@@ -20,6 +20,8 @@ public interface StoreService {
 
 	Store acceptStore(Long storeId);
 
+	Store rejectStore(Long storeId);
+
 	Collection<Store> getAllStores();
 
 	Collection<Store> getAllAppliedStores();
@@ -32,9 +34,13 @@ public interface StoreService {
 
 	Collection<Store> getAllNotAcceptedUserStores(Long storeOwnerId);
 
+	Collection<Store> getAllCollaboratedUserStores(Long storeOwnerId);
+
 	Store add(AddStoreForm form, User user);
 
 	StoreProduct addProductToStore(AddStoreProductForm form, User user);
 
 	StoreOwner addCollaboratorToStore(AddStoreCollaboratorForm form, Long userId);
+
+	void removeCollaboratorToStore(AddStoreCollaboratorForm form);
 }

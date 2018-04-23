@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/default">
+<head>
+    <meta charset="utf-8"/>
+    <th:block layout:fragment="customStyle">
+        <!--El Custom Styles le el 7eta deh-->
+        <!-- <link rel="stylesheet" th:href="@{/css/home.css}"> -->
+    </th:block>
+</head>
+
+<!-- Body !-->
+<body layout:fragment="content">
+<!--Content Goes Here!-->
+<div class="container">
+    <br/>
+    <br/>
+    <h1>Remove Collaborator From Store</h1>
+    <hr/>
+    <form method="post" autocomplete="on" th:object="${removeStoreCollaboratorForm}" action="/store/removecollaborator">
+        <div class="row">
+            <div class="col-lg-6">
+                <br/>
+                <br/>
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+                <div class="form-group">
+                    <label class="col-form-label">Store</label>
+                    <select th:field="*{storeId}" th:errorclass="is-invalid" class="form-control custom-select">
+                        <option th:each="store : ${stores}" th:value="${store.id}"
+                                th:text="${store.name}"></option>
+                    </select>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('storeId')}" th:errors="*{storeId}">
+                        Unspecified Error
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label">Username</label>
+                    <input type="text" th:errorclass="is-invalid" class="form-control" placeholder="Collaborator Username"
+                           th:field="*{username}"/>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}"
+                         th:errors="*{username}">Unspecified Error
+                    </div>
+                </div>
+
+                <br/>
+                <button type="submit" class="btn btn-primary">Remove Collaborator From Store</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--El Custom Scripts le el 7eta deh-->
+<th:block layout:fragment="customScripts">
+
+</th:block>
+</body>
+</html>

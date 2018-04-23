@@ -22,16 +22,16 @@ public class StoreOwnerDashboardViewModel {
 		Collection<Store> Accepted=storeService.getAllAcceptedUserStores(Id);
 		Collection<Store> Pending=storeService.getAllPendingUserStores(Id);
 		Collection<Store> Rejected=storeService.getAllNotAcceptedUserStores(Id);
-
+		Collection<Store> Collaborated =storeService.getAllCollaboratedUserStores(Id);
 		//statistics charts data
-		Collection<String> Names         = Accepted.stream().map(Store::getName).collect(Collectors.toList());
+		Collection<String> Names   = Accepted.stream().map(Store::getName).collect(Collectors.toList());
 		//Collection<Integer> ProductsCount = Accepted.stream().map(x -> x.getStoreProducts().size()).collect(Collectors.toList());
 		Collection<Integer> ProductsCount = Accepted.stream().map(x -> x.getStoreProducts().stream().map(StoreProduct::getStoreViews).reduce(0, (a, b) -> a + b)).collect(Collectors.toList());
 
 		model.put("accepted",Accepted);
 		model.put("pending",Pending);
 		model.put("rejected",Rejected);
-
+		model.put("collaborated", Collaborated);
 		model.put("names",Names);
 		model.put("productCount",ProductsCount);
 		return model;
