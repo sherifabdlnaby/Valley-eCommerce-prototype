@@ -125,7 +125,6 @@ public class StoreController {
 
 		FlashMessages.info(store.getName() + " added to the platform and awaiting Admin approval!", redirectAttributes);
 
-
 		return new ModelAndView("redirect:/store/view/" + store.getId());
 	}
 

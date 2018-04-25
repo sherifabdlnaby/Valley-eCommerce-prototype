@@ -62,6 +62,8 @@ public class OrderServiceImpl implements OrderService {
         if(orders.isEmpty())
             return 0;
 
+        //Transactions goes here but we;re simulating so that's it :'D
+
         return changeStatus(orders).size();
 	}
 
@@ -75,6 +77,11 @@ public class OrderServiceImpl implements OrderService {
             return orderRepository.save(order1);
         }
         return null;
+	}
+
+	@Override
+	public Integer getOrderCountByUser(Long id, OrderStatus orderStatus) {
+		return orderRepository.countOrdersByUser_IdAndOrderStatus(id, orderStatus);
 	}
 
 	@Override

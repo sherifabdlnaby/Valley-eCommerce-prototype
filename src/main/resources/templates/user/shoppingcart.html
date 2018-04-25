@@ -6,7 +6,7 @@
     <meta charset="utf-8"/>
     <th:block layout:fragment="customStyle">
         <!--El Custom Styles le el 7eta deh-->
-        <!-- <link rel="stylesheet" th:href="@{/css/home.css}"> -->
+        <link rel="stylesheet" th:href="@{/css/home.css}"/>
     </th:block>
     <title>Shopping Cart</title>
 </head>
@@ -36,9 +36,10 @@
                 </div>
                 <div class="col-md-3 justify-content-center align-self-center">
                     <div class="col-lg-12">
-                        <h6><span class="text-muted">Price:  </span> <i class="fas fa-dollar-sign"></i><strong th:text="${order.storeProduct.price}">n/a </strong><strong><span class="text-muted"> </span></strong></h6>
+                        <h6><span class="text-muted">Price:  </span> <i class="fas fa-dollar-sign"></i><strong th:text="${#numbers.formatDecimal(order.storeProduct.price, 0, 2)}">n/a </strong><strong><span class="text-muted"> </span></strong></h6>
                         <h6><span class="text-muted">Quantity:  </span> <strong th:text="${order.quantity}"></strong></h6>
-                        <h6><span class="text-muted">Total Price:  </span> <i class="fas fa-dollar-sign"></i><strong th:text="${order.storeProduct.price*order.quantity}">n/a </strong><strong><span class="text-muted"> </span></strong></h6>
+                        <h6 style="margin-bottom: 0"><span class="text-muted">Total Price:  </span> <i class="fas fa-dollar-sign"></i><strong th:text="${#numbers.formatDecimal(perOrderTotal.get(order.id), 0, 2)}">n/a </strong><strong><span class="text-muted"> </span></strong></h6>
+                        <h6><small class="text-success"><i class="fas fa-plus"></i> <span th:text="${perOrderMsgs.get(order.id)}"> </span> </small></h6>
                     </div>
                 </div>
             </div>
@@ -55,11 +56,12 @@
                 <form method="post" action="/user/shoppingcart">
                     <input type="hidden" class="form-control" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                     <div class="col-lg-12">
-                    <h5>Total price: <i class="fas fa-dollar-sign"></i><strong th:text="${total}">n/a</strong></h5>
-                    <h6 class="text-muted"><small>Total of <strong th:text="${#lists.size(orders)}"></strong> order. </small></h6>
+                        <h5 style="margin-bottom: 0">Total price: <i class="fas fa-dollar-sign"></i><strong th:text="${#numbers.formatDecimal(total, 0, 2)}">n/a</strong></h5>
+                        <h6 class="text-muted" style="margin-bottom: 0"><small>Total of <strong th:text="${#lists.size(orders)}"></strong> order. </small></h6>
+                        <h6 th:each="msg : ${msgs}" class="text-success" style="margin-bottom: 0"><small><i class="fas fa-plus"></i> <th:block th:text="${msg}"> </th:block></small></h6>
                     </div>
                     <div class="col-lg-4">
-                    <label>Coupon Code <small class="text-muted">(optional)</small></label>
+                    <label style="margin-bottom: 0">Coupon Code <small class="text-muted">(optional)</small></label>
                     <input type="text" class="form-control" placeholder="Coupon Code"/>
                         <button style="margin-top: 8px" type="submit" class="btn btn-success pull-right">Checkout</button>
                     </div>

@@ -18,5 +18,5 @@ public interface OrderService {
    Order changeStatus(Long id);
    Integer checkout(Long userId);
    Order finishOrder(Long orderId);
-
+   Integer getOrderCountByUser(Long id, OrderStatus orderStatus);
 }
