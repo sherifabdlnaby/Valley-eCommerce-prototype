@@ -26,15 +26,18 @@ public class StoreHistory {
     private Store store;
 
 
-    @Column(name = "message", nullable = false, updatable = true)
+    @Column(name = "message", nullable = false)
     @Field
     private String message;
 
-    @Column(name = "dateTime", nullable = false, unique = false)
+    @Column(name = "dateTime", nullable = false)
     private Date dateTime;
 
-    @Column(name = "type", nullable = false, unique = false)
+    @Column(name = "type", nullable = false)
     private StoreHistoryType type;
+
+    @Column(name = "status", nullable = false)
+    private StoreHistoryStatus status;
 
     public Store getStore() {
         return store;
@@ -50,6 +53,16 @@ public class StoreHistory {
         this.message = message;
         this.dateTime = dateTime;
         this.type = type;
+        this.status = StoreHistoryStatus.UNDOABLE;
+    }
+
+    public StoreHistory(User user, Store store, String message, Date dateTime, StoreHistoryType type, StoreHistoryStatus status) {
+        this.user = user;
+        this.store = store;
+        this.message = message;
+        this.dateTime = dateTime;
+        this.type = type;
+        this.status = status;
     }
 
     public void setStore(Store store) {
@@ -87,6 +100,7 @@ public class StoreHistory {
     public void setType(StoreHistoryType type) {
         this.type = type;
     }
+
     public User getUser() {
         return user;
     }
@@ -95,5 +109,11 @@ public class StoreHistory {
         this.user = user;
     }
 
+    public StoreHistoryStatus getStatus() {
+        return status;
+    }
 
+    public void setStatus(StoreHistoryStatus status) {
+        this.status = status;
+    }
 }

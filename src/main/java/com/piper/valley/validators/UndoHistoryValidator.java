@@ -4,6 +4,7 @@ import com.piper.valley.auth.AuthService;
 import com.piper.valley.auth.CurrentUser;
 import com.piper.valley.forms.UndoHistoryForm;
 import com.piper.valley.models.domain.StoreHistory;
+import com.piper.valley.models.domain.StoreHistoryStatus;
 import com.piper.valley.models.service.StoreHistoryService;
 import com.piper.valley.utilities.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,12 @@ public class UndoHistoryValidator implements Validator {
 		}
 
 		StoreHistory storeHistory = storeHistoryOptional.get();
+		if(storeHistory.getStatus() != StoreHistoryStatus.UNDOABLE){
+			errors.rejectValue("Id", "NotValid");
+			return;
+		}
+
+
 		CurrentUser currentUser = AuthUtil.getCurrentUser();
 		if(!authService.canAccessStore(storeHistory.getStore(), currentUser)){
 			errors.rejectValue("Id", "msg.NotAuthorized", "You're not Authorized to do that!");

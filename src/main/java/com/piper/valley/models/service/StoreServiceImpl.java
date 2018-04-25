@@ -163,7 +163,7 @@ public class StoreServiceImpl implements StoreService {
 		StoreProductHistory storeProductHistory = new StoreProductHistory(
 				user,
 				store,
-				storeProduct.getName().substring(0, 30) + "... was added.",
+				storeProduct.getName() + " was added.",
 				new Date(),
 				StoreHistoryType.ADD,
 				storeProduct.getStore().getId(),
@@ -196,7 +196,7 @@ public class StoreServiceImpl implements StoreService {
 		StoreProductHistory storeProductHistory = new StoreProductHistory(
 				user,
 				storeProduct.getStore(),
-				storeProduct.getName().substring(0, 30)+"... was remove from the store.",
+				storeProduct.getName() + " was remove from the store.",
 				new Date(),
 				StoreHistoryType.DELETE,
 				storeProduct.getStore().getId(),

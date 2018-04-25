@@ -268,9 +268,11 @@ public class StoreController {
 		if(bindingResult.hasErrors())
 			FlashMessages.danger("Failed!", redirectAttributes);
 		else if(storeHistoryService.undo(undoHistoryForm.getId(), currentUser))
-			FlashMessages.success("Success!", redirectAttributes);
-		else
+			FlashMessages.success("Success! The action has been undone!", redirectAttributes);
+		else {
 			FlashMessages.danger("Failed!", redirectAttributes);
+			FlashMessages.info("Failing to undo an action can be because another preceding action has altered the information.", redirectAttributes);
+		}
 		return new ModelAndView("redirect:/store/history");
 	}
 

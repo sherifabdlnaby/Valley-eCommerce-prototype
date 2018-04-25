@@ -9,6 +9,8 @@ import java.util.Collection;
 import java.util.Optional;
 
 public interface StoreHistoryService {
+    StoreHistory finalize(Long id);
+    StoreHistory finalize(StoreHistory storeHistory);
     Boolean undo(Long HistoryId, CurrentUser currentUser);
     Boolean undoCollab(StoreCollabHistory storeCollabHistory, CurrentUser currentUser);
     Boolean undoProduct(StoreProductHistory storeProductHistory, CurrentUser currentUser);

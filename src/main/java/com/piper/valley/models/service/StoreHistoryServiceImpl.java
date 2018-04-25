@@ -38,19 +38,42 @@ public class StoreHistoryServiceImpl implements  StoreHistoryService{
 	}
 
 	@Override
+	public StoreHistory finalize(Long id) {
+		Optional<StoreHistory> storeHistoryOptional = Optional.ofNullable(storeHistoryRepository.findOne(id));
+		if(storeHistoryOptional.isPresent()) {
+			StoreHistory storeHistory = storeHistoryOptional.get();
+			storeHistory.setStatus(StoreHistoryStatus.FINAL);
+			return storeHistoryRepository.save(storeHistory);
+		}
+		return null;
+	}
+
+	@Override
+	public StoreHistory finalize(StoreHistory storeHistory) {
+		storeHistory.setStatus(StoreHistoryStatus.FINAL);
+		return storeHistoryRepository.save(storeHistory);
+	}
+
+
+	@Override
 	public Boolean undo(Long HistoryId, CurrentUser currentUser) {
 		StoreHistory storeHistory = storeHistoryRepository.findOne(HistoryId);
 
 		if(storeHistory == null)
 			return false;
 
+		Boolean success = false;
+
 		if(storeHistory instanceof StoreCollabHistory)
-			return undoCollab((StoreCollabHistory) storeHistory, currentUser);
+			success = undoCollab((StoreCollabHistory) storeHistory, currentUser);
 
-		if(storeHistory instanceof StoreProductHistory)
-			return undoProduct((StoreProductHistory) storeHistory, currentUser);
+		else if(storeHistory instanceof StoreProductHistory)
+			success = undoProduct((StoreProductHistory) storeHistory, currentUser);
 
-		return false;
+		if(success)
+			finalize(storeHistory);
+
+		return success;
 	}
 
 	@Override
@@ -69,7 +92,6 @@ public class StoreHistoryServiceImpl implements  StoreHistoryService{
 					new AddStoreCollaboratorForm(storeCollabHistory.getStore().getId(),
 					storeCollabHistory.getCollab().getUsername()), currentUser.getId()
 			);
-
 
 		return true;
 	}
