@@ -30,6 +30,9 @@ public class StoreServiceImpl implements StoreService {
     @Autowired
     private StoreHistoryService storeHistoryService;
 
+	@Autowired
+	private StoreProductService storeProductService;
+
     @Override
 	public Optional<Store> getStoreById(Long id) {
 		return Optional.ofNullable(storeRepository.findOne(id));
@@ -149,23 +152,64 @@ public class StoreServiceImpl implements StoreService {
 		storeProduct.setPrice(form.getPrice());
 		storeProduct.setProduct(product);
 		storeProduct.setStore(store);
+
+		//add to store
 		store.addStoreProduct(storeProduct);
 
-
-        StoreProductHistory storeProductHistory=new StoreProductHistory(form.getDescription(),form.getPrice(),product.getName(),product.getId());
-        storeProductHistory.setType(StoreHistoryType.ADD);
-        storeProductHistory.setUser(user);
-        storeProductHistory.setMessage(product.getName()+" was added."); //Change this message letter.
-        storeProductHistory.setDateTime(new Date());
-        storeProductHistory.setStore(store);
-
-
-
-        storeHistoryService.add(storeProductHistory);
 		//Hibernate Bugs ? :"D
 		Store save = storeRepository.save(store);
 
+		//Save History
+		StoreProductHistory storeProductHistory = new StoreProductHistory(
+				user,
+				store,
+				storeProduct.getName().substring(0, 30) + "... was added.",
+				new Date(),
+				StoreHistoryType.ADD,
+				storeProduct.getStore().getId(),
+				storeProduct.getProduct().getId(),
+				storeProduct.getDescription(),
+				storeProduct.getPrice(),
+				storeProduct.getName(),
+				storeProduct.getId()
+		);
+
+		storeHistoryService.add(storeProductHistory);
+
 		return storeProduct;
+	}
+
+	@Override
+	public Boolean removeProductFromStore(Long storeProductId, User user) {
+
+		Optional<StoreProduct> optionalStoreProduct = storeProductService.getProductById(storeProductId);
+
+		if(!optionalStoreProduct.isPresent())
+			return false;
+
+		//remove it
+		StoreProduct storeProduct = optionalStoreProduct.get();
+
+		storeProductService.remove(storeProduct);
+
+		//Save History piece
+		StoreProductHistory storeProductHistory = new StoreProductHistory(
+				user,
+				storeProduct.getStore(),
+				storeProduct.getName().substring(0, 30)+"... was remove from the store.",
+				new Date(),
+				StoreHistoryType.DELETE,
+				storeProduct.getStore().getId(),
+				storeProduct.getProduct().getId(),
+				storeProduct.getDescription(),
+				storeProduct.getPrice(),
+				storeProduct.getName(),
+				storeProduct.getId()
+		);
+
+		storeHistoryService.add(storeProductHistory);
+
+		return true;
 	}
 
 	@Override
@@ -202,6 +246,7 @@ public class StoreServiceImpl implements StoreService {
 				StoreHistoryType.ADD,
 				collaborator
 		);
+
 		storeHistoryService.add(storeCollabHistory);
 
 		return collaborator.getStoreOwner();
@@ -236,6 +281,7 @@ public class StoreServiceImpl implements StoreService {
 				StoreHistoryType.DELETE,
 				collaborator
 		);
+
 		storeHistoryService.add(storeCollabHistory);
 
 	}

@@ -2,21 +2,12 @@ package com.piper.valley.controllers;
 
 import com.piper.valley.auth.AuthService;
 import com.piper.valley.auth.CurrentUser;
-import com.piper.valley.forms.AddOrderForm;
-import com.piper.valley.forms.AddStoreCollaboratorForm;
-import com.piper.valley.forms.AddStoreForm;
-import com.piper.valley.forms.AddStoreProductForm;
+import com.piper.valley.forms.*;
 import com.piper.valley.models.domain.*;
-import com.piper.valley.models.service.OrderService;
-import com.piper.valley.models.service.ProductService;
-import com.piper.valley.models.service.StoreProductService;
-import com.piper.valley.models.service.StoreService;
+import com.piper.valley.models.service.*;
 import com.piper.valley.utilities.AuthUtil;
 import com.piper.valley.utilities.FlashMessages;
-import com.piper.valley.validators.AddCollaboratorFormValidator;
-import com.piper.valley.validators.AddStoreFormValidator;
-import com.piper.valley.validators.AddStoreProductFormValidator;
-import com.piper.valley.validators.RemoveCollaboratorFormValidator;
+import com.piper.valley.validators.*;
 import com.piper.valley.viewmodels.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -49,6 +40,9 @@ public class StoreController {
 	private AuthService authService;
 
 	@Autowired
+	private StoreHistoryService storeHistoryService;
+
+	@Autowired
 	private AddStoreProductViewModel addStoreProductViewModel;
 
 	@Autowired
@@ -73,6 +67,9 @@ public class StoreController {
 	private AddStoreFormValidator addStoreFormValidator;
 
 	@Autowired
+	private UndoHistoryValidator undoHistoryValidator;
+
+	@Autowired
 	private AddOrderViewModel addOrderViewModel;
 
 	@Autowired
@@ -95,13 +92,16 @@ public class StoreController {
 	}
 
 	@InitBinder("removeStoreCollaboratorForm")
-	public void removeCollaboratorFormInitBinder(WebDataBinder binder) {
-		binder.addValidators(removeCollaboratorFormValidator);
-	}
+	public void removeCollaboratorFormInitBinder(WebDataBinder binder) { binder.addValidators(removeCollaboratorFormValidator); }
 
 	@InitBinder("addStoreForm")
 	public void addStoreFormInitBinder(WebDataBinder binder) {
 		binder.addValidators(addStoreFormValidator);
+	}
+
+	@InitBinder("undoHistoryForm")
+	public void UndoHistoryInitBinder(WebDataBinder binder) {
+		binder.addValidators(undoHistoryValidator);
 	}
 
 
@@ -260,6 +260,18 @@ public class StoreController {
 
 		FlashMessages.success(product.get().getProduct().getName() + " added to the Shopping Cart!", redirectAttributes);
 		return new ModelAndView("redirect:/");
+	}
+
+	@PreAuthorize("hasAuthority('STORE_OWNER')")
+	@RequestMapping(value = "/store/history/undo", method = RequestMethod.POST)
+	public ModelAndView acceptStore(@Valid @ModelAttribute("undoHistoryForm") UndoHistoryForm undoHistoryForm, BindingResult bindingResult, RedirectAttributes redirectAttributes, CurrentUser currentUser) {
+		if(bindingResult.hasErrors())
+			FlashMessages.danger("Failed!", redirectAttributes);
+		else if(storeHistoryService.undo(undoHistoryForm.getId(), currentUser))
+			FlashMessages.success("Success!", redirectAttributes);
+		else
+			FlashMessages.danger("Failed!", redirectAttributes);
+		return new ModelAndView("redirect:/store/history");
 	}
 
 }

@@ -1,9 +1,9 @@
 package com.piper.valley.forms;
+
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.stereotype.Component;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Component
@@ -17,6 +17,11 @@ public class AddStoreCollaboratorForm {
 
 
     public AddStoreCollaboratorForm() {
+    }
+
+    public AddStoreCollaboratorForm(Long storeId, String username) {
+        this.storeId = storeId;
+        this.username = username;
     }
 
     public Long getStoreId() {

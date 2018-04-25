@@ -39,6 +39,8 @@ public interface StoreService {
 
 	StoreProduct addProductToStore(AddStoreProductForm form, User user);
 
+	Boolean removeProductFromStore(Long storeProductId, User user);
+
 	StoreOwner addCollaboratorToStore(AddStoreCollaboratorForm form, Long userId);
 
 	void removeCollaboratorToStore(AddStoreCollaboratorForm form, Long userId);

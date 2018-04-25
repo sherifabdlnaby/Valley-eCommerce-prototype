@@ -47,7 +47,7 @@ public class OrderController {
 	@RequestMapping(value = "/order/finish", method = RequestMethod.POST)
 	public ModelAndView acceptStore(@Valid @ModelAttribute("finishOrderForm") FinishOrderForm finishOrderForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 		if(bindingResult.hasErrors()){
-			FlashMessages.success("Failed!", redirectAttributes);
+			FlashMessages.danger("Failed!", redirectAttributes);
 
 		} else {
 			Order order = orderService.finishOrder(finishOrderForm.getOrderId());

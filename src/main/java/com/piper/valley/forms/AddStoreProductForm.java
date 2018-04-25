@@ -29,6 +29,14 @@ public class AddStoreProductForm {
 	public AddStoreProductForm() {
 	}
 
+	public AddStoreProductForm(Long storeId, Long productId, String name, String description, Float price) {
+		this.storeId = storeId;
+		this.productId = productId;
+		this.name = name;
+		this.description = description;
+		this.price = price;
+	}
+
 	public Long getStoreId() {
 		return storeId;
 	}
