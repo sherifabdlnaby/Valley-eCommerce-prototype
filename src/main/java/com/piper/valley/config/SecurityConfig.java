@@ -25,8 +25,8 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 				//Homepage
 				.antMatchers("/", "/register").permitAll()
 				//Static Resource
-				//TODO Add Pages that can be visited without authentication.
 				.antMatchers("/css/**", "/images/**", "/js/**", "/bootstrap/**", "/api/autocomplete/**").permitAll()
+				.antMatchers("/store/view/**", "/user/view/**", "/store/products/*", "/product/view/**").permitAll()
 				.antMatchers("/admin/**").hasAuthority("ADMIN")
 				.anyRequest().authenticated()
 				.and()
