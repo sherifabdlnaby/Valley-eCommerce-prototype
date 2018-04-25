@@ -4,6 +4,7 @@
       layout:decorator="layouts/default">
 <head>
     <meta charset="utf-8"/>
+    <title>Apply Store</title>
     <th:block layout:fragment="customStyle">
         <!--El Custom Styles le el 7eta deh-->
         <!-- <link rel="stylesheet" th:href="@{/css/home.css}"> -->
@@ -17,7 +18,8 @@
     <div class="col-lg-8">
         <br/>
         <br/>
-        <h1>Add Store</h1>
+        <h1>Apply Store</h1>
+        <h6 class="text-info"><i class="fas fa-info-circle"></i>  Stores applied are reviewed by the platform's admins before being published.</h6>
         <hr/>
         <form method="post" autocomplete="on" th:object="${addStoreForm}" action="/store/add">
             <div class="row">

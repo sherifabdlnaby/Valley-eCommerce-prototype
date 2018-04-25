@@ -91,7 +91,7 @@ public class AdminController {
 	}
 
 
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////*  CONTROLLER ACTION  *///////////////////////////////////////////
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -185,6 +185,30 @@ public class AdminController {
         return new ModelAndView("redirect:/admin/acceptstores");
     }
 
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping(value = "/admin/rejectstores/{id}", method = RequestMethod.GET)
+    public ModelAndView viewAndRejectStore(@PathVariable("id") Long id) {
+        Optional<Store> store = storeService.getStoreById(id);
+
+        // If the store wasn't found
+        if (!store.isPresent()) {
+            return new ModelAndView("error/404");
+        }
+
+        return new ModelAndView("admin/rejectstore", "store", store);
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping(value = "/admin/rejectstores", method = RequestMethod.POST)
+    public ModelAndView rejectStore(@RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
+
+        Store store = storeService.rejectStore(id);
+
+        FlashMessages.success("Success! Store: " + store.getName() + " Rejected from the platform!", redirectAttributes);
+
+        return new ModelAndView("redirect:/admin/acceptstores");
+    }
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(value = "/admin/promote", method = RequestMethod.GET)
 	public ModelAndView promoteAdmin(@ModelAttribute("promoteAdminForm") PromoteAdminForm promoteAdminForm, CurrentUser currentUser) {

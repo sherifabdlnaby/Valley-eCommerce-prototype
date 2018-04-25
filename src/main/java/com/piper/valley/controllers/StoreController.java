@@ -16,6 +16,7 @@ import com.piper.valley.utilities.FlashMessages;
 import com.piper.valley.validators.AddCollaboratorFormValidator;
 import com.piper.valley.validators.AddStoreFormValidator;
 import com.piper.valley.validators.AddStoreProductFormValidator;
+import com.piper.valley.validators.RemoveCollaboratorFormValidator;
 import com.piper.valley.viewmodels.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -60,6 +61,9 @@ public class StoreController {
 	private AddCollaboratorFormValidator addCollaboratorFormValidator;
 
 	@Autowired
+	private RemoveCollaboratorFormValidator removeCollaboratorFormValidator;
+
+	@Autowired
 	private AddStoreProductFormValidator addStoreProductFormValidator;
 
 	@Autowired
@@ -88,6 +92,11 @@ public class StoreController {
 	@InitBinder("addStoreCollaboratorForm")
 	public void addCollaboratorFormInitBinder(WebDataBinder binder) {
 		binder.addValidators(addCollaboratorFormValidator);
+	}
+
+	@InitBinder("removeStoreCollaboratorForm")
+	public void removeCollaboratorFormInitBinder(WebDataBinder binder) {
+		binder.addValidators(removeCollaboratorFormValidator);
 	}
 
 	@InitBinder("addStoreForm")
@@ -171,9 +180,29 @@ public class StoreController {
 		StoreOwner collaborator = storeService.addCollaboratorToStore(addStoreCollaboratorForm,currentUser.getId());
 
 		if(collaborator!=null)
-			FlashMessages.success("Success! " + collaborator.getUser().getName() + " Added to your store!", redirectAttributes);
+			FlashMessages.success("Success! " + collaborator.getUser().getName() + " Added as a collaborator to your store!", redirectAttributes);
 
-		return new ModelAndView("redirect:/store/addcollaborator" );
+		return new ModelAndView("redirect:/user/storeowner/dashbaord" );
+	}
+
+	@PreAuthorize("hasAuthority('STORE_OWNER')")
+	@RequestMapping(value = "/store/removecollaborator", method = RequestMethod.GET)
+	public ModelAndView removeCollaborator(@ModelAttribute("removeStoreCollaboratorForm") AddStoreCollaboratorForm addStoreCollaboratorForm, CurrentUser currentUser) {
+		return new ModelAndView("store/removecollaborator",addStoreCollaboratorViewModel.create(addStoreCollaboratorForm, currentUser.getId()));
+	}
+
+
+	@PreAuthorize("hasAuthority('STORE_OWNER')")
+	@RequestMapping(value = "/store/removecollaborator", method = RequestMethod.POST)
+	public ModelAndView removeCollaborator(@Valid @ModelAttribute("removeStoreCollaboratorForm") AddStoreCollaboratorForm addStoreCollaboratorForm, BindingResult bindingResult, CurrentUser currentUser, RedirectAttributes redirectAttributes) {
+		if (bindingResult.hasErrors())
+			return new ModelAndView("store/removecollaborator", addStoreCollaboratorViewModel.create(addStoreCollaboratorForm, currentUser.getId()));
+
+		storeService.removeCollaboratorToStore(addStoreCollaboratorForm, currentUser.getId());
+
+		FlashMessages.success("Success! " + addStoreCollaboratorForm.getUsername() + " Removed from store's collaborators!", redirectAttributes);
+
+		return new ModelAndView("redirect:/store/removecollaborator" );
 	}
 
 	@PreAuthorize("hasAuthority('STORE_OWNER')")

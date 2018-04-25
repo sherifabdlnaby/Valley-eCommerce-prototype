@@ -4,6 +4,7 @@
       layout:decorator="layouts/default">
 <head>
 	<meta charset="utf-8"/>
+    <title>Accept Stores</title>
 	<th:block layout:fragment="customStyle">
 		<!--El Custom Styles le el 7eta deh-->
 		<!-- <link rel="stylesheet" th:href="@{/css/home.css}"> -->
@@ -13,8 +14,8 @@
 <!-- Body !-->
 <body layout:fragment="content">
 <!--Content Goes Here!-->
-<div class="col-lg-12">
-    <div class="col-sm-8">
+<div class="container">
+    <div class="col-sm-12">
         <br/>
         <br/>
         <h1>Accept Stores</h1>
@@ -28,6 +29,7 @@
                 <th>Store Owner</th>
                 <th>Review Details</th>
                 <th>Quick Accept</th>
+                <th>Quick Reject</th>
             </tr>
             </thead>
             <tbody id="items">
@@ -41,6 +43,13 @@
                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                         <input type="hidden" th:name="id" th:value="${store.id}"/>
                         <button type="submit" class="btn btn-sm btn-success"><i class="fas fa-check"></i> Accept</button>
+                    </form>
+                </td>
+                <td class="align-middle">
+                    <form method="post" autocomplete="on"  action="/admin/rejectstores/">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                        <input type="hidden" th:name="id" th:value="${store.id}"/>
+                        <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-times"></i> Reject</button>
                     </form>
                 </td>
             </tr>

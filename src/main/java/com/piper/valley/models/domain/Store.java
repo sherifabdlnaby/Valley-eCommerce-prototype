@@ -58,6 +58,10 @@ public abstract class Store {
 		return collaborators.add(storeOwner);
 	}
 
+	public boolean removeCollaborator(StoreOwner storeOwner) {
+		return collaborators.remove(storeOwner);
+	}
+
 	public boolean setStoreProducts(List<StoreProduct> storeProducts) {
 		this.storeProducts = storeProducts;
 		return true;

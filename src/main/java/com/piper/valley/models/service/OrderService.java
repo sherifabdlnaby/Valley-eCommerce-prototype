@@ -13,6 +13,7 @@ public interface OrderService {
    Optional<Order>getOrderById(Long id);
    Order addOrder(User user, StoreProduct storeProduct, AddOrderForm addOrderForm);
    Collection<Order> getAllProcessedByStore(Long id, OrderStatus orderStatus);
+   Collection<Order> getAllByUser(Long id, OrderStatus orderStatus);
    Collection<Order> getOrders(Long id, OrderStatus orderStatus);
    Order changeStatus(Long id);
    Integer checkout(Long userId);

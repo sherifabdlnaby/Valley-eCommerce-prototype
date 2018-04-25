@@ -4,7 +4,7 @@
       layout:decorator="layouts/default">
 <head>
     <meta charset="utf-8"/>
-    <title>Add Collaborator</title>
+    <title>Remove Collaborator</title>
     <th:block layout:fragment="customStyle">
         <!--El Custom Styles le el 7eta deh-->
         <!-- <link rel="stylesheet" th:href="@{/css/home.css}"> -->
@@ -17,12 +17,11 @@
 <div class="container">
     <br/>
     <br/>
-    <h2><i class="fas fa-user-plus"></i>Add Collaborator To Store</h2>
-    <form method="post" autocomplete="on" th:object="${addStoreCollaboratorForm}" action="/store/addcollaborator">
+    <h2> <i class="fas fa-user-times"></i> Remove Collaborator From Store</h2>
+    <form method="post" autocomplete="on" th:object="${removeStoreCollaboratorForm}" action="/store/removecollaborator">
         <div class="row">
             <div class="col-lg-6">
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-
                 <div class="form-group">
                     <label class="col-form-label">Store</label>
                     <select th:field="*{storeId}" th:errorclass="is-invalid" class="form-control custom-select">
@@ -44,11 +43,11 @@
                 </div>
 
                 <br/>
-                <button type="submit" class="btn btn-primary">Add Collaborator To Store</button>
+                <button type="submit" class="btn btn-primary">Remove Collaborator From Store</button>
             </div>
         </div>
     </form>
-</div>
+    </div>
 
 <!--El Custom Scripts le el 7eta deh-->
 <th:block layout:fragment="customScripts">

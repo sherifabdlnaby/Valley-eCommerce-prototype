@@ -4,6 +4,7 @@
       layout:decorator="layouts/default">
 <head>
     <meta charset="utf-8"/>
+    <title>Add Product to Platform</title>
     <th:block layout:fragment="customStyle">
         <!--El Custom Styles le el 7eta deh-->
         <!-- <link rel="stylesheet" th:href="@{/css/home.css}"> -->
@@ -16,7 +17,7 @@
 <div class="container">
     <br/>
     <br/>
-    <h1>Add Product</h1>
+    <h2>Add Product</h2>
     <hr/>
     <form method="post" autocomplete="on" th:object="${addProductForm}" action="/admin/addproduct">
         <div class="row">

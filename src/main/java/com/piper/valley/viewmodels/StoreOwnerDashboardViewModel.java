@@ -19,21 +19,21 @@ public class StoreOwnerDashboardViewModel {
 	//Get User Stores.
 	public HashMap<String, Object> create(Long Id) {
 		HashMap<String, Object> model = new HashMap<>();
-		Collection<Store> Accepted=storeService.getAllAcceptedUserStores(Id);
-		Collection<Store> Pending=storeService.getAllPendingUserStores(Id);
-		Collection<Store> Rejected=storeService.getAllNotAcceptedUserStores(Id);
-
+		Collection<Store> Accepted = storeService.getAllAcceptedUserStores(Id);
+		Collection<Store> Pending = storeService.getAllPendingUserStores(Id);
+		Collection<Store> Rejected = storeService.getAllNotAcceptedUserStores(Id);
+		Collection<Store> Collaborated = storeService.getAllCollaboratedUserStores(Id);
 		//statistics charts data
-		Collection<String> Names         = Accepted.stream().map(Store::getName).collect(Collectors.toList());
+		Collection<String> Names = Accepted.stream().map(Store::getName).collect(Collectors.toList());
 		//Collection<Integer> ProductsCount = Accepted.stream().map(x -> x.getStoreProducts().size()).collect(Collectors.toList());
 		Collection<Integer> ProductsCount = Accepted.stream().map(x -> x.getStoreProducts().stream().map(StoreProduct::getStoreViews).reduce(0, (a, b) -> a + b)).collect(Collectors.toList());
 
-		model.put("accepted",Accepted);
-		model.put("pending",Pending);
-		model.put("rejected",Rejected);
-
-		model.put("names",Names);
-		model.put("productCount",ProductsCount);
+		model.put("accepted", Accepted);
+		model.put("pending", Pending);
+		model.put("rejected", Rejected);
+		model.put("collaborated", Collaborated);
+		model.put("names", Names);
+		model.put("productCount", ProductsCount);
 		return model;
 	}
 
