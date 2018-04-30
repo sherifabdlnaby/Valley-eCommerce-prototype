@@ -1,5 +1,7 @@
 package com.piper.valley.models.domain;
 
+import com.piper.valley.models.enums.StoreHistoryStatus;
+import com.piper.valley.models.enums.StoreHistoryType;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.IndexedEmbedded;
 

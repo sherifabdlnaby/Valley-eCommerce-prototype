@@ -4,7 +4,7 @@ import com.piper.valley.auth.AuthService;
 import com.piper.valley.auth.CurrentUser;
 import com.piper.valley.forms.FinishOrderForm;
 import com.piper.valley.models.domain.Order;
-import com.piper.valley.models.domain.OrderStatus;
+import com.piper.valley.models.enums.OrderStatus;
 import com.piper.valley.models.service.OrderService;
 import com.piper.valley.utilities.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;

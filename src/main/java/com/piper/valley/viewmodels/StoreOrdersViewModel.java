@@ -1,7 +1,7 @@
 package com.piper.valley.viewmodels;
 
 import com.piper.valley.models.domain.Order;
-import com.piper.valley.models.domain.OrderStatus;
+import com.piper.valley.models.enums.OrderStatus;
 import com.piper.valley.models.domain.Store;
 import com.piper.valley.models.service.OrderService;
 import com.piper.valley.models.service.StoreService;

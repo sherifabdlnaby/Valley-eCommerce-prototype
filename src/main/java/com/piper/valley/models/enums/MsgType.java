@@ -1,4 +1,4 @@
-package com.piper.valley.utilities;
+package com.piper.valley.models.enums;
 
 public enum MsgType{
 	SUCCESS, WARNING, INFO, DANGER

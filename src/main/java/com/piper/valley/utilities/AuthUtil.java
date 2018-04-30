@@ -1,14 +1,11 @@
 package com.piper.valley.utilities;
 
 import com.piper.valley.auth.CurrentUser;
-import com.piper.valley.models.domain.Role;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import com.piper.valley.models.enums.Role;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
 import java.util.ArrayList;

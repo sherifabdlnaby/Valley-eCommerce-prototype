@@ -1,8 +1,8 @@
 package com.piper.valley.auth;
 
-import com.piper.valley.models.domain.Role;
+import com.piper.valley.models.enums.Role;
 import com.piper.valley.models.domain.Store;
-import com.piper.valley.models.domain.StoreStatus;
+import com.piper.valley.models.enums.StoreStatus;
 import org.springframework.stereotype.Service;
 
 @Service

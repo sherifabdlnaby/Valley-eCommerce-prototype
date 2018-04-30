@@ -4,6 +4,7 @@ import com.piper.valley.auth.AuthService;
 import com.piper.valley.auth.CurrentUser;
 import com.piper.valley.forms.AddStoreProductForm;
 import com.piper.valley.models.domain.*;
+import com.piper.valley.models.enums.StoreStatus;
 import com.piper.valley.models.service.ProductService;
 import com.piper.valley.models.service.StoreService;
 import com.piper.valley.utilities.AuthUtil;

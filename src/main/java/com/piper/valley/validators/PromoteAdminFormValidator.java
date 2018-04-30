@@ -3,7 +3,7 @@ package com.piper.valley.validators;
 import com.piper.valley.auth.AuthService;
 import com.piper.valley.auth.CurrentUser;
 import com.piper.valley.forms.PromoteAdminForm;
-import com.piper.valley.models.domain.Role;
+import com.piper.valley.models.enums.Role;
 import com.piper.valley.models.domain.User;
 import com.piper.valley.models.service.UserService;
 import com.piper.valley.utilities.AuthUtil;

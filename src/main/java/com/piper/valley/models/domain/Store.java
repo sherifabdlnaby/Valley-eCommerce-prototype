@@ -1,6 +1,7 @@
 package com.piper.valley.models.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.piper.valley.models.enums.StoreStatus;
 import org.hibernate.search.annotations.Field;
 
 import javax.persistence.*;

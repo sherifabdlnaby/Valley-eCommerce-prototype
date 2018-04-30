@@ -1,7 +1,7 @@
 package com.piper.valley.auth;
 
 import antlr.StringUtils;
-import com.piper.valley.models.domain.Role;
+import com.piper.valley.models.enums.Role;
 import com.piper.valley.models.domain.User;
 import org.springframework.security.core.authority.AuthorityUtils;
 

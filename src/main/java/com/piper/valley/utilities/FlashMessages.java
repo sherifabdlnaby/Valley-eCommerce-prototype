@@ -1,5 +1,6 @@
 package com.piper.valley.utilities;
 
+import com.piper.valley.models.enums.MsgType;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;

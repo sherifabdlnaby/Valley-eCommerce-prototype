@@ -1,6 +1,6 @@
 package com.piper.valley.viewmodels;
 
-import com.piper.valley.models.domain.OrderStatus;
+import com.piper.valley.models.enums.OrderStatus;
 import com.piper.valley.models.domain.User;
 import com.piper.valley.models.service.OrderService;
 import com.piper.valley.models.service.StoreService;

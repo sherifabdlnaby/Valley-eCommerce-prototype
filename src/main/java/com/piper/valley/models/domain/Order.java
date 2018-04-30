@@ -1,6 +1,7 @@
 package com.piper.valley.models.domain;
 
 import com.piper.valley.forms.AddOrderForm;
+import com.piper.valley.models.enums.OrderStatus;
 
 import javax.persistence.*;
 import java.util.Date;

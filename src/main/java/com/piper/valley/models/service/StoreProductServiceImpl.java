@@ -1,7 +1,7 @@
 package com.piper.valley.models.service;
 
 import com.piper.valley.models.domain.StoreProduct;
-import com.piper.valley.models.domain.StoreStatus;
+import com.piper.valley.models.enums.StoreStatus;
 import com.piper.valley.models.repository.StoreProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

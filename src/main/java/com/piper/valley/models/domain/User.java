@@ -1,5 +1,7 @@
 package com.piper.valley.models.domain;
 
+import com.piper.valley.models.enums.Role;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;

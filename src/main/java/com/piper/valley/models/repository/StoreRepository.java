@@ -1,7 +1,7 @@
 package com.piper.valley.models.repository;
 
 import com.piper.valley.models.domain.Store;
-import com.piper.valley.models.domain.StoreStatus;
+import com.piper.valley.models.enums.StoreStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

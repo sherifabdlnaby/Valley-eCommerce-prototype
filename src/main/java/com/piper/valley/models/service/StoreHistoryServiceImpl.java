@@ -5,6 +5,8 @@ import com.piper.valley.auth.CurrentUser;
 import com.piper.valley.forms.AddStoreCollaboratorForm;
 import com.piper.valley.forms.AddStoreProductForm;
 import com.piper.valley.models.domain.*;
+import com.piper.valley.models.enums.StoreHistoryStatus;
+import com.piper.valley.models.enums.StoreHistoryType;
 import com.piper.valley.models.repository.StoreHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

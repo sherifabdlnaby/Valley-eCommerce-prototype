@@ -1,5 +1,7 @@
 package com.piper.valley.models.domain;
 
+import com.piper.valley.models.enums.StoreHistoryType;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;

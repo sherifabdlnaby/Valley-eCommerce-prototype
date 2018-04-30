@@ -2,8 +2,6 @@ package com.piper.valley.controllers;
 
 import com.piper.valley.auth.CurrentUser;
 import com.piper.valley.forms.UserCreateForm;
-import com.piper.valley.models.domain.Order;
-import com.piper.valley.models.domain.Role;
 import com.piper.valley.models.domain.User;
 import com.piper.valley.models.service.OrderService;
 import com.piper.valley.models.service.UserService;
@@ -25,7 +23,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.Collection;
 import java.util.Optional;
 
 @Controller

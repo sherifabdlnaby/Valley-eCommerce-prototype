@@ -4,6 +4,7 @@ import com.piper.valley.auth.AuthService;
 import com.piper.valley.auth.CurrentUser;
 import com.piper.valley.forms.*;
 import com.piper.valley.models.domain.*;
+import com.piper.valley.models.enums.Role;
 import com.piper.valley.models.service.*;
 import com.piper.valley.utilities.AuthUtil;
 import com.piper.valley.utilities.FlashMessages;

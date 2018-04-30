@@ -3,7 +3,7 @@ package com.piper.valley.models.service;
 
 import com.piper.valley.forms.AddOrderForm;
 import com.piper.valley.models.domain.Order;
-import com.piper.valley.models.domain.OrderStatus;
+import com.piper.valley.models.enums.OrderStatus;
 import com.piper.valley.models.domain.StoreProduct;
 import com.piper.valley.models.domain.User;
 import com.piper.valley.models.repository.OrderRepository;
