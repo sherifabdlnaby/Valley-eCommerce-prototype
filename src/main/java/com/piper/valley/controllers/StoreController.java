@@ -1,6 +1,6 @@
 package com.piper.valley.controllers;
 
-import com.piper.valley.auth.AuthService;
+import com.piper.valley.models.service.AuthService;
 import com.piper.valley.auth.CurrentUser;
 import com.piper.valley.forms.*;
 import com.piper.valley.models.domain.*;

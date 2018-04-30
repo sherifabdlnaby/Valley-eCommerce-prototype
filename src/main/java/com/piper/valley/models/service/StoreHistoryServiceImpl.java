@@ -1,6 +1,5 @@
 package com.piper.valley.models.service;
 
-import com.piper.valley.auth.AuthService;
 import com.piper.valley.auth.CurrentUser;
 import com.piper.valley.forms.AddStoreCollaboratorForm;
 import com.piper.valley.forms.AddStoreProductForm;

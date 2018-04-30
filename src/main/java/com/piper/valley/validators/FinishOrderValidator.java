@@ -1,6 +1,6 @@
 package com.piper.valley.validators;
 
-import com.piper.valley.auth.AuthService;
+import com.piper.valley.models.service.AuthService;
 import com.piper.valley.auth.CurrentUser;
 import com.piper.valley.forms.FinishOrderForm;
 import com.piper.valley.models.domain.Order;

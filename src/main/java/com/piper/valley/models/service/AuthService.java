@@ -1,5 +1,6 @@
-package com.piper.valley.auth;
+package com.piper.valley.models.service;
 
+import com.piper.valley.auth.CurrentUser;
 import com.piper.valley.models.domain.Store;
 
 public interface AuthService {
