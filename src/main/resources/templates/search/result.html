@@ -63,7 +63,7 @@
         <div class="row">
             <div class="col-md-3 nopadding" th:each="store,i :${searchResult.stores}">
                 <div class="card">
-                    <img class="card-img-top" th:src="@{http://placehold.it/200x200}"
+                    <img class="card-img-top" th:src="@{/img/200x200.png}"
                          alt="Card image cap"/>
                     <div class="col-lg-12">
                         <br/>
@@ -91,7 +91,7 @@
                     dynamic image for prototype
                     th:src="${'https://source.unsplash.com/400x400?'+ #strings.abbreviate(product.product.name,10)}"
 -->
-                    <img class="card-img-top" th:src="@{http://placehold.it/200x200}"
+                    <img class="card-img-top" th:src="@{/img/200x200.png}"
                          alt="Card image cap"/>
                     <div class="col-lg-12">
                         <br/>

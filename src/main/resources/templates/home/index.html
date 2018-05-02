@@ -8,7 +8,6 @@
     <th:block layout:fragment="customStyle">
         <!--El Custom Styles le el 7eta deh-->
         <link rel="stylesheet" th:href="@{/css/home.css}"/>
-        <link rel="stylesheet" th:href="@{/css/home.css}"/>
         <link rel="stylesheet" th:href="@{/css/containers.css}"/>
         <link rel="stylesheet" th:href="@{/css/autocomplete.css}"/>
     </th:block>
@@ -19,8 +18,8 @@
 <div class="container-full">
     <div class="row">
         <div class="container text-center v-center">
-            <h2> Valley </h2>
-            <h3>Buy Products Online</h3>
+            <h1 class="logo"> Valley </h1>
+            <h3 style="font-size: 1.1rem;">Buy Products Online</h3>
             <p class="lead"><i class="fas fa-search footer-social"></i> Search for products, stores, brands, companies, and a lot more! </p>
             <form id="search-form" class="form-inline" role="form" method="get" action="http://localhost:8080/search">
                 <div class="col-lg-8 container">
@@ -41,7 +40,6 @@
 
 <div class="container" >
     <br/>
-    <br/>
     <th:block th:if="${not #lists.isEmpty(products)}">
         <br/>
         <h2>Latest Products</h2>
@@ -49,7 +47,7 @@
         <div class="row">
             <div class="col-md-3 nopadding" th:each="product,i :${products}">
                 <div class="card">
-                    <img class="card-img-top" th:src="@{http://placehold.it/200x200}"
+                    <img class="card-img-top" th:src="@{/img/200x200.png}"
                          alt="Card image cap"/>
                     <div class="col-lg-12">
                         <br/>

@@ -50,7 +50,7 @@
                                 <tbody id="items">
                                 <tr th:each="order,j : ${ordersProcessed[i.index]}">
                                     <td class="align-middle" th:text="${j.index+1}">#</td>
-                                    <td class="align-middle" ><img th:src="@{http://placehold.it/30x30}" alt="..." class="rounded "/></td>
+                                    <td class="align-middle" ><img th:src="@{/img/30x30}" alt="..." class="rounded "/></td>
                                     <td class="align-middle"><a th:href="@{/store/products/{id}(id = ${order.getStoreProduct().getId()})}"
                                                                 th:text="${order.getStoreProduct().getName()}">-</a></td>
                                     <td class="align-middle" th:text="${order.getQuantity()}"></td>
@@ -112,7 +112,7 @@
                                     <tbody id="items">
                                     <tr th:each="order,j : ${ordersDelivered[i.index]}">
                                         <td class="align-middle" th:text="${j.index+1}">#</td>
-                                        <td class="align-middle" ><img th:src="@{http://placehold.it/30x30}" alt="..." class="rounded "/></td>
+                                        <td class="align-middle" ><img th:src="@{/img/30x30}" alt="..." class="rounded "/></td>
                                         <td class="align-middle"><a th:href="@{/store/products/{id}(id = ${order.getStoreProduct().getId()})}"
                                                                     th:text="${order.getStoreProduct().getName()}">-</a></td>
                                         <td class="align-middle" th:text="${order.getQuantity()}"></td>

@@ -65,7 +65,7 @@
                             <tbody id="items">
                             <tr th:each="product,i : ${store.getStoreProducts()}">
                                 <td class="align-middle" th:text="${i.index+1}">#</td>
-                                <td class="align-middle" ><img th:src="@{http://placehold.it/30x30}" alt="..." class="rounded "/></td>
+                                <td class="align-middle" ><img th:src="@{/img/30x30}" alt="..." class="rounded "/></td>
                                 <td class="align-middle"><a th:href="@{/store/products/{id}(id = ${product.id})}"
                                                             th:text="${product.name}">-</a></td>
                                 <td class="align-middle" th:text="${#strings.abbreviate(product.description,30)}"></td>

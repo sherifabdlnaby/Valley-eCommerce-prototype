@@ -26,7 +26,7 @@
             <div th:each="order : ${orders}">
             <div class="row container-fluid">
                 <div class="col-md-2 text-center">
-                    <img class="img-responsive img-fluid" src="http://placehold.it/120x120" alt="preview" />
+                    <img class="img-responsive img-fluid" src="/img/120x120.png" alt="preview" />
                 </div>
                 <div class="text-sm-center text-md-left col-md-7">
                     <h4 class="product-name"><a th:href="@{/store/products/{id}(id = ${order.getStoreProduct().getId()})}"><span th:text="${order.getStoreProduct().getName()}">Product Name</span></a></h4>
