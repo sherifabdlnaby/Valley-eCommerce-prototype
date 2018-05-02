@@ -65,6 +65,9 @@ public class StoreController {
 	private StoreOwnerDashboardViewModel storeOwnerDashboardViewModel;
 
 	@Autowired
+	private StoreOwnerStatisticsViewModel storeOwnerStatisticsViewModel;
+
+	@Autowired
 	private AddStoreFormValidator addStoreFormValidator;
 
 	@Autowired
@@ -208,7 +211,7 @@ public class StoreController {
 	@PreAuthorize("hasAuthority('STORE_OWNER')")
 	@RequestMapping(value = "/store/statistics", method = RequestMethod.GET)
 	public ModelAndView viewStatistics(CurrentUser currentUser) {
-		return new ModelAndView("store/statistics", storeOwnerDashboardViewModel.create(currentUser.getId()));
+		return new ModelAndView("store/statistics", storeOwnerStatisticsViewModel.create(currentUser.getId()));
 	}
 
 	@PreAuthorize("hasAuthority('STORE_OWNER')")

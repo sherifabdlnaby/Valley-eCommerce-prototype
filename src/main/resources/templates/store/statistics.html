@@ -20,12 +20,26 @@
     <h6 class="text-muted"> Statistics are gathered live and are up to date. </h6>
     <hr/>
     <br/>
+
+    <h3>Orders per store for the last 7 days. </h3>
+    <div class="col-lg-12" id="lineDataOverview" style="height: 315px;" > </div>
+    <div class="col-lg-12" >
+        <div style="width: 70%; margin: auto" id="canvas-holder2">
+            <canvas id="line-area"></canvas>
+        </div>
+    </div>
+
+    <hr/>
+
+    <h3>Bar-chart for Stores Views </h3>
     <div class="col-lg-12" id="StoreViewsOverview" style="height: 315px;" > </div>
     <div class="col-lg-12" >
         <div style="width: 70%; margin: auto" id="canvas-holder">
             <canvas id="bar-area"></canvas>
         </div>
     </div>
+
+
     <br/>
     <hr/>
     <br/>
@@ -65,7 +79,7 @@
                             <tbody id="items">
                             <tr th:each="product,i : ${store.getStoreProducts()}">
                                 <td class="align-middle" th:text="${i.index+1}">#</td>
-                                <td class="align-middle" ><img th:src="@{/img/30x30}" alt="..." class="rounded "/></td>
+                                <td class="align-middle" ><img th:src="@{/img/50x50.png}" alt="..." class="rounded "/></td>
                                 <td class="align-middle"><a th:href="@{/store/products/{id}(id = ${product.id})}"
                                                             th:text="${product.name}">-</a></td>
                                 <td class="align-middle" th:text="${#strings.abbreviate(product.description,30)}"></td>
@@ -138,11 +152,30 @@
 
             }
         };
+
+        var lineData = {
+                labels: [[${dayNames}]],
+                datasets: [[${lineChartData}]]
+        };
+
+        var lineConfig = {
+            type: 'line',
+            data: lineData,
+            display: true,
+            text: 'Orders Per-store over last week.',
+            fontColor: 'rgba(150, 150, 150,1)'
+        };
+
         window.onload = function () {
             var placeHolder = document.getElementById("StoreViewsOverview");
             placeHolder.style.display = 'none';
             var chartContext = document.getElementById("bar-area");
             var chart = new Chart(chartContext, config);
+
+            var placeHolder2 = document.getElementById("lineDataOverview");
+            placeHolder2.style.display = 'none';
+            var chartContext2 = document.getElementById("line-area");
+            var chart = new Chart(chartContext2, lineConfig);
         };
     </script>
 </th:block>
