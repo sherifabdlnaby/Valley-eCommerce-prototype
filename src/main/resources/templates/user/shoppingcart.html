@@ -39,7 +39,7 @@
                         <h6><span class="text-muted">Price:  </span> <i class="fas fa-dollar-sign"></i><strong th:text="${#numbers.formatDecimal(order.storeProduct.price, 0, 2)}">n/a </strong><strong><span class="text-muted"> </span></strong></h6>
                         <h6><span class="text-muted">Quantity:  </span> <strong th:text="${order.quantity}"></strong></h6>
                         <h6 style="margin-bottom: 0"><span class="text-muted">Total Price:  </span> <i class="fas fa-dollar-sign"></i><strong th:text="${#numbers.formatDecimal(perOrderTotal.get(order.id), 0, 2)}">n/a </strong><strong><span class="text-muted"> </span></strong></h6>
-                        <h6><small class="text-success"><i class="fas fa-plus"></i> <span th:text="${perOrderMsgs.get(order.id)}"> </span> </small></h6>
+                        <h6 th:if="${not #strings.isEmpty(perOrderMsgs.get(order.id))}"><small class="text-success"><i class="fas fa-plus"></i> <span th:text="${perOrderMsgs.get(order.id)}"> </span> </small></h6>
                     </div>
                 </div>
             </div>

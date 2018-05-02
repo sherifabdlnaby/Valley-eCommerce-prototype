@@ -15,65 +15,84 @@
 <!--/*@thymesVar id="currentUser" type="com.piper.valley.auth.CurrentUser"*/-->
 <th:block layout:fragment="content">
 
-<div class="container-full">
-    <div class="row">
-        <div class="container text-center v-center">
-            <h1 class="logo"> Valley </h1>
-            <h3 style="font-size: 1.1rem;">Buy Products Online</h3>
-            <p class="lead"><i class="fas fa-search footer-social"></i> Search for products, stores, brands, companies, and a lot more! </p>
-            <form id="search-form" class="form-inline" role="form" method="get" action="http://localhost:8080/search">
-                <div class="col-lg-8 container">
-                    <div class="input-group" id="remote">
-                        <input type="text" name="q" class="typeahead form-control search-form" placeholder="Search" value="" autofocus="autofocus"/>
-                        <span  class="input-group-btn">
-                            <button style="position:  absolute;" type="submit" class="btn btn-primary search-btn" data-target="#search-form">
+    <div class="container-full">
+        <div class="row">
+            <div class="container text-center v-center">
+                <h1 class="logo"> Valley </h1>
+                <h3 style="font-size: 1.1rem;">Buy Products Online</h3>
+                <p class="lead"><i class="fas fa-search footer-social"></i> Search for products, stores, brands,
+                    companies, and a lot more! </p>
+                <form id="search-form" class="form-inline" role="form" method="get"
+                      action="http://localhost:8080/search">
+                    <div class="col-lg-8 container">
+                        <div class="input-group" id="remote">
+                            <input type="text" name="q" class="typeahead form-control search-form" placeholder="Search"
+                                   value="" autofocus="autofocus"/>
+                            <span class="input-group-btn">
+                            <button style="position:  absolute;" type="submit" class="btn btn-primary search-btn"
+                                    data-target="#search-form">
                                 <i class="fa fa-search"></i>
                             </button>
                         </span>
+                        </div>
                     </div>
-                </div>
-            </form>
-        </div>
-    </div> <!-- /row -->
-</div> <!-- /container full -->
+                </form>
+            </div>
+        </div> <!-- /row -->
+    </div> <!-- /container full -->
 
 
-<div class="container" >
-    <br/>
-    <th:block th:if="${not #lists.isEmpty(products)}">
+    <div class="container">
         <br/>
-        <h2>Latest Products</h2>
-        <hr/>
-        <div class="row">
-            <div class="col-md-3 nopadding" th:each="product,i :${products}">
-                <div class="card">
-                    <img class="card-img-top" th:src="@{/img/200x200.png}"
-                         alt="Card image cap"/>
-                    <div class="col-lg-12">
-                        <br/>
-                        <h5 class="card-title"><a th:text="${product.name}">-</a></h5>
-                        <h6 class="card-subtitle mb-2 text-muted"  th:text="${#strings.abbreviate(product.description,100)}">Description</h6>
-                        <h6 class="text-muted float-left">
-                            <small>Store: <a th:href="@{/store/view/{id}(id = ${product.store.id})}" th:text="${product.store.name}"></a> </small>
+        <th:block th:if="${not #lists.isEmpty(products)}">
+            <br/>
+            <h2>Latest Products</h2>
+            <hr/>
+            <div class="row">
+                <div class="col-md-3 nopadding" th:each="product,i :${products}">
+                    <div class="card" style="min-height: 100%;">
+                        <img class="card-img-top" th:src="@{/img/200x200.png}"
+                             alt="Card image cap"/>
+                        <div class="col-lg-12">
                             <br/>
-                            <small>Brand: <th:block th:text="${product.product.brand.name}"></th:block> </small>
-                            <br/>
-                            <small>Company: <th:block th:text="${product.product.company.name}"></th:block> </small>
-                        </h6>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item "><i class="fas fa-dollar-sign"></i> <th:block th:text="${product.price}"></th:block></li>
-                    </ul>
-                    <div class="col-lg-12 buttonpad">
-                        <a class="col-lg-4 btn btn-primary float-left" th:href="@{/store/products/{id}(id = ${product.id})}"><i class="fas fa-list"></i> View </a>
-                        <a class="col-lg-4 btn btn-success float-right" th:href="@{/store/products/{id}/buy(id = ${product.id})}"><i class="fas fa-shopping-cart"></i> Buy </a>
+                            <h5 class="card-title"><a th:text="${product.name}">-</a></h5>
+                            <h6 class="card-subtitle mb-2 text-muted"
+                                th:text="${#strings.abbreviate(product.description,100)}">Description</h6>
+                            <h6 class="text-muted float-left">
+                                <small>Store: <a th:href="@{/store/view/{id}(id = ${product.store.id})}"
+                                                 th:text="${product.store.name}"></a></small>
+                                <br/>
+                                <small>Brand:
+                                    <th:block th:text="${product.product.brand.name}"></th:block>
+                                </small>
+                                <br/>
+                                <small>Company:
+                                    <th:block th:text="${product.product.company.name}"></th:block>
+                                </small>
+                            </h6>
+                        </div>
+                        <div style="margin-top: auto; margin-bottom: 10px;">
+                            <hr style="margin-top:  0; border: 0"/>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item "><i class="fas fa-dollar-sign"></i>
+                                    <th:block th:text="${product.price}"></th:block>
+                                </li>
+                            </ul>
+                            <div class="col-lg-12 buttonpad">
+                                <a class="col-lg-4 btn btn-primary float-left"
+                                   th:href="@{/store/products/{id}(id = ${product.id})}"><i class="fas fa-list"></i>
+                                    View </a>
+                                <a class="col-lg-4 btn btn-success float-right"
+                                   th:href="@{/store/products/{id}/buy(id = ${product.id})}"><i
+                                        class="fas fa-shopping-cart"></i> Buy </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </th:block>
+        </th:block>
 
-</div>
+    </div>
 </th:block>
 
 <!--El Custom Scripts le el 7eta deh-->

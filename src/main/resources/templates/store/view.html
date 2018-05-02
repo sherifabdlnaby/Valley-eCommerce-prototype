@@ -28,25 +28,39 @@
 		<hr/>
 		<div class="row">
 			<div class="col-md-3 nopadding" th:each="product,i :${store.storeProducts}">
-				<div class="card">
+				<div class="card" style="min-height: 100%;">
 					<img class="card-img-top" th:src="@{/img/200x200.png}"
 						 alt="Card image cap"/>
 					<div class="col-lg-12">
 						<br/>
 						<h5 class="card-title"><a th:text="${product.name}">-</a></h5>
-						<h6 class="card-subtitle mb-2 text-muted"  th:text="${#strings.abbreviate(product.description,100)}">Description</h6>
+						<h6 class="card-subtitle mb-2 text-muted"
+							th:text="${#strings.abbreviate(product.description,100)}">Description</h6>
 						<h6 class="text-muted float-left">
-							<small>Brand: <th:block th:text="${product.product.brand.name}"></th:block> </small>
+							<small>Brand:
+								<th:block th:text="${product.product.brand.name}"></th:block>
+							</small>
 							<br/>
-							<small>Company: <th:block th:text="${product.product.company.name}"></th:block> </small>
+							<small>Company:
+								<th:block th:text="${product.product.company.name}"></th:block>
+							</small>
 						</h6>
 					</div>
-					<ul class="list-group list-group-flush">
-						<li class="list-group-item "><i class="fas fa-dollar-sign"></i> <th:block th:text="${product.price}"></th:block></li>
-					</ul>
-					<div class="col-lg-12 buttonpad">
-						<a class="col-lg-4 btn btn-primary float-left" th:href="@{/store/products/{id}(id = ${product.id})}"><i class="fas fa-list"></i> View </a>
-						<a class="col-lg-4 btn btn-success float-right" th:href="@{/store/products/{id}/buy(id = ${product.id})}"><i class="fas fa-shopping-cart"></i> Buy </a>
+					<div style="margin-top: auto; margin-bottom: 10px;">
+						<hr style="margin-top:  0; border: 0"/>
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item "><i class="fas fa-dollar-sign"></i>
+								<th:block th:text="${product.price}"></th:block>
+							</li>
+						</ul>
+						<div class="col-lg-12 buttonpad">
+							<a class="col-lg-4 btn btn-primary float-left"
+							   th:href="@{/store/products/{id}(id = ${product.id})}"><i class="fas fa-list"></i>
+								View </a>
+							<a class="col-lg-4 btn btn-success float-right"
+							   th:href="@{/store/products/{id}/buy(id = ${product.id})}"><i
+									class="fas fa-shopping-cart"></i> Buy </a>
+						</div>
 					</div>
 				</div>
 			</div>
