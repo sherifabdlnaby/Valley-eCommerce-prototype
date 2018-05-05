@@ -2,6 +2,14 @@
     This should contain all the css used in the homepage
  */
 
+@font-face {
+    font-family: 'logo-font';
+    src: url('/fonts/valley-font.woff2') format('woff2'),
+    url('fonts/valley-font.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* Custom container */
 .container-full {
     margin: 0 auto;
@@ -17,13 +25,6 @@
     text-decoration: none;
 }
 
-@font-face {
-    font-family: 'logo-font';
-    src: url('/fonts/valley-font.woff2') format('woff2'),
-    url('fonts/valley-font.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
 
 .logo{
     font-family: logo-font, serif;
