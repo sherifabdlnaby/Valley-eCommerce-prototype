@@ -1,0 +1,16 @@
+# rumdl config — https://github.com/rvben/rumdl (markdownlint-compatible)
+# Tune Markdown rules here. The default rule set is the full markdownlint suite.
+
+[global]
+# Don't write a .rumdl_cache/ dir (hk only lints staged files).
+cache = false
+disable = [
+  "MD013", # line length — noisy on prose
+  "MD033", # inline HTML — README uses <details>/<summary>
+  "MD034", # bare URL — fine in a short tour link
+  "MD041", # first-line H1 — README title is fine either way
+]
+
+# Table formatting (MD060) is OFF by default. Uncomment to pad table cells:
+# [MD060]
+# style = "aligned"

@@ -1,0 +1,103 @@
+# Tool, task, env, and git-hook config for this repo. Source of truth for local + CI.
+# Setup:  mise trust && mise run setup   (see README.md / AGENTS.md)
+
+# Floor clients past the config-trust bypass fix; bump when relying on newer features.
+min_version = "2026.6.6"
+
+# ── 🛠️ tools ──────────────────────────────────────────────────────────────────
+[tools]
+
+# runtimes (pom targets Java 8; Corretto 8 tracks that)
+java = "prefix:corretto-8"
+maven = "3"
+
+# linters & formatters (managed by mise, run via hk — see hk.pkl)
+actionlint = "1"    # GitHub Actions linter
+betterleaks = "1"   # secret scanner (gitleaks-compatible)
+lychee = "0.24"     # link checker (offline local links by default)
+pinact = "4"        # pin GitHub Actions to commit SHAs
+rumdl = "0.2"       # Markdown lint + format
+shellcheck = "0.11" # shell lint (used by actionlint for run: blocks)
+shfmt = "3"         # shell formatter
+taplo = "0.10"      # TOML lint + format
+typos = "1"         # source spell-checker
+yamllint = "1"      # YAML structural lint
+zizmor = "1"        # GitHub Actions security linter
+
+# pre-commit
+hk = "1.50.0" # full MAJOR.MINOR.PATCH — must match hk.pkl amends/import URLs
+
+# ── 📏 vars ───────────────────────────────────────────────────────────────────
+[vars]
+setup_version = "1" # bump to nudge contributors (via the enter hook) to re-run setup
+
+# ── ▶️ tasks ──────────────────────────────────────────────────────────────────
+[tasks.check]
+description = "Run all linters, formatters & validators as ran by pre-commit and in PR's CI"
+alias = ["lint"]
+usage = '''
+    flag "--fix"              help="apply fixes instead of only reporting"
+    flag "--all"              help="run on all files (default: staged only)"
+    flag "--pr"               help="only files changed vs the default branch (conflicts with --all)"
+    flag "--fail-fast"        help="stop at the first failing step (default: run all, report every failure)"
+    flag "--step <step>"      var=#true help="run only these step(s)"
+    flag "--skip-step <step>" var=#true help="skip these step(s)"
+    complete "step" run="hk check --plan --all --json --no-progress 2>/dev/null | jq -r '.steps[].name'"
+'''
+run = '''
+ff=${usage_fail_fast:+--fail-fast}; ff=${ff:---no-fail-fast}   # default to running every step
+hk check $ff ${usage_fix:+--fix} ${usage_all:+--all} ${usage_pr:+--pr} \
+  ${usage_step:+$(printf -- '--step %s ' $usage_step)} \
+  ${usage_skip_step:+$(printf -- '--skip-step %s ' $usage_skip_step)}
+'''
+
+[tasks.test]
+description = "Run Maven unit tests"
+depends = ["lint"]
+run = "mvn -B test"
+
+[tasks.build]
+description = "Package the Spring Boot jar (skip tests; use mise run test)"
+sources = ["pom.xml", "src/main/**/*"]
+outputs = ["target/*.jar"]
+run = "mvn -B -DskipTests package"
+
+[tasks.dev]
+description = "Run the Spring Boot app locally (needs MySQL; see README)"
+run = "mvn -B spring-boot:run"
+
+[tasks.setup] # one-time, idempotent bootstrap; re-run when `enter` warns it's stale
+description = "One-time, idempotent project bootstrap: install tools, then Maven deps"
+depends_post = ["deps", "setup:stamp"]
+run = "mise install"                                                                   # installs tools; runtime deps live in the deps task
+
+[tasks.deps] # install Maven deps; runnable on its own after a pom change
+description = "Resolve Maven dependencies (cached; skipped when pom.xml is unchanged)"
+sources = ["pom.xml"]
+run = "mvn -B -q dependency:resolve"
+
+[tasks."setup:stamp"] # write the version of the last run setup to .mise/setup
+hide = true
+quiet = true
+wait_for = ["deps"]
+run = 'printf %s "{{vars.setup_version}}" > .mise/setup && echo "✅ Setup v{{vars.setup_version}} stamped"'
+
+[tasks."setup:check"] # fast probe (runs on `enter`); warns if setup is stale, never fails
+hide = true
+quiet = true
+run = '[ "$(cat .mise/setup 2>/dev/null)" = "{{vars.setup_version}}" ] || echo "⚠️  Your setup is stale, run: mise run setup" >&2'
+
+# ── 🪝 hooks ──────────────────────────────────────────────────────────────────
+[hooks]
+enter = "MISE_OFFLINE=1 mise run setup:check" # nudge when setup is stale; MISE_OFFLINE keeps cd offline-safe
+postinstall = "hk install --mise"             # self-install git hooks after every mise install
+
+# ── ⚙️ settings ───────────────────────────────────────────────────────────────
+[settings]
+lockfile = true                     # keep mise.lock updated; commit it
+minimum_release_age = "7d"          # ignore releases <7d old (supply-chain cooldown)
+disable_backends = ["asdf", "vfox"] # resolve only via verified backends
+
+# Prefer gh token for GitHub downloads; fall back to git credentials.
+github.gh_cli_tokens = true
+github.use_git_credentials = true

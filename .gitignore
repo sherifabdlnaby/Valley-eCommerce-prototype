@@ -3,6 +3,10 @@ target/
 /.mvn/
 /mvnw
 
+# mise — local overrides and setup stamp (see .mise/.gitignore)
+mise.local.toml
+.mise/setup
+
 ### STS ###
 .apt_generated
 .classpath
@@ -98,4 +102,3 @@ $RECYCLE.BIN/
 
 # IntelliJ
 out/
-
