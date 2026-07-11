@@ -52,7 +52,7 @@ public class UserRepositoryTests {
 	}
 
 	@Test
-	public void testRolesRetrival() {
+	public void testRolesRetrieval() {
 
 		//userRepository.saveAndFlush()
 		User user = userRepository.findOneByUsername("sherifabdlnaby").get();

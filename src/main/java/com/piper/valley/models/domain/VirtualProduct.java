@@ -15,4 +15,3 @@ public class VirtualProduct extends Product {
 		this.serial = serial;
 	}
 }
-

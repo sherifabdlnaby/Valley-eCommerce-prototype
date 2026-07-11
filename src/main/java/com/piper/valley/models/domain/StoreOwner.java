@@ -72,4 +72,3 @@ public class StoreOwner {
 		return Objects.hash(id);
 	}
 }
-

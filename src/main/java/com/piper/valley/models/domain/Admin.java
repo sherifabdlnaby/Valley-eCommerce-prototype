@@ -51,5 +51,3 @@ public class Admin {
 		this.subordinates = subordinates;
 	}
 }
-
-

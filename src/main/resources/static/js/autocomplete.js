@@ -31,7 +31,7 @@ $(document).ready(function () {
 
     $('#remote .typeahead').typeahead(
         {
-            minLenght: 1,
+            minLength: 1,
             source: storeProducts,
             highlight: true
         }, {

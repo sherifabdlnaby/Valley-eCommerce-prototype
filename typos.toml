@@ -13,11 +13,17 @@ extend-exclude = [
 # Whole words to treat as correct, e.g.:
 # alot = "alot"
 Sherif = "Sherif" # the author's name; not a typo of "Sheriff"
+ABL = "ABL" # Egyptian Arabic chat-speak in a test comment
+ba2a = "ba2a"
+t7ot = "t7ot"
 
 [default.extend-identifiers]
 # Code identifiers to treat as correct, e.g.:
 # inout = "inout"
 
 [default]
-# Regexes whose matches are ignored entirely, e.g.:
-# extend-ignore-re = ["(?i)\\bfoobar\\b"]
+# Regexes whose matches are ignored entirely (Egyptian Arabic chat-speak in comments).
+extend-ignore-re = [
+  "(?i)ba2a",
+  "(?i)t7ot",
+]

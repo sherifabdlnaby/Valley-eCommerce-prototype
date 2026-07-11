@@ -2,7 +2,7 @@
 
 ## Toolchain (mise)
 
-This project uses [**mise**](https://mise.jdx.dev) to pin tools, expose tasks, and wire git hooks. `mise.toml` is the source of truth. Don't install tools by hand or add ad-hoc scripts; add a mise tool or task instead.
+This project uses [**mise**](https://mise.jdx.dev) to pin tools, expose tasks, and wire git hooks. [`mise.toml`](mise.toml) is the source of truth. Don't install tools by hand or add ad-hoc scripts; add a mise tool or task instead.
 
 **Setup** (once, and per new worktree): `mise trust && mise run setup`.
 

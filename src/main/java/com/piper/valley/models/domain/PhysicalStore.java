@@ -23,4 +23,3 @@ public class PhysicalStore extends Store {
 
 	private String address;
 }
-

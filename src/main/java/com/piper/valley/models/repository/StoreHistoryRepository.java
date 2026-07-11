@@ -16,5 +16,3 @@ public interface StoreHistoryRepository extends JpaRepository<StoreHistory, Long
     List<StoreHistory> findAllByStoreId(Long id);
 
 }
-
-

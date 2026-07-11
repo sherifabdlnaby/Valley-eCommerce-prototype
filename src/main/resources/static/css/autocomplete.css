@@ -25,7 +25,7 @@ input,button{
 span.twitter-typeahead .tt-menu {
     cursor: pointer;
   }
-  
+
   .dropdown-menu, span.twitter-typeahead .tt-menu {
     position: absolute;
     top: 100%;
@@ -44,7 +44,7 @@ span.twitter-typeahead .tt-menu {
     background-clip: padding-box;
     border: 1px solid rgba(0, 0, 0, 0.15);
     border-radius: 0.25rem; }
-  
+
   span.twitter-typeahead .tt-suggestion {
     display: block;
     width: 100%;

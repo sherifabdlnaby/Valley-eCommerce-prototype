@@ -44,4 +44,3 @@ public class PhysicalProduct extends Product {
 		this.height = height;
 	}
 }
-

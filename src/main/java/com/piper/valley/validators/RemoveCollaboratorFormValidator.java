@@ -40,13 +40,13 @@ public class RemoveCollaboratorFormValidator implements Validator {
 
         Optional<User> userOptional = userService.getUserByUsername(form.getUsername());
         if(!userOptional.isPresent()) {
-            errors.rejectValue("username", "msg.NotValide");
+            errors.rejectValue("username", "msg.NotValid");
             return;
         }
 
         Optional<Store> storeOptional = storeService.getStoreById(form.getStoreId());
         if(!storeOptional.isPresent()) {
-            errors.rejectValue("storeId", "msg.NotValide");
+            errors.rejectValue("storeId", "msg.NotValid");
             return;
         }
 

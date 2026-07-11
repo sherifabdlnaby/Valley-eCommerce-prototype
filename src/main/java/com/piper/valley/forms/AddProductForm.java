@@ -28,7 +28,7 @@ public class AddProductForm {
 	@NotNull
 	private Boolean isPhysicalProduct = true;
 
-	//Nullity/Empty check will be done by the custom validatior
+	//Nullity/Empty check will be done by the custom validator
 	@Min(0)
 	private Float weight;
 

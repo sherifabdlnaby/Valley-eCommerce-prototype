@@ -54,8 +54,12 @@ local linters: Mapping<String, Step> = new Mapping<String, Step> {
   }
 
   // docs / links / spelling / secrets
+  // App HTML templates use root-relative routes (/login, /admin/…), not filesystem paths.
+  // Scope lychee to Markdown so offline link checks stay meaningful (AGENTS/README).
   ["rumdl"] = Builtins.rumdl
-  ["lychee"] = Builtins.lychee
+  ["lychee"] = (Builtins.lychee) {
+    glob = List("**/*.md", "**/*.markdown")
+  }
   ["typos"] = Builtins.typos
   ["betterleaks"] = Builtins.betterleaks
 }

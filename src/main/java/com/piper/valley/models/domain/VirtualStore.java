@@ -37,4 +37,3 @@ public class VirtualStore extends Store {
 		return true;
 	}
 }
-
